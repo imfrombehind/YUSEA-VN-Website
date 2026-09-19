@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/* ============================================================
+   YUSEA DESIGN TOKENS
+   Tailwind v4 is CSS-first: this @theme block *is* the Tailwind
+   config. Every token below becomes a utility automatically
+   (--color-navy -> bg-navy / text-navy / border-navy).
+
+   Palette derived from an audit of shiftcities.org's compiled
+   stylesheet. Navy + coral are the load-bearing pair; the
+   pastels are used as full-bleed section grounds for the
+   color-blocking rhythm.
+   ============================================================ */
+@theme {
+  /* Primary — institutional navy */
+  --color-navy-950: #101030;
+  --color-navy-900: #1a1a42;
+  --color-navy: #242456;
+  --color-navy-600: #35356f;
+  --color-navy-400: #5c5c92;
+
+  /* Accent — coral (the dominant accent on the reference site) */
+  --color-coral: #f26640;
+  --color-coral-600: #d94e29;
+  --color-coral-300: #f9a48b;
+
+  /* Secondary accent — yellow (per spec §4) */
+  --color-sun: #ffd450;
+  --color-sun-600: #e8b92f;
+
+  /* Soft pastels — section grounds */
+  --color-blush: #fed3cf;
+  --color-mint: #c4f4d5;
+  --color-periwinkle: #e3e6ff;
+  --color-sky: #f5f8ff;
+
+  /* Neutrals */
+  --color-ink: #232429;
+  --color-muted: #55565b;
+  --color-faint: #828388;
+  --color-line: #d3d4d9;
+  --color-paper: #ffffff;
+
+  /* Typography */
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+
+  /* Editorial rhythm */
+  --spacing-section: 6rem;
+  --spacing-section-lg: 8.5rem;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  /* Institutional voice: uppercase, tight, high-contrast display type. */
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  ::selection {
+    background-color: var(--color-sun);
+    color: var(--color-navy);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-coral);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Section eyebrow: small uppercase label above a heading. */
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+}

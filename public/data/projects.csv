@@ -1,0 +1,11 @@
+id,slug,title,city,province,latitude,longitude,status,topic,summary
+1,can-tho-delta-resilience,Can Tho Delta Resilience,Can Tho,Can Tho,10.0452,105.7469,active,Climate resilience,"Flood and salinity adaptation planning across the Mekong Delta's largest urban centre."
+2,da-nang-coastal-corridor,Da Nang Coastal Corridor,Da Nang,Da Nang,16.0544,108.2022,active,Integrated planning,"Linking transport investment to coastal protection along the central corridor."
+3,ha-noi-green-neighbourhoods,Ha Noi Green Neighbourhoods,Ha Noi,Ha Noi,21.0278,105.8342,completed,Urban biodiversity,"Retrofitting dense inner districts for shade, walkability and stormwater capture."
+4,hcmc-circular-industry,HCMC Circular Industry,Ho Chi Minh City,Ho Chi Minh City,10.8231,106.6297,active,Circular economy,"Industrial symbiosis pilots across three manufacturing zones."
+5,hai-phong-port-transition,Hai Phong Port Transition,Hai Phong,Hai Phong,20.8449,106.6881,active,Climate finance,"Low-carbon transition planning for northern port logistics."
+6,hue-heritage-density,Hue Heritage and Density,Hue,Thua Thien Hue,16.4637,107.5909,planned,Managing urban growth,"Balancing heritage protection with housing need in the former imperial capital."
+7,nha-trang-coastal-tourism,Nha Trang Coastal Tourism,Nha Trang,Khanh Hoa,12.2388,109.1967,planned,Nature-based solutions,"Reef and dune restoration as coastal defence for a tourism economy."
+8,da-lat-highland-water,Da Lat Highland Water,Da Lat,Lam Dong,11.9404,108.4583,active,Nature-based solutions,"Catchment management for a highland city under agricultural pressure."
+9,vinh-climate-action-plan,Vinh Climate Action Plan,Vinh,Nghe An,18.6796,105.6813,completed,Climate action planning,"The province's first city-level climate action plan and monitoring framework."
+10,quy-nhon-blue-economy,Quy Nhon Blue Economy,Quy Nhon,Binh Dinh,13.7829,109.2196,planned,Circular economy,"Coastal waste and fisheries value-chain redesign."
