@@ -12,7 +12,9 @@ type HeaderProps = Pick<
 >;
 
 /**
- * Utilitarian, color-blocked header bar (spec §4/§5).
+ * Clean white header bar (spec §4/§5). The four-colour logo carries the
+ * brand colour, so the bar itself stays neutral: paper ground, ink text,
+ * a hairline rule and soft shadow to separate it from the page.
  *
  * The forward-slash separators between nav items come from the project spec.
  * Worth noting they are *not* a pattern on shiftcities.org, which uses a
@@ -31,7 +33,7 @@ export function Header({
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-navy">
+    <header className="sticky top-0 z-50 border-b border-line bg-paper/95 shadow-[0_1px_8px_rgba(35,36,41,0.06)] backdrop-blur supports-[backdrop-filter]:bg-paper/85">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-6 px-6 py-5 lg:px-10">
         <Logo siteName={siteName} logo={logo} />
 
@@ -40,14 +42,14 @@ export function Header({
             {navigation.map((item, i) => (
               <Fragment key={i}>
                 {i > 0 ? (
-                  <li aria-hidden="true" className="text-white/35 select-none">
+                  <li aria-hidden="true" className="text-line select-none">
                     /
                   </li>
                 ) : null}
                 <li>
                   <Link
                     href={item.href}
-                    className="font-display text-sm font-bold uppercase tracking-[0.14em] text-white transition-colors hover:text-sun"
+                    className="font-display text-sm font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:text-coral"
                   >
                     {item.label}
                   </Link>
@@ -66,7 +68,7 @@ export function Header({
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="mobile-nav"
-          className="font-display text-sm font-bold uppercase tracking-[0.14em] text-white lg:hidden"
+          className="font-display text-sm font-bold uppercase tracking-[0.14em] text-ink lg:hidden"
         >
           {open ? labels.menuClose : labels.menuOpen}
         </button>
@@ -75,7 +77,7 @@ export function Header({
       <div
         id="mobile-nav"
         hidden={!open}
-        className="border-t border-white/15 bg-navy lg:hidden"
+        className="border-t border-line bg-paper lg:hidden"
       >
         <nav aria-label="Main (mobile)" className="px-6 py-6">
           <ul className="flex flex-col gap-4">
@@ -84,7 +86,7 @@ export function Header({
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="font-display text-lg font-bold uppercase tracking-[0.1em] text-white"
+                  className="font-display text-lg font-bold uppercase tracking-[0.1em] text-ink transition-colors hover:text-coral"
                 >
                   {item.label}
                 </Link>

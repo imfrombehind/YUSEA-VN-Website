@@ -16,7 +16,7 @@ export function formatPostDate(date: string): string {
 export function PostCard({ post }: { post: Post }) {
   return (
     <Link href={`/blog/${post.slug}`} className="group flex h-full flex-col">
-      <div className="relative aspect-[3/2] overflow-hidden bg-periwinkle">
+      <div className="relative aspect-[3/2] overflow-hidden bg-tint-blue">
         {post.image ? (
           <Image
             src={post.image.url}
@@ -29,11 +29,11 @@ export function PostCard({ post }: { post: Post }) {
       </div>
 
       <div className="flex flex-1 flex-col p-6 lg:p-8">
-        <p className="eyebrow mb-3 text-coral">
+        <p className="eyebrow mb-3 text-coral-700">
           {post.topic ? `${post.topic} · ` : ""}
           <time dateTime={post.date}>{formatPostDate(post.date)}</time>
         </p>
-        <h3 className="text-2xl text-navy group-hover:underline">
+        <h3 className="text-2xl text-ink decoration-coral decoration-2 underline-offset-4 group-hover:underline">
           {post.title}
         </h3>
         {post.excerpt ? (

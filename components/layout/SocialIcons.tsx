@@ -16,7 +16,10 @@ type SocialIconsProps = {
   className?: string;
 };
 
-export function SocialIcons({ items, className = "" }: SocialIconsProps) {
+export function SocialIcons({
+  items,
+  className = "",
+}: SocialIconsProps) {
   return (
     <ul className={`flex items-center gap-4 ${className}`}>
       {items.map(({ platform, href }) => {
@@ -29,7 +32,7 @@ export function SocialIcons({ items, className = "" }: SocialIconsProps) {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-white/70 transition-colors hover:text-sun"
+              className="block text-muted transition-colors hover:text-coral"
             >
               <span className="sr-only">{platform}</span>
               <svg

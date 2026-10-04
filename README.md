@@ -29,7 +29,7 @@ components/
   layout/                  Header (slash nav), Footer, Logo, SocialIcons
   home/                    Hero, StatsBand, MissionGrid, ProjectsSection, VietnamMap, LatestPosts, Partners
   blog/                    PostCard (shared by /blog and the homepage)
-  ui/                      ButtonLink, SectionHeading
+  ui/                      ButtonLink, SectionHeading, Eyebrow (accent bar + label)
 lib/
   cms/
     index.ts               ← the facade. Components import only from here.
@@ -146,7 +146,8 @@ hard-refresh (Cmd+Shift+R) to bypass the cache instead.
 ## The map
 
 `components/home/VietnamMap.tsx` parses `public/data/projects.csv` client-side
-(Papa Parse) and plots each row as a vector node, coloured by status.
+(Papa Parse) and plots each row as a vector node, coloured by status using
+the logo accents: active `coral`, completed `blue`, planned `sun`.
 
 Built on **MapLibre GL, not Mapbox GL** — same API surface and vector
 rendering, but no access token, so the map works without provisioning keys. The
@@ -167,17 +168,48 @@ deliberate subset of `Project`, so either source satisfies it.
 
 Tailwind v4 is CSS-first: the `@theme` block in `app/globals.css` **is** the
 config. There is no `tailwind.config.js`. Every token becomes a utility
-(`--color-navy` → `bg-navy` / `text-navy` / `border-navy`).
+(`--color-blue` → `bg-blue` / `text-blue` / `border-blue`).
 
-Palette derived from an audit of shiftcities.org's compiled stylesheet:
+The palette follows the four quadrants of the YUSEA logo — black, orange, blue,
+yellow. Tints of them are the section grounds, alternated with white; the
+full-strength colours are accents only (eyebrow bars, numbers, thin rules,
+markers, hover states), never a whole section.
 
 | Token | Hex | Role |
 |---|---|---|
-| `navy` | `#242456` | Primary ground |
-| `coral` | `#f26640` | Dominant accent |
-| `sun` | `#ffd450` | Secondary accent, hero CTA |
-| `blush` / `mint` / `periwinkle` / `sky` | `#fed3cf` `#c4f4d5` `#e3e6ff` `#f5f8ff` | Pastel section grounds |
-| `ink` / `muted` / `faint` / `line` | `#232429` `#55565b` `#828388` `#d3d4d9` | Text and rules |
+| `paper` / `paper-soft` | `#ffffff` `#f8fafc` | Primary ground (header, white sections) |
+| `tint-blue` / `tint-warm` / `tint-gray` | `#dbeafe` `#fef3c7` `#e2e8f0` | Section grounds (gray stands in for the black quadrant) |
+| `coral` | `#f26640` | Orange accent; `coral-700` `#b8431f` for small text |
+| `blue` | `#1f6fd1` | Blue accent; `blue-700` `#1a63c4` for small text |
+| `sun` | `#ffd450` | Yellow accent, hero CTA — fills and bars only, never text on light |
+| `ink` / `muted` / `faint` / `line` | `#232429` `#55565b` `#828388` `#d3d4d9` | Text and rules; `ink` is also the black accent |
+
+`#1f6fd1` is a stand-in for the logo blue. When the official logo hex values
+are confirmed, update `coral`, `blue` and `sun` (and their `-700` text shades)
+in `globals.css` — every component reads from the tokens.
+
+**Homepage rhythm.** Each section pairs a ground with one logo accent, which
+it passes to `SectionHeading` / `Eyebrow` as `accent`:
+
+| Section | Ground | Accent |
+|---|---|---|
+| Hero | Full-bleed photo, dark gradient overlay | `sun` CTA |
+| Stats (`#homepage-section-1`) | `tint-blue` | `blue` |
+| What we do (`#homepage-section-2`) | `tint-warm` | `coral` |
+| Projects (`#homepage-section-3`) | `paper` | `sun` |
+| Latest posts | `tint-gray` | `ink` |
+| Partners (`#homepage-section-4`) | `paper` | `blue` |
+| Footer | `tint-gray`, four-colour stripe on top | — |
+
+The header is `paper` with a hairline border and soft shadow; nav text is
+`ink`. There are no dark section grounds — the hero photo is the only dark
+surface, and only it uses white text.
+
+**Contrast rules.** Full-strength `coral` and `sun` fail WCAG AA as small text,
+so accent *text* uses `coral-700` / `blue-700`, and `sun` is never text on a
+light ground (its eyebrow label is `ink`, beside a `sun` bar). Every tint is
+the darkest that keeps the `-700` shades at AA; go darker (e.g. blue-200) and
+that section's eyebrow text must switch to `ink`.
 
 Nothing has a border radius — the aesthetic is color-blocked and geometric.
 
@@ -185,7 +217,12 @@ Nothing has a border radius — the aesthetic is color-blocked and geometric.
 loaded. The reference site uses Ambit, a commercial TypeMates face; Archivo is
 the closest open substitute. Swap in `app/layout.tsx` if YUSEA licenses Ambit.
 
-## Two things to know
+## Things to know
+
+**No logo is set in the mocks.** With `logo` empty, the header and footer show
+`siteName` as a bold `ink` wordmark on a transparent background. Once a logo
+is uploaded in WP admin it replaces the wordmark automatically. Upload a
+version made for a **white** ground, roughly 160×32.
 
 **The mock figures are placeholders.** Every stat in `mocks/homepage.json` carries a
 `source` of `"PLACEHOLDER — replace via CMS"`, and that string renders visibly

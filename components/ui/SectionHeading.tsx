@@ -1,10 +1,12 @@
+import { Eyebrow, type Accent } from "./Eyebrow";
+
 type SectionHeadingProps = {
   eyebrow?: string;
   title: string;
   body?: string;
   className?: string;
-  /** Inverts colours for use on navy / dark grounds. */
-  tone?: "dark" | "light";
+  /** Which logo colour this section's eyebrow picks up. */
+  accent?: Accent;
 };
 
 export function SectionHeading({
@@ -12,34 +14,20 @@ export function SectionHeading({
   title,
   body,
   className = "",
-  tone = "dark",
+  accent = "coral",
 }: SectionHeadingProps) {
-  const isLight = tone === "light";
-
   return (
     <div className={`max-w-3xl ${className}`}>
       {eyebrow ? (
-        <p className={`eyebrow mb-5 ${isLight ? "text-sun" : "text-coral"}`}>
+        <Eyebrow accent={accent} className="mb-5">
           {eyebrow}
-        </p>
+        </Eyebrow>
       ) : null}
 
-      <h2
-        className={`text-4xl sm:text-5xl lg:text-6xl ${
-          isLight ? "text-white" : "text-navy"
-        }`}
-      >
-        {title}
-      </h2>
+      <h2 className="text-4xl text-ink sm:text-5xl lg:text-6xl">{title}</h2>
 
       {body ? (
-        <p
-          className={`mt-6 text-lg leading-relaxed ${
-            isLight ? "text-white/75" : "text-muted"
-          }`}
-        >
-          {body}
-        </p>
+        <p className="mt-6 text-lg leading-relaxed text-muted">{body}</p>
       ) : null}
     </div>
   );

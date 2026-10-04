@@ -3,16 +3,7 @@
     "siteSettings": {
       "siteSettingsFields": {
         "siteName": "YUSEA",
-        "logo": {
-          "node": {
-            "sourceUrl": "https://placehold.co/320x64/242456/FFFFFF/png?text=YUSEA+LOGO",
-            "altText": "YUSEA",
-            "mediaDetails": {
-              "width": 320,
-              "height": 64
-            }
-          }
-        },
+        "logo": null,
         "favicon": {
           "node": {
             "sourceUrl": "https://placehold.co/64x64/F26640/FFFFFF/png?text=Y",

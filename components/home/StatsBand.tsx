@@ -11,18 +11,20 @@ import type { Homepage } from "@/lib/cms/types";
  */
 export function StatsBand({ statsBand }: { statsBand: Homepage["statsBand"] }) {
   return (
-    <section id="homepage-section-1" className="bg-sky py-section lg:py-section-lg">
+    <section id="homepage-section-1" className="bg-tint-blue py-section lg:py-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
           eyebrow={statsBand.eyebrow}
           title={statsBand.heading}
           body={statsBand.intro}
+          accent="blue"
         />
 
         <dl className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
           {statsBand.stats.map((stat) => (
             <div key={stat.description} className="bg-paper p-8 lg:p-10">
-              <dt className="font-display text-[clamp(2.75rem,5vw,4.25rem)] font-bold leading-[0.95] tracking-tight text-navy">
+              <span aria-hidden="true" className="mb-6 block h-[3px] w-10 bg-blue" />
+              <dt className="font-display text-[clamp(2.75rem,5vw,4.25rem)] font-bold leading-[0.95] tracking-tight text-ink">
                 {stat.value}
               </dt>
               <dd className="mt-4 text-lg leading-snug text-muted">

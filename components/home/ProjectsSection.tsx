@@ -14,7 +14,7 @@ const VietnamMap = dynamic(
   {
     // Wordless skeleton: dynamic() loaders can't receive CMS props.
     loading: () => (
-      <div aria-hidden="true" className="min-h-[420px] animate-pulse bg-sky lg:min-h-[620px]" />
+      <div aria-hidden="true" className="min-h-[420px] animate-pulse bg-tint-blue lg:min-h-[620px]" />
     ),
   },
 );
@@ -32,6 +32,7 @@ export function ProjectsSection({
             eyebrow={projects.eyebrow}
             title={projects.heading}
             body={projects.body}
+            accent="sun"
           />
           <div className="shrink-0">
             <ButtonLink href={projects.cta.href} variant="coral">

@@ -12,12 +12,16 @@ export function LatestPosts({
   if (latestPosts.posts.length === 0) return null;
 
   return (
-    <section id="homepage-latest-posts" className="bg-sky py-section lg:py-section-lg">
+    <section id="homepage-latest-posts" className="bg-tint-gray py-section lg:py-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading eyebrow={latestPosts.eyebrow} title={latestPosts.heading} />
+          <SectionHeading
+            eyebrow={latestPosts.eyebrow}
+            title={latestPosts.heading}
+            accent="ink"
+          />
           <div className="shrink-0">
-            <ButtonLink href={latestPosts.cta.href} variant="navy">
+            <ButtonLink href={latestPosts.cta.href} variant="ink">
               {latestPosts.cta.label}
             </ButtonLink>
           </div>

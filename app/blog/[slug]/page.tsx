@@ -27,14 +27,14 @@ export default async function PostPage({ params }: Props) {
   return (
     <article className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto max-w-3xl px-6 lg:px-10">
-        <p className="eyebrow mb-5 text-coral">
+        <p className="eyebrow mb-5 text-coral-700">
           {post.topic ? `${post.topic} · ` : ""}
           <time dateTime={post.date}>{formatPostDate(post.date)}</time>
         </p>
-        <h1 className="text-4xl text-navy sm:text-5xl">{post.title}</h1>
+        <h1 className="text-4xl text-ink sm:text-5xl">{post.title}</h1>
 
         {post.image ? (
-          <div className="relative mt-10 aspect-[3/2] bg-periwinkle">
+          <div className="relative mt-10 aspect-[3/2] bg-tint-blue">
             <Image
               src={post.image.url}
               alt={post.image.alt}
@@ -48,7 +48,7 @@ export default async function PostPage({ params }: Props) {
 
         {/* Rendered by WordPress from our own CMS, so trusted as HTML. */}
         <div
-          className="mt-10 space-y-6 text-lg leading-relaxed text-ink [&_a]:text-coral [&_a]:underline [&_h2]:mt-12 [&_h2]:text-3xl [&_h2]:text-navy [&_h3]:mt-10 [&_h3]:text-2xl [&_h3]:text-navy [&_img]:h-auto [&_img]:max-w-full [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6"
+          className="mt-10 space-y-6 text-lg leading-relaxed text-ink [&_a]:text-coral-700 [&_a]:underline [&_h2]:mt-12 [&_h2]:text-3xl [&_h2]:text-ink [&_h3]:mt-10 [&_h3]:text-2xl [&_h3]:text-ink [&_img]:h-auto [&_img]:max-w-full [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </div>

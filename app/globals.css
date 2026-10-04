@@ -4,42 +4,48 @@
    YUSEA DESIGN TOKENS
    Tailwind v4 is CSS-first: this @theme block *is* the Tailwind
    config. Every token below becomes a utility automatically
-   (--color-navy -> bg-navy / text-navy / border-navy).
+   (--color-blue -> bg-blue / text-blue / border-blue).
 
-   Palette derived from an audit of shiftcities.org's compiled
-   stylesheet. Navy + coral are the load-bearing pair; the
-   pastels are used as full-bleed section grounds for the
-   color-blocking rhythm.
+   Logo-driven palette. The YUSEA mark has four quadrants —
+   black, orange, blue, yellow — and the site uses them in two
+   strengths:
+   - Tints: very light section grounds, alternated with white
+     so each section reads as its own block.
+   - Full strength: accents only (eyebrow bars, numbers, thin
+     rules, markers, hover states). Never a whole section.
+   Small accent *text* uses the -700 shades, which pass WCAG AA
+   on every ground below; coral and sun themselves don't.
    ============================================================ */
 @theme {
-  /* Primary — institutional navy */
-  --color-navy-950: #101030;
-  --color-navy-900: #1a1a42;
-  --color-navy: #242456;
-  --color-navy-600: #35356f;
-  --color-navy-400: #5c5c92;
+  /* Logo: black quadrant (ink, below, doubles as body text) */
 
-  /* Accent — coral (the dominant accent on the reference site) */
+  /* Logo: orange quadrant */
   --color-coral: #f26640;
   --color-coral-600: #d94e29;
-  --color-coral-300: #f9a48b;
+  --color-coral-700: #b8431f; /* accent text */
 
-  /* Secondary accent — yellow (per spec §4) */
+  /* Logo: blue quadrant */
+  --color-blue: #1f6fd1;
+  --color-blue-700: #1a63c4; /* accent text */
+
+  /* Logo: yellow quadrant — fills and bars only, never text on light */
   --color-sun: #ffd450;
   --color-sun-600: #e8b92f;
 
-  /* Soft pastels — section grounds */
-  --color-blush: #fed3cf;
-  --color-mint: #c4f4d5;
-  --color-periwinkle: #e3e6ff;
-  --color-sky: #f5f8ff;
+  /* Section grounds — tints of the four logo colours, at Tailwind's
+     100–200 strength so each section reads as a distinct block. Kept
+     no darker than this so the -700 accent text still passes AA. */
+  --color-tint-blue: #dbeafe; /* blue-100 */
+  --color-tint-warm: #fef3c7; /* amber-100 */
+  --color-tint-gray: #e2e8f0; /* slate-200 — the black quadrant */
 
   /* Neutrals */
   --color-ink: #232429;
   --color-muted: #55565b;
   --color-faint: #828388;
   --color-line: #d3d4d9;
-  --color-paper: #ffffff;
+  --color-paper: #ffffff; /* primary ground */
+  --color-paper-soft: #f8fafc; /* off-white ground */
 
   /* Typography */
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
@@ -74,7 +80,7 @@
 
   ::selection {
     background-color: var(--color-sun);
-    color: var(--color-navy);
+    color: var(--color-ink);
   }
 
   :focus-visible {

@@ -10,7 +10,8 @@ type FooterProps = Pick<
 >;
 
 /**
- * Color-blocked footer mirroring the header treatment (spec §5).
+ * Light footer: gray (black-quadrant) tint, ink text, topped by a thin stripe
+ * of the four logo colours.
  */
 export function Footer({
   siteName,
@@ -20,9 +21,15 @@ export function Footer({
   social,
 }: FooterProps) {
   return (
-    <footer className="bg-navy-950 text-white">
+    <footer className="border-t border-line bg-tint-gray text-ink">
+      <div aria-hidden="true" className="grid h-1 grid-cols-4">
+        <span className="bg-ink" />
+        <span className="bg-coral" />
+        <span className="bg-blue" />
+        <span className="bg-sun" />
+      </div>
       <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-20">
-        <div className="flex flex-col gap-10 border-b border-white/15 pb-10 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-10 border-b border-ink/15 pb-10 lg:flex-row lg:items-center lg:justify-between">
           <Logo siteName={siteName} logo={logo} />
 
           <nav aria-label="Footer">
@@ -30,14 +37,14 @@ export function Footer({
               {footerLinks.map((item, i) => (
                 <Fragment key={i}>
                   {i > 0 ? (
-                    <li aria-hidden="true" className="text-white/30 select-none">
+                    <li aria-hidden="true" className="text-faint select-none">
                       /
                     </li>
                   ) : null}
                   <li>
                     <Link
                       href={item.href}
-                      className="font-display text-sm font-bold uppercase tracking-[0.14em] text-white/80 transition-colors hover:text-sun"
+                      className="font-display text-sm font-bold uppercase tracking-[0.14em] text-ink decoration-coral decoration-2 underline-offset-4 hover:underline"
                     >
                       {item.label}
                     </Link>
@@ -50,7 +57,7 @@ export function Footer({
           <SocialIcons items={social} />
         </div>
 
-        <div className="flex flex-col gap-3 pt-8 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 pt-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
           {/* ACF copyright may contain {year}, kept current on each rebuild. */}
           <p>
             {footer.copyright.replace(

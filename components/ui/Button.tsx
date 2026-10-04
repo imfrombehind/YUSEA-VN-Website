@@ -1,12 +1,12 @@
 import Link from "next/link";
 import type { ComponentProps } from "react";
 
-type Variant = "coral" | "navy" | "outline" | "sun";
+type Variant = "coral" | "ink" | "outline" | "sun";
 
 const VARIANTS: Record<Variant, string> = {
   coral: "bg-coral text-white hover:bg-coral-600",
-  navy: "bg-navy text-white hover:bg-navy-600",
-  sun: "bg-sun text-navy hover:bg-sun-600",
+  ink: "bg-ink text-white hover:bg-muted",
+  sun: "bg-sun text-ink hover:bg-sun-600",
   outline:
     "bg-transparent text-current ring-2 ring-current hover:bg-current/10",
 };

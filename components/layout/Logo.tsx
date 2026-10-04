@@ -10,11 +10,15 @@ type LogoProps = Pick<SiteSettings, "siteName" | "logo"> & {
  * The ACF logo image if one is set, otherwise the site name as a wordmark.
  * Keep uploaded logos roughly 160×32 so the header does not shift.
  */
-export function Logo({ siteName, logo, className = "" }: LogoProps) {
+export function Logo({
+  siteName,
+  logo,
+  className = "",
+}: LogoProps) {
   return (
     <Link
       href="/"
-      className={`font-display text-2xl font-bold uppercase tracking-[0.1em] text-white ${className}`}
+      className={`font-display text-2xl font-bold uppercase tracking-[0.1em] text-ink ${className}`}
     >
       {logo ? (
         <Image

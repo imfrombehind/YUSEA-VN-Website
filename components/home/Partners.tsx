@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import type { Homepage, Partner } from "@/lib/cms/types";
 
 const TIER_ORDER: Partner["tier"][] = ["funder", "lead", "partner"];
@@ -29,7 +30,7 @@ export function Partners({
     <section id="homepage-section-4" className="bg-paper">
       <div className="grid lg:grid-cols-2">
         {/* Half one: contextual photo. */}
-        <div className="relative min-h-[320px] bg-mint lg:min-h-[640px]">
+        <div className="relative min-h-[320px] bg-tint-blue lg:min-h-[640px]">
           {partners.image.url ? (
             <Image
               src={partners.image.url}
@@ -41,7 +42,7 @@ export function Partners({
           ) : (
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-[linear-gradient(140deg,var(--color-mint)_0%,var(--color-periwinkle)_60%,var(--color-blush)_100%)]"
+              className="absolute inset-0 bg-[linear-gradient(140deg,var(--color-tint-blue)_0%,var(--color-tint-gray)_55%,var(--color-tint-warm)_100%)]"
             />
           )}
         </div>
@@ -49,15 +50,17 @@ export function Partners({
         {/* Half two: copy, CTA, logo grid. */}
         <div className="flex flex-col justify-center px-6 py-section lg:px-16 lg:py-section-lg">
           {partners.eyebrow ? (
-            <p className="eyebrow mb-5 text-coral">{partners.eyebrow}</p>
+            <Eyebrow accent="blue" className="mb-5">
+              {partners.eyebrow}
+            </Eyebrow>
           ) : null}
-          <h2 className="text-4xl text-navy lg:text-5xl">{partners.heading}</h2>
+          <h2 className="text-4xl text-ink lg:text-5xl">{partners.heading}</h2>
           <p className="mt-6 max-w-xl leading-relaxed text-muted">
             {partners.body}
           </p>
 
           <div className="mt-9">
-            <ButtonLink href={partners.cta.href} variant="navy">
+            <ButtonLink href={partners.cta.href} variant="ink">
               {partners.cta.label}
             </ButtonLink>
           </div>

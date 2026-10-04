@@ -30,7 +30,7 @@ const BOUNDS: [[number, number], [number, number]] = [
 
 const STATUS_COLORS: Record<ProjectNode["status"], string> = {
   active: "#f26640",
-  completed: "#242456",
+  completed: "#1f6fd1",
   planned: "#ffd450",
 };
 
@@ -171,7 +171,7 @@ export function VietnamMap({ labels }: { labels: MapLabels }) {
         <div ref={container} className="absolute inset-0" />
 
         {error && labels.errorText ? (
-          <p className="absolute inset-x-0 bottom-0 bg-navy px-4 py-3 text-sm text-white">
+          <p className="absolute inset-x-0 bottom-0 bg-ink px-4 py-3 text-sm text-white">
             {labels.errorText}
           </p>
         ) : null}
@@ -194,7 +194,7 @@ export function VietnamMap({ labels }: { labels: MapLabels }) {
           listed here, which keeps the section usable by keyboard and by
           screen readers, and if the basemap fails to load. */}
       <div className="max-h-[620px] overflow-y-auto bg-paper">
-        <h3 className="sticky top-0 z-10 border-b border-line bg-paper px-6 py-4 text-sm tracking-[0.14em] text-navy">
+        <h3 className="sticky top-0 z-10 border-b border-line bg-paper px-6 py-4 text-sm tracking-[0.14em] text-ink">
           {(nodes.length === 1 ? labels.countOne : labels.countOther).replace(
             "{count}",
             String(nodes.length),
@@ -216,8 +216,8 @@ export function VietnamMap({ labels }: { labels: MapLabels }) {
                       duration: 900,
                     });
                   }}
-                  className={`w-full px-6 py-5 text-left transition-colors hover:bg-sky ${
-                    isSelected ? "bg-sky" : ""
+                  className={`w-full border-l-[3px] px-6 py-5 text-left transition-colors hover:bg-tint-blue ${
+                    isSelected ? "border-blue bg-tint-blue" : "border-transparent"
                   }`}
                 >
                   <span className="flex items-center gap-2">
@@ -230,7 +230,7 @@ export function VietnamMap({ labels }: { labels: MapLabels }) {
                       {node.province}
                     </span>
                   </span>
-                  <span className="mt-2 block font-display text-lg font-bold uppercase leading-tight text-navy">
+                  <span className="mt-2 block font-display text-lg font-bold uppercase leading-tight text-ink">
                     {node.title}
                   </span>
                   <span className="mt-1.5 block text-sm leading-snug text-muted">
