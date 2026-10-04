@@ -23,7 +23,7 @@ export function Hero({ hero }: { hero: Homepage["hero"] }) {
             src={hero.background.url}
             alt={hero.background.alt}
             fill
-            priority
+            preload
             sizes="100vw"
             className="object-cover"
           />

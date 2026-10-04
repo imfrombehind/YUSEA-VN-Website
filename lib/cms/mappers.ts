@@ -197,6 +197,13 @@ export function mapSiteSettings(data: any): SiteSettings {
     seo: {
       title: s.seoTitle ?? "",
       description: s.seoDescription ?? "",
+      image: mapMedia(s.seoImage?.node),
+    },
+    notFound: {
+      eyebrow: s.notFoundEyebrow ?? "",
+      heading: s.notFoundHeading ?? "",
+      body: s.notFoundBody ?? "",
+      cta: { label: s.notFoundCtaLabel ?? "", href: s.notFoundCtaHref || "/" },
     },
     labels: {
       skipToContent: s.skipToContentLabel ?? "",

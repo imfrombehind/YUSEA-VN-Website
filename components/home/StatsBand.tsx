@@ -23,17 +23,19 @@ export function StatsBand({ statsBand }: { statsBand: Homepage["statsBand"] }) {
         <dl className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
           {statsBand.stats.map((stat) => (
             <div key={stat.description} className="bg-paper p-8 lg:p-10">
-              <span aria-hidden="true" className="mb-6 block h-[3px] w-10 bg-blue" />
+              {/* A <dl> group may hold only <dt>/<dd>, so the bar sits inside
+                  the <dt> and the source is a second <dd>. */}
               <dt className="font-display text-[clamp(2.75rem,5vw,4.25rem)] font-bold leading-[0.95] tracking-tight text-ink">
+                <span aria-hidden="true" className="mb-6 block h-[3px] w-10 bg-blue" />
                 {stat.value}
               </dt>
               <dd className="mt-4 text-lg leading-snug text-muted">
                 {stat.description}
               </dd>
               {stat.source ? (
-                <p className="mt-5 text-xs uppercase tracking-[0.12em] text-faint">
+                <dd className="mt-5 text-xs uppercase tracking-[0.12em] text-faint">
                   {stat.source}
-                </p>
+                </dd>
               ) : null}
             </div>
           ))}

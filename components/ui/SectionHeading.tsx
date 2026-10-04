@@ -7,6 +7,8 @@ type SectionHeadingProps = {
   className?: string;
   /** Which logo colour this section's eyebrow picks up. */
   accent?: Accent;
+  /** "h1" when this heading is the page title (e.g. /blog). */
+  as?: "h1" | "h2";
 };
 
 export function SectionHeading({
@@ -15,6 +17,7 @@ export function SectionHeading({
   body,
   className = "",
   accent = "coral",
+  as: Heading = "h2",
 }: SectionHeadingProps) {
   return (
     <div className={`max-w-3xl ${className}`}>
@@ -24,7 +27,7 @@ export function SectionHeading({
         </Eyebrow>
       ) : null}
 
-      <h2 className="text-4xl text-ink sm:text-5xl lg:text-6xl">{title}</h2>
+      <Heading className="text-4xl text-ink sm:text-5xl lg:text-6xl">{title}</Heading>
 
       {body ? (
         <p className="mt-6 text-lg leading-relaxed text-muted">{body}</p>

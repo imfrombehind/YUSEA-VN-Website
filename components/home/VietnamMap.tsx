@@ -208,6 +208,7 @@ export function VietnamMap({ labels }: { labels: MapLabels }) {
               <li key={node.id} className="border-b border-line last:border-b-0">
                 <button
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => {
                     setSelected(node);
                     map.current?.flyTo({

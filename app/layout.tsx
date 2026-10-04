@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Archivo, Barlow } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { getSiteSettings } from "@/lib/cms";
+import { siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 /**
@@ -24,15 +25,25 @@ const barlow = Barlow({
   display: "swap",
 });
 
-/** Title, description and favicon all come from the ACF options page. */
+/**
+ * Site-wide defaults; title, description, share image and favicon all come
+ * from the ACF options page. Pages add their canonical URL and Open Graph
+ * via pageMetadata() in lib/seo.ts.
+ */
 export async function generateMetadata(): Promise<Metadata> {
   const { siteName, seo, favicon } = await getSiteSettings();
   return {
+    metadataBase: new URL(siteUrl()),
     title: { default: seo.title, template: `%s | ${siteName}` },
     description: seo.description,
-    icons: favicon ? { icon: favicon.url } : undefined,
+    applicationName: siteName,
+    icons: favicon ? { icon: favicon.url, apple: favicon.url } : undefined,
   };
 }
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+};
 
 export default async function RootLayout({
   children,

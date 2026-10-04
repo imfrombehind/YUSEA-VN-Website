@@ -214,6 +214,16 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
         }
         seoTitle
         seoDescription
+        seoImage {
+          node {
+            ...MediaFields
+          }
+        }
+        notFoundEyebrow
+        notFoundHeading
+        notFoundBody
+        notFoundCtaLabel
+        notFoundCtaHref
         skipToContentLabel
         menuOpenLabel
         menuCloseLabel

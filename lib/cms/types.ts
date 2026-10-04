@@ -99,6 +99,15 @@ export type SiteSettings = {
     /** Default <title>, e.g. "YUSEA — Regional development in Viet Nam". */
     title: string;
     description: string;
+    /** Default social share image (1200×630). Pages with their own image override it. */
+    image?: Media;
+  };
+  /** Copy for the 404 page. */
+  notFound: {
+    eyebrow: string;
+    heading: string;
+    body: string;
+    cta: CTA;
   };
   labels: {
     skipToContent: string;

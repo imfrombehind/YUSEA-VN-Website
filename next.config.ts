@@ -42,9 +42,28 @@ function imagePatterns(): RemotePattern[] {
   return patterns;
 }
 
+/**
+ * Baseline security headers. Vercel already sends HSTS. A Content-Security-
+ * Policy is still to do: it has to allow MapLibre's blob: workers, the CARTO
+ * basemap and whatever embeds editors paste into posts, so it needs testing
+ * against real CMS content first.
+ */
+const securityHeaders = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+  },
+];
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: imagePatterns(),
+  },
+  async headers() {
+    return [{ source: "/:path*", headers: securityHeaders }];
   },
 };
 

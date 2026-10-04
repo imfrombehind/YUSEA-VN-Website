@@ -16,6 +16,21 @@
         },
         "seoTitle": "YUSEA — Regional development in Viet Nam",
         "seoDescription": "YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.",
+        "seoImage": {
+          "node": {
+            "sourceUrl": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1200&h=630&q=80&auto=format&fit=crop",
+            "altText": "Ho Chi Minh City skyline at sunset",
+            "mediaDetails": {
+              "width": 1200,
+              "height": 630
+            }
+          }
+        },
+        "notFoundEyebrow": "Error 404",
+        "notFoundHeading": "Page not found",
+        "notFoundBody": "The page you are looking for has moved, or never existed. Try the homepage, or browse our latest writing.",
+        "notFoundCtaLabel": "Back to the homepage",
+        "notFoundCtaHref": "/",
         "skipToContentLabel": "Skip to content",
         "menuOpenLabel": "Menu",
         "menuCloseLabel": "Close",

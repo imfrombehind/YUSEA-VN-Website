@@ -1,11 +1,15 @@
-import type { Metadata } from "next";
 import { PostCard } from "@/components/blog/PostCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getPosts, getSiteSettings } from "@/lib/cms";
+import { pageMetadata } from "@/lib/seo";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata() {
   const { blog } = await getSiteSettings();
-  return { title: blog.heading, description: blog.intro || undefined };
+  return pageMetadata({
+    title: blog.heading,
+    description: blog.intro,
+    path: "/blog",
+  });
 }
 
 /**
@@ -21,6 +25,7 @@ export default async function BlogPage() {
     <section className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
+          as="h1"
           eyebrow={blog.eyebrow}
           title={blog.heading}
           body={blog.intro || undefined}

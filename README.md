@@ -15,12 +15,19 @@ npm run dev     # http://localhost:3000
 npm run build
 ```
 
+Before going live, work through [CHECKLIST.md](CHECKLIST.md) — the
+pre-launch audit (SEO, accessibility, performance, error handling, ops).
+
 ## Layout
 
 ```
 app/
-  layout.tsx               Fonts, header/footer, skip link
+  layout.tsx               Fonts, header/footer, skip link, default metadata
   page.tsx                 Homepage — composes the five spec sections
+  not-found.tsx            Branded 404 (copy from the options page)
+  error.tsx                Runtime error fallback, inside header/footer
+  global-error.tsx         Last resort when the root layout itself fails
+  robots.ts / sitemap.ts   robots.txt (closed on previews) and sitemap.xml
   blog/page.tsx            Blog index (WP posts)
   blog/[slug]/page.tsx     Single post
   globals.css              Design tokens (this IS the Tailwind config)
@@ -39,6 +46,7 @@ lib/
     mappers.ts             WPGraphQL response → domain model
     mocks/                 Mock WPGraphQL responses, one JSON per query
   projects-csv.ts          CSV → typed nodes → GeoJSON
+  seo.ts                   siteUrl(), pageMetadata() — canonical + Open Graph per page
 public/data/projects.csv   Map data source
 wordpress/
   yusea-revalidate.php     WP plugin: pings /api/revalidate on publish
@@ -58,6 +66,10 @@ Variables):
 WORDPRESS_GRAPHQL_ENDPOINT="https://cms.yuseavietnam.com/graphql"
 WORDPRESS_USE_MOCKS="true"   # flip to "false" when WordPress is live
 ```
+
+All variables, including `REVALIDATE_SECRET` and `SITE_URL` (the public origin
+used for canonicals, Open Graph, robots.txt and the sitemap), are listed in
+`.env.example`.
 
 **Flipping `WORDPRESS_USE_MOCKS` is the entire switch** — no code changes.
 
@@ -96,7 +108,10 @@ Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 
 **Options page** (GraphQL type name `SiteSettings`) → group `siteSettingsFields`
 
-`siteName`, `logo` (image), `favicon` (image), `seoTitle`, `seoDescription`, `skipToContentLabel`,
+`siteName`, `logo` (image), `favicon` (image), `seoTitle`, `seoDescription`,
+`seoImage` (image, 1200×630 — the default social share image),
+`notFoundEyebrow`, `notFoundHeading`, `notFoundBody`, `notFoundCtaLabel`,
+`notFoundCtaHref` (the 404 page), `skipToContentLabel`,
 `menuOpenLabel`, `menuCloseLabel`, `footerCopyright` (`{year}` is replaced),
 `footerAddress`, `blogEyebrow`, `blogHeading`, `blogIntro`, `blogEmptyText`,
 `navigation[]` { `label`, `href` }, `footerLinks[]` { `label`, `href` },
@@ -142,6 +157,45 @@ define('YUSEA_REVALIDATE_SECRET', '<same value as REVALIDATE_SECRET>');
 
 The webhook can only reach a deployed frontend, not `localhost`. In local dev,
 hard-refresh (Cmd+Shift+R) to bypass the cache instead.
+
+## SEO, error pages and headers
+
+**Metadata.** `app/layout.tsx` sets the site-wide defaults from the options
+page: title template, description, favicon, and `metadataBase` from
+`siteUrl()`. Each page then calls `pageMetadata()` from `lib/seo.ts` for its
+canonical URL, Open Graph and Twitter tags. Next merges metadata shallowly —
+a page that sets `openGraph` replaces the layout's whole object — so
+`pageMetadata()` always rebuilds it in full. New pages should do the same:
+
+```ts
+export function generateMetadata() {
+  return pageMetadata({ title: "About", path: "/about" });
+}
+```
+
+The share image is `seoImage` from the options page unless the page passes
+its own (blog posts use their featured image and are tagged `og:type
+article` with a publish date).
+
+**Site URL.** `siteUrl()` reads `SITE_URL`, then falls back to Vercel's
+production domain, then `http://localhost:3000`. Previews therefore point
+canonicals at production, which is what search engines should see.
+
+**robots.txt / sitemap.xml.** `app/robots.ts` disallows everything unless
+`VERCEL_ENV` is `production` (off Vercel: a production build). The sitemap
+lists `/`, `/blog` and every post (up to 100). Add each new route to
+`app/sitemap.ts` as it is built.
+
+**Error pages.** `app/not-found.tsx` is the branded 404, inside the normal
+header and footer; Next adds `noindex` to it automatically. `app/error.tsx`
+catches a failed page render and `app/global-error.tsx` a failed root layout
+(it brings its own `<html>` and stylesheet). Both offer a retry and log the
+error digest, which matches the server log line.
+
+**Security headers.** `next.config.ts` sends `X-Content-Type-Options`,
+`Referrer-Policy`, `X-Frame-Options` and `Permissions-Policy` on every
+route; Vercel adds HSTS. A Content-Security-Policy is still to do — see the
+checklist.
 
 ## The map
 
@@ -218,6 +272,11 @@ loaded. The reference site uses Ambit, a commercial TypeMates face; Archivo is
 the closest open substitute. Swap in `app/layout.tsx` if YUSEA licenses Ambit.
 
 ## Things to know
+
+**Error pages are the one place copy lives in code.** `app/error.tsx` and
+`app/global-error.tsx` show when a render fails — most likely because
+WordPress is down — so they cannot fetch their wording from it. The 404 page
+is not an error in that sense and reads its copy from the options page.
 
 **No logo is set in the mocks.** With `logo` empty, the header and footer show
 `siteName` as a bold `ink` wordmark on a transparent background. Once a logo
