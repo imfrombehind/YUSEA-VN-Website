@@ -74,6 +74,16 @@ function mapCta(group: any): CTA {
 }
 
 /**
+ * ACF repeater rows of { label, href } (nav, footer links). Rows with no
+ * label are dropped, so a half-filled row in WP admin never renders.
+ */
+function mapLinks(rows: any): CTA[] {
+  return (rows ?? [])
+    .filter((r: any) => r?.label)
+    .map((r: any): CTA => ({ label: r.label, href: r.href || "#" }));
+}
+
+/**
  * HOMEPAGE_QUERY → Homepage. Empty ACF fields become "" rather than
  * fallback copy, so nothing on the page is ever written in code.
  */
@@ -203,8 +213,8 @@ export function mapSiteSettings(data: any): SiteSettings {
       intro: s.blogIntro ?? "",
       emptyText: s.blogEmptyText ?? "",
     },
-    navigation: s.navigation ?? [],
-    footerLinks: s.footerLinks ?? [],
+    navigation: mapLinks(s.navigation),
+    footerLinks: mapLinks(s.footerLinks),
     social: s.social ?? [],
     partners: (s.partners ?? []).map((p: any) => ({
       name: p.name,

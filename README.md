@@ -108,7 +108,10 @@ Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 `heroImage` (image)
 
 `mapCountOne`/`mapCountOther` take `{count}`, e.g. `{count} project`. An empty
-CTA label hides that button. Options page data is publicly queryable over
+CTA label hides that button. `navigation` and `footerLinks` are repeaters: the
+header and footer render exactly the rows in WP admin, in order (rows without a
+label are skipped; an empty `href` becomes `#`). Make `footerAddress` a textarea;
+its line breaks are kept, and leaving it empty hides it. Options page data is publicly queryable over
 GraphQL — keep nothing private there.
 
 If the real field names end up differing, fix `queries.ts` and `mappers.ts`.

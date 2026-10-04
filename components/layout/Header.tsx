@@ -38,7 +38,7 @@ export function Header({
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-3">
             {navigation.map((item, i) => (
-              <Fragment key={item.href}>
+              <Fragment key={i}>
                 {i > 0 ? (
                   <li aria-hidden="true" className="text-white/35 select-none">
                     /
@@ -79,8 +79,8 @@ export function Header({
       >
         <nav aria-label="Main (mobile)" className="px-6 py-6">
           <ul className="flex flex-col gap-4">
-            {navigation.map((item) => (
-              <li key={item.href}>
+            {navigation.map((item, i) => (
+              <li key={i}>
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}

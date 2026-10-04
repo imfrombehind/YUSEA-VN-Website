@@ -28,7 +28,7 @@ export function Footer({
           <nav aria-label="Footer">
             <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
               {footerLinks.map((item, i) => (
-                <Fragment key={item.href}>
+                <Fragment key={i}>
                   {i > 0 ? (
                     <li aria-hidden="true" className="text-white/30 select-none">
                       /
@@ -58,7 +58,10 @@ export function Footer({
               String(new Date().getFullYear()),
             )}
           </p>
-          <p>{footer.address}</p>
+          {/* ACF textarea: line breaks entered in WP admin are kept. */}
+          {footer.address ? (
+            <p className="whitespace-pre-line">{footer.address}</p>
+          ) : null}
         </div>
       </div>
     </footer>
