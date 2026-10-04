@@ -1,0 +1,98 @@
+{
+  "data": {
+    "projects": {
+      "nodes": [
+        {
+          "id": "cHJvamVjdDox",
+          "slug": "can-tho-delta-resilience",
+          "title": "Can Tho Delta Resilience",
+          "excerpt": "<p>Flood and salinity adaptation planning across the Mekong Delta&#8217;s largest urban centre.</p>\n",
+          "projectFields": {
+            "latitude": 10.0452,
+            "longitude": 105.7469,
+            "city": "Can Tho",
+            "province": "Can Tho",
+            "status": "active",
+            "metrics": [
+              {
+                "value": "12",
+                "description": "wards covered by the adaptation plan",
+                "source": "PLACEHOLDER"
+              }
+            ],
+            "heroImage": null
+          },
+          "topics": {
+            "nodes": [
+              {
+                "name": "Climate resilience"
+              },
+              {
+                "name": "Integrated planning"
+              }
+            ]
+          }
+        },
+        {
+          "id": "cHJvamVjdDoy",
+          "slug": "da-nang-coastal-corridor",
+          "title": "Da Nang Coastal Corridor",
+          "excerpt": "<p>Linking transport investment to coastal protection along the central corridor.</p>\n",
+          "projectFields": {
+            "latitude": 16.0544,
+            "longitude": 108.2022,
+            "city": "Da Nang",
+            "province": "Da Nang",
+            "status": "active",
+            "metrics": [
+              {
+                "value": "31km",
+                "description": "of coastline assessed",
+                "source": "PLACEHOLDER"
+              }
+            ],
+            "heroImage": null
+          },
+          "topics": {
+            "nodes": [
+              {
+                "name": "Integrated planning"
+              }
+            ]
+          }
+        },
+        {
+          "id": "cHJvamVjdDoz",
+          "slug": "ha-noi-green-neighbourhoods",
+          "title": "Ha Noi Green Neighbourhoods",
+          "excerpt": "<p>Retrofitting dense inner districts for shade, walkability and stormwater capture.</p>\n",
+          "projectFields": {
+            "latitude": 21.0278,
+            "longitude": 105.8342,
+            "city": "Ha Noi",
+            "province": "Ha Noi",
+            "status": "completed",
+            "metrics": [
+              {
+                "value": "4",
+                "description": "pilot districts",
+                "source": "PLACEHOLDER"
+              }
+            ],
+            "heroImage": null
+          },
+          "topics": {
+            "nodes": [
+              {
+                "name": "Urban biodiversity"
+              },
+              {
+                "name": "Climate resilience"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

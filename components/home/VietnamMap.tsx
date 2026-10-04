@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Map as MapLibreMap,
   NavigationControl,
@@ -9,6 +9,7 @@ import {
 } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { loadProjectNodes, toGeoJson, type ProjectNode } from "@/lib/projects-csv";
+import type { MapLabels } from "@/lib/cms/types";
 
 /**
  * Interactive vector map of Viet Nam, plotting project locations parsed
@@ -33,19 +34,15 @@ const STATUS_COLORS: Record<ProjectNode["status"], string> = {
   planned: "#ffd450",
 };
 
-const STATUS_LABELS: Record<ProjectNode["status"], string> = {
-  active: "Active",
-  completed: "Completed",
-  planned: "Planned",
-};
+const STATUSES = Object.keys(STATUS_COLORS) as ProjectNode["status"][];
 
-export function VietnamMap() {
+export function VietnamMap({ labels }: { labels: MapLabels }) {
   const container = useRef<HTMLDivElement | null>(null);
   const map = useRef<MapLibreMap | null>(null);
 
   const [nodes, setNodes] = useState<ProjectNode[]>([]);
   const [selected, setSelected] = useState<ProjectNode | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(false);
 
   /* 1. Parse the CSV. */
   useEffect(() => {
@@ -56,7 +53,7 @@ export function VietnamMap() {
       .catch((err: unknown) => {
         if ((err as Error)?.name === "AbortError") return;
         console.error("[VietnamMap] CSV load failed", err);
-        setError("Project locations could not be loaded.");
+        setError(true);
       });
 
     return () => controller.abort();
@@ -168,31 +165,26 @@ export function VietnamMap() {
     }
   }, [nodes]);
 
-  const legend = useMemo(
-    () => (Object.keys(STATUS_LABELS) as ProjectNode["status"][]),
-    [],
-  );
-
   return (
     <div className="grid gap-px bg-line lg:grid-cols-[1fr_360px]">
       <div className="relative min-h-[420px] bg-paper lg:min-h-[620px]">
         <div ref={container} className="absolute inset-0" />
 
-        {error ? (
+        {error && labels.errorText ? (
           <p className="absolute inset-x-0 bottom-0 bg-navy px-4 py-3 text-sm text-white">
-            {error}
+            {labels.errorText}
           </p>
         ) : null}
 
         <ul className="pointer-events-none absolute bottom-4 left-4 z-10 flex flex-wrap gap-3 bg-paper/95 px-4 py-3">
-          {legend.map((status) => (
+          {STATUSES.map((status) => (
             <li key={status} className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-muted">
               <span
                 aria-hidden="true"
                 className="inline-block h-3 w-3 rounded-full ring-2 ring-white"
                 style={{ backgroundColor: STATUS_COLORS[status] }}
               />
-              {STATUS_LABELS[status]}
+              {labels.status[status]}
             </li>
           ))}
         </ul>
@@ -203,7 +195,10 @@ export function VietnamMap() {
           screen readers, and if the basemap fails to load. */}
       <div className="max-h-[620px] overflow-y-auto bg-paper">
         <h3 className="sticky top-0 z-10 border-b border-line bg-paper px-6 py-4 text-sm tracking-[0.14em] text-navy">
-          {nodes.length} Project{nodes.length === 1 ? "" : "s"}
+          {(nodes.length === 1 ? labels.countOne : labels.countOther).replace(
+            "{count}",
+            String(nodes.length),
+          )}
         </h3>
 
         <ul>

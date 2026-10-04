@@ -2,12 +2,6 @@ import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
 import type { Homepage, Partner } from "@/lib/cms/types";
 
-const TIER_LABELS: Record<Partner["tier"], string> = {
-  funder: "Supported by",
-  lead: "Led by",
-  partner: "In partnership with",
-};
-
 const TIER_ORDER: Partner["tier"][] = ["funder", "lead", "partner"];
 
 /**
@@ -54,7 +48,9 @@ export function Partners({
 
         {/* Half two: copy, CTA, logo grid. */}
         <div className="flex flex-col justify-center px-6 py-section lg:px-16 lg:py-section-lg">
-          <p className="eyebrow mb-5 text-coral">Who we work with</p>
+          {partners.eyebrow ? (
+            <p className="eyebrow mb-5 text-coral">{partners.eyebrow}</p>
+          ) : null}
           <h2 className="text-4xl text-navy lg:text-5xl">{partners.heading}</h2>
           <p className="mt-6 max-w-xl leading-relaxed text-muted">
             {partners.body}
@@ -69,7 +65,7 @@ export function Partners({
           <div className="mt-14 space-y-9">
             {tiers.map(({ tier, items }) => (
               <div key={tier}>
-                <p className="eyebrow mb-4 text-faint">{TIER_LABELS[tier]}</p>
+                <p className="eyebrow mb-4 text-faint">{partners.tierLabels[tier]}</p>
                 <ul className="grid grid-cols-2 gap-px bg-line sm:grid-cols-3">
                   {items.map((partner) => (
                     <li

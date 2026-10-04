@@ -27,6 +27,9 @@ export function ButtonLink({
   children,
   ...rest
 }: ButtonLinkProps) {
+  // An empty ACF label means "no button", not a bare arrow.
+  if (!children) return null;
+
   return (
     <Link
       href={href}

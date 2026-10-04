@@ -6,7 +6,10 @@ import { Logo } from "./Logo";
 import { SocialIcons } from "./SocialIcons";
 import type { SiteSettings } from "@/lib/cms/types";
 
-type HeaderProps = Pick<SiteSettings, "navigation" | "social">;
+type HeaderProps = Pick<
+  SiteSettings,
+  "siteName" | "logo" | "labels" | "navigation" | "social"
+>;
 
 /**
  * Utilitarian, color-blocked header bar (spec §4/§5).
@@ -18,13 +21,19 @@ type HeaderProps = Pick<SiteSettings, "navigation" | "social">;
  * The slashes are decorative: they are rendered as aria-hidden spans so
  * screen readers announce a clean list of links.
  */
-export function Header({ navigation, social }: HeaderProps) {
+export function Header({
+  siteName,
+  logo,
+  labels,
+  navigation,
+  social,
+}: HeaderProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-navy">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-6 px-6 py-5 lg:px-10">
-        <Logo />
+        <Logo siteName={siteName} logo={logo} />
 
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-3">
@@ -59,7 +68,7 @@ export function Header({ navigation, social }: HeaderProps) {
           aria-controls="mobile-nav"
           className="font-display text-sm font-bold uppercase tracking-[0.14em] text-white lg:hidden"
         >
-          {open ? "Close" : "Menu"}
+          {open ? labels.menuClose : labels.menuOpen}
         </button>
       </div>
 

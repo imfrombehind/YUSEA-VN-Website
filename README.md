@@ -3,8 +3,10 @@
 Frontend for the YUSEA regional development platform. Next.js 16 (App Router,
 React Server Components), Tailwind v4, MapLibre GL.
 
-**The site runs today with no CMS.** Content comes from fixtures in
-`lib/cms/fixtures.ts` until WordPress is ready. See [Connecting
+**The site runs today with no CMS.** Content comes from mock WPGraphQL
+responses in `lib/cms/mocks/` until WordPress is ready on
+`cms.yuseavietnam.com`. **No visible text or image is written in a component**
+— everything comes from ACF fields, posts, or (for the map) the projects CSV. See [Connecting
 WordPress](#connecting-wordpress).
 
 ```bash
@@ -19,11 +21,14 @@ npm run build
 app/
   layout.tsx               Fonts, header/footer, skip link
   page.tsx                 Homepage — composes the five spec sections
+  blog/page.tsx            Blog index (WP posts)
+  blog/[slug]/page.tsx     Single post
   globals.css              Design tokens (this IS the Tailwind config)
   api/revalidate/route.ts  On-demand ISR purge, called by a WP webhook
 components/
   layout/                  Header (slash nav), Footer, Logo, SocialIcons
-  home/                    Hero, StatsBand, MissionGrid, ProjectsSection, VietnamMap, Partners
+  home/                    Hero, StatsBand, MissionGrid, ProjectsSection, VietnamMap, LatestPosts, Partners
+  blog/                    PostCard (shared by /blog and the homepage)
   ui/                      ButtonLink, SectionHeading
 lib/
   cms/
@@ -32,27 +37,40 @@ lib/
     queries.ts             WPGraphQL documents
     client.ts              Transport (fetch + ISR tags)
     mappers.ts             WPGraphQL response → domain model
-    fixtures.ts            Design-time stand-in content
+    mocks/                 Mock WPGraphQL responses, one JSON per query
   projects-csv.ts          CSV → typed nodes → GeoJSON
 public/data/projects.csv   Map data source
+wordpress/
+  yusea-revalidate.php     WP plugin: pings /api/revalidate on publish
 ```
 
-Section IDs match the spec: `#homepage-hero`, `#homepage-section-1` … `-4`.
+Section IDs match the spec: `#homepage-hero`, `#homepage-section-1` … `-4`,
+plus `#homepage-latest-posts`.
 
 ## Connecting WordPress
 
 Every content call goes through `lib/cms/index.ts`. Each getter returns
-fixtures while `WORDPRESS_GRAPHQL_URL` is unset, and hits WPGraphQL once it is.
-**Setting that one variable is the entire switch** — no component changes.
+mocks until the CMS is connected, then hits WPGraphQL. Two variables
+control it (set them in `.env.local` and in Vercel → Settings → Environment
+Variables):
 
 ```bash
-cp .env.example .env.local
-# WORDPRESS_GRAPHQL_URL="https://cms.yusea.example/graphql"
+WORDPRESS_GRAPHQL_ENDPOINT="https://cms.yuseavietnam.com/graphql"
+WORDPRESS_USE_MOCKS="true"   # flip to "false" when WordPress is live
 ```
 
-If a live query throws, the facade logs and falls back to fixtures rather than
-blanking the page. Watch for `[cms] … failed` in the server log — that means
-you are looking at fixtures, not real content.
+**Flipping `WORDPRESS_USE_MOCKS` is the entire switch** — no code changes.
+
+Each file in `lib/cms/mocks/` is a raw WPGraphQL response for one query in
+`queries.ts`, run through the same mapper as live data. To change what the site
+shows before WordPress exists, edit the JSON. If real posts render differently from
+the mocks, the bug is in the mapper or the query, not the components.
+
+Once live there is **no fallback to mocks**. If a WordPress request fails,
+the render throws: ISR keeps serving the last good version of the page, and a
+failing build leaves the previous Vercel deployment in place. Look for
+`[cms] … failed` in the logs. Every ACF field in the queries must exist before
+flipping the switch — WPGraphQL rejects the whole query if one is missing.
 
 ### What to build in WordPress
 
@@ -62,11 +80,36 @@ Plugins: WPGraphQL, ACF Pro, WPGraphQL for ACF, Custom Post Type UI.
 names in it are the build spec for ACF. Name the field groups to match and the
 queries work first try:
 
-| CPT / Options | ACF group      | Fields |
-|---|---|---|
-| Page `/`      | `homepageFields` | `hero`, `statsBand`, `missionGrid`, `projects`, `partners` |
-| `Project`     | `projectFields`  | `latitude`, `longitude`, `city`, `province`, `status`, `metrics[]`, `heroImage` |
-| Options page  | `siteSettings`   | `navigation[]`, `footerLinks[]`, `social[]`, `partners[]` |
+Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
+(`hero`, `statsBand`, …) are ACF **Group** fields; `[]` means **Repeater**.
+
+**Page `/`** (set as front page in Settings → Reading) → group `homepageFields`
+
+| Group | Fields |
+|---|---|
+| `hero` | `headline`, `subheadline`, `ctaLabel`, `ctaHref`, `background` (image) |
+| `statsBand` | `eyebrow`, `heading`, `intro`, `stats[]` { `value`, `description`, `source` } |
+| `missionGrid` | `eyebrow`, `heading`, `body`, `points[]` { `title`, `body` } |
+| `projects` | `eyebrow`, `heading`, `body`, `ctaLabel`, `ctaHref`, `mapErrorText`, `mapCountOne`, `mapCountOther`, `statusActive`, `statusCompleted`, `statusPlanned` |
+| `latestPosts` | `eyebrow`, `heading`, `ctaLabel`, `ctaHref` |
+| `partners` | `eyebrow`, `heading`, `body`, `ctaLabel`, `ctaHref`, `funderLabel`, `leadLabel`, `partnerLabel`, `image` (image) |
+
+**Options page** (GraphQL type name `SiteSettings`) → group `siteSettingsFields`
+
+`siteName`, `logo` (image), `favicon` (image), `seoTitle`, `seoDescription`, `skipToContentLabel`,
+`menuOpenLabel`, `menuCloseLabel`, `footerCopyright` (`{year}` is replaced),
+`footerAddress`, `blogEyebrow`, `blogHeading`, `blogIntro`, `blogEmptyText`,
+`navigation[]` { `label`, `href` }, `footerLinks[]` { `label`, `href` },
+`social[]` { `platform`, `href` }, `partners[]` { `name`, `tier`
+(funder/lead/partner), `href`, `logo` (image) }
+
+**`Project` CPT** → group `projectFields`: `latitude`, `longitude`, `city`,
+`province`, `status`, `metrics[]` { `value`, `description`, `source` },
+`heroImage` (image)
+
+`mapCountOne`/`mapCountOther` take `{count}`, e.g. `{count} project`. An empty
+CTA label hides that button. Options page data is publicly queryable over
+GraphQL — keep nothing private there.
 
 If the real field names end up differing, fix `queries.ts` and `mappers.ts`.
 Nothing under `app/` or `components/` should need to change — that is the
@@ -83,23 +126,19 @@ time.
 {}                                                        // purge homepage deps
 ```
 
-Cache tags in use: `homepage`, `site-settings`, `projects`. Standard ISR window
-is 3600s (spec §3).
+Cache tags in use: `homepage`, `site-settings`, `projects`, `posts`,
+`post:<slug>`. Standard ISR window is 3600s (spec §3).
 
-WordPress side, roughly:
+WordPress side: install `wordpress/yusea-revalidate.php` as a plugin (zip it,
+then Plugins → Add New → Upload) and add to `wp-config.php`:
 
 ```php
-add_action('save_post', function ($post_id, $post) {
-  if (wp_is_post_revision($post_id)) return;
-  wp_remote_post(YUSEA_FRONTEND . '/api/revalidate', [
-    'headers' => [
-      'Content-Type'        => 'application/json',
-      'x-revalidate-secret' => YUSEA_REVALIDATE_SECRET,
-    ],
-    'body' => wp_json_encode(['tags' => ['projects', 'homepage']]),
-  ]);
-}, 10, 2);
+define('YUSEA_FRONTEND_URL', 'https://your-nextjs-site.example');
+define('YUSEA_REVALIDATE_SECRET', '<same value as REVALIDATE_SECRET>');
 ```
+
+The webhook can only reach a deployed frontend, not `localhost`. In local dev,
+hard-refresh (Cmd+Shift+R) to bypass the cache instead.
 
 ## The map
 
@@ -145,7 +184,7 @@ the closest open substitute. Swap in `app/layout.tsx` if YUSEA licenses Ambit.
 
 ## Two things to know
 
-**The fixture figures are placeholders.** Every stat in `fixtures.ts` carries a
+**The mock figures are placeholders.** Every stat in `mocks/homepage.json` carries a
 `source` of `"PLACEHOLDER — replace via CMS"`, and that string renders visibly
 under each stat. It is deliberately ugly so it cannot ship by accident.
 

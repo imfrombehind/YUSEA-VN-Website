@@ -1,0 +1,194 @@
+{
+  "data": {
+    "siteSettings": {
+      "siteSettingsFields": {
+        "siteName": "YUSEA",
+        "logo": {
+          "node": {
+            "sourceUrl": "https://placehold.co/320x64/242456/FFFFFF/png?text=YUSEA+LOGO",
+            "altText": "YUSEA",
+            "mediaDetails": {
+              "width": 320,
+              "height": 64
+            }
+          }
+        },
+        "favicon": {
+          "node": {
+            "sourceUrl": "https://placehold.co/64x64/F26640/FFFFFF/png?text=Y",
+            "altText": "",
+            "mediaDetails": {
+              "width": 64,
+              "height": 64
+            }
+          }
+        },
+        "seoTitle": "YUSEA — Regional development in Viet Nam",
+        "seoDescription": "YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.",
+        "skipToContentLabel": "Skip to content",
+        "menuOpenLabel": "Menu",
+        "menuCloseLabel": "Close",
+        "footerCopyright": "© {year} YUSEA. All rights reserved.",
+        "footerAddress": "Ha Noi, Viet Nam",
+        "blogEyebrow": "News",
+        "blogHeading": "Blog",
+        "blogIntro": "",
+        "blogEmptyText": "No posts yet.",
+        "navigation": [
+          {
+            "label": "About",
+            "href": "/about"
+          },
+          {
+            "label": "Topics",
+            "href": "/topics"
+          },
+          {
+            "label": "Projects",
+            "href": "/projects"
+          },
+          {
+            "label": "Events",
+            "href": "/events"
+          },
+          {
+            "label": "Resources",
+            "href": "/resources"
+          }
+        ],
+        "footerLinks": [
+          {
+            "label": "About",
+            "href": "/about"
+          },
+          {
+            "label": "Topics",
+            "href": "/topics"
+          },
+          {
+            "label": "Projects",
+            "href": "/projects"
+          },
+          {
+            "label": "Events",
+            "href": "/events"
+          },
+          {
+            "label": "Blog",
+            "href": "/blog"
+          },
+          {
+            "label": "Contact",
+            "href": "/contact"
+          }
+        ],
+        "social": [
+          {
+            "platform": "LinkedIn",
+            "href": "https://www.linkedin.com"
+          },
+          {
+            "platform": "Facebook",
+            "href": "https://www.facebook.com"
+          },
+          {
+            "platform": "YouTube",
+            "href": "https://www.youtube.com"
+          }
+        ],
+        "partners": [
+          {
+            "name": "Partner One",
+            "tier": "funder",
+            "href": null,
+            "logo": {
+              "node": {
+                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+One",
+                "altText": "Partner One",
+                "mediaDetails": {
+                  "width": 280,
+                  "height": 112
+                }
+              }
+            }
+          },
+          {
+            "name": "Partner Two",
+            "tier": "lead",
+            "href": null,
+            "logo": {
+              "node": {
+                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Two",
+                "altText": "Partner Two",
+                "mediaDetails": {
+                  "width": 280,
+                  "height": 112
+                }
+              }
+            }
+          },
+          {
+            "name": "Partner Three",
+            "tier": "partner",
+            "href": null,
+            "logo": {
+              "node": {
+                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Three",
+                "altText": "Partner Three",
+                "mediaDetails": {
+                  "width": 280,
+                  "height": 112
+                }
+              }
+            }
+          },
+          {
+            "name": "Partner Four",
+            "tier": "partner",
+            "href": null,
+            "logo": {
+              "node": {
+                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Four",
+                "altText": "Partner Four",
+                "mediaDetails": {
+                  "width": 280,
+                  "height": 112
+                }
+              }
+            }
+          },
+          {
+            "name": "Partner Five",
+            "tier": "partner",
+            "href": null,
+            "logo": {
+              "node": {
+                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Five",
+                "altText": "Partner Five",
+                "mediaDetails": {
+                  "width": 280,
+                  "height": 112
+                }
+              }
+            }
+          },
+          {
+            "name": "Partner Six",
+            "tier": "partner",
+            "href": null,
+            "logo": {
+              "node": {
+                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Six",
+                "altText": "Partner Six",
+                "mediaDetails": {
+                  "width": 280,
+                  "height": 112
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

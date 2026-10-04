@@ -14,7 +14,7 @@ export function MissionGrid({
     <section id="homepage-section-2" className="bg-navy py-section lg:py-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
-          eyebrow="Our approach"
+          eyebrow={missionGrid.eyebrow}
           title={missionGrid.heading}
           body={missionGrid.body}
           tone="light"

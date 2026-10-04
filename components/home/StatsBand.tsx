@@ -14,7 +14,7 @@ export function StatsBand({ statsBand }: { statsBand: Homepage["statsBand"] }) {
     <section id="homepage-section-1" className="bg-sky py-section lg:py-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
-          eyebrow="The context"
+          eyebrow={statsBand.eyebrow}
           title={statsBand.heading}
           body={statsBand.intro}
         />

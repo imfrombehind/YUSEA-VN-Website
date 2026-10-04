@@ -12,10 +12,9 @@ import type { Homepage } from "@/lib/cms/types";
 const VietnamMap = dynamic(
   () => import("./VietnamMap").then((m) => m.VietnamMap),
   {
+    // Wordless skeleton: dynamic() loaders can't receive CMS props.
     loading: () => (
-      <div className="flex min-h-[420px] items-center justify-center bg-sky lg:min-h-[620px]">
-        <p className="eyebrow text-faint">Loading map…</p>
-      </div>
+      <div aria-hidden="true" className="min-h-[420px] animate-pulse bg-sky lg:min-h-[620px]" />
     ),
   },
 );
@@ -30,7 +29,7 @@ export function ProjectsSection({
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
-            eyebrow="Where we work"
+            eyebrow={projects.eyebrow}
             title={projects.heading}
             body={projects.body}
           />
@@ -42,7 +41,7 @@ export function ProjectsSection({
         </div>
 
         <div className="mt-14 border border-line">
-          <VietnamMap />
+          <VietnamMap labels={projects.map} />
         </div>
       </div>
     </section>

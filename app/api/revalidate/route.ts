@@ -17,7 +17,7 @@ import { NextResponse, type NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 
 /** Everything the homepage depends on, purged when no target is given. */
-const PURGE_TAGS = ["homepage", "site-settings", "projects"] as const;
+const PURGE_TAGS = ["homepage", "site-settings", "projects", "posts"] as const;
 
 function safeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;

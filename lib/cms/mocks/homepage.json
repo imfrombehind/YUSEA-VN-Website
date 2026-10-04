@@ -1,0 +1,108 @@
+{
+  "data": {
+    "pageData": {
+      "homepageFields": {
+        "hero": {
+          "headline": "Building the regions Viet Nam will live in",
+          "subheadline": "YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.",
+          "ctaLabel": "Find out more",
+          "ctaHref": "/about",
+          "background": {
+            "node": {
+              "sourceUrl": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=2000&q=80&auto=format&fit=crop",
+              "altText": "A Vietnamese city skyline at dusk, with high-rise towers under dramatic clouds",
+              "mediaDetails": {
+                "width": 2000,
+                "height": 1260
+              }
+            }
+          }
+        },
+        "statsBand": {
+          "eyebrow": "The context",
+          "heading": "Why regions matter",
+          "intro": "Viet Nam is urbanising faster than almost anywhere in Southeast Asia. The decisions made in the next decade will set the shape of its cities for a century.",
+          "stats": [
+            {
+              "value": "40%",
+              "description": "of Viet Nam's population now lives in urban areas",
+              "source": "PLACEHOLDER — replace via CMS"
+            },
+            {
+              "value": "2/3",
+              "description": "of national GDP is generated in urban centres",
+              "source": "PLACEHOLDER — replace via CMS"
+            },
+            {
+              "value": "1 million",
+              "description": "people move into Vietnamese cities each year",
+              "source": "PLACEHOLDER — replace via CMS"
+            }
+          ]
+        },
+        "missionGrid": {
+          "eyebrow": "Our approach",
+          "heading": "What we do",
+          "body": "We connect provincial leadership, technical expertise and community knowledge so that regional development plans survive contact with the places they describe.",
+          "points": [
+            {
+              "title": "Integrated planning",
+              "body": "Bringing land use, transport, water and energy decisions into a single planning conversation instead of four separate ones."
+            },
+            {
+              "title": "Climate resilience",
+              "body": "Helping delta and coastal provinces plan for flooding, salinity and heat as design constraints rather than emergencies."
+            },
+            {
+              "title": "Local capacity",
+              "body": "Training the provincial staff who will still be doing this work long after any single programme has closed."
+            },
+            {
+              "title": "Open data",
+              "body": "Publishing the geographic and performance data behind our projects so others can build on it."
+            }
+          ]
+        },
+        "projects": {
+          "eyebrow": "Where we work",
+          "heading": "Projects",
+          "body": "From the Mekong Delta to the northern uplands, YUSEA supports regional transformations across Viet Nam. Explore the map to see where we work and what each project is changing on the ground.",
+          "ctaLabel": "See all projects",
+          "ctaHref": "/projects",
+          "mapErrorText": "Project locations could not be loaded.",
+          "mapCountOne": "{count} Project",
+          "mapCountOther": "{count} Projects",
+          "statusActive": "Active",
+          "statusCompleted": "Completed",
+          "statusPlanned": "Planned"
+        },
+        "latestPosts": {
+          "eyebrow": "News",
+          "heading": "Latest from YUSEA",
+          "ctaLabel": "All posts",
+          "ctaHref": "/blog"
+        },
+        "partners": {
+          "eyebrow": "Who we work with",
+          "heading": "Our funders and partners",
+          "body": "YUSEA is delivered in partnership with national agencies, provincial governments, research institutions and international development organisations.",
+          "ctaLabel": "Learn more",
+          "ctaHref": "/about/partners",
+          "funderLabel": "Supported by",
+          "leadLabel": "Led by",
+          "partnerLabel": "In partnership with",
+          "image": {
+            "node": {
+              "sourceUrl": "https://images.unsplash.com/photo-1555921015-5532091f6026?w=2000&q=80&auto=format&fit=crop",
+              "altText": "A narrow Ha Noi street lined with houses, plants and red flags, with a railway track running through the middle",
+              "mediaDetails": {
+                "width": 2000,
+                "height": 1334
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

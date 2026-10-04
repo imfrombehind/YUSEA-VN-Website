@@ -69,6 +69,11 @@ export type Post = {
   image?: Media;
 };
 
+/** A single post with its body. `content` is WordPress-rendered HTML. */
+export type PostDetail = Post & {
+  content: string;
+};
+
 export type Partner = {
   name: string;
   logo?: Media;
@@ -80,9 +85,38 @@ export type Partner = {
   tier: "funder" | "lead" | "partner";
 };
 
-/** Global ACF Options Page — header, footer, partner logos. */
+/**
+ * Global ACF Options Page ("Site Settings") — every string that appears on
+ * every page: header, footer, metadata, shared labels.
+ */
 export type SiteSettings = {
   siteName: string;
+  /** Header + footer logo. If unset, the site name renders as a wordmark. */
+  logo?: Media;
+  /** Browser tab icon (square PNG, 512×512 recommended). */
+  favicon?: Media;
+  seo: {
+    /** Default <title>, e.g. "YUSEA — Regional development in Viet Nam". */
+    title: string;
+    description: string;
+  };
+  labels: {
+    skipToContent: string;
+    menuOpen: string;
+    menuClose: string;
+  };
+  footer: {
+    /** `{year}` is replaced with the current year. */
+    copyright: string;
+    address: string;
+  };
+  /** Copy for the /blog index. */
+  blog: {
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    emptyText: string;
+  };
   navigation: CTA[];
   footerLinks: CTA[];
   social: { platform: string; href: string }[];
@@ -99,27 +133,49 @@ export type Homepage = {
   };
   /** §5 #homepage-section-1 */
   statsBand: {
+    eyebrow: string;
     heading: string;
     intro?: string;
     stats: Stat[];
   };
   /** §5 #homepage-section-2 */
   missionGrid: {
+    eyebrow: string;
     heading: string;
     body: string;
     points: { title: string; body: string }[];
   };
   /** §5 #homepage-section-3 */
   projects: {
+    eyebrow: string;
     heading: string;
     body: string;
     cta: CTA;
+    map: MapLabels;
+  };
+  /** #homepage-latest-posts — copy from ACF, posts from the same query. */
+  latestPosts: {
+    eyebrow: string;
+    heading: string;
+    cta: CTA;
+    posts: Post[];
   };
   /** §5 #homepage-section-4 */
   partners: {
+    eyebrow: string;
     heading: string;
     body: string;
     cta: CTA;
     image: Media;
+    tierLabels: Record<Partner["tier"], string>;
   };
+};
+
+/** Every string the client-side map renders. */
+export type MapLabels = {
+  errorText: string;
+  /** `{count}` is replaced, e.g. "{count} project" / "{count} projects". */
+  countOne: string;
+  countOther: string;
+  status: Record<Project["status"], string>;
 };

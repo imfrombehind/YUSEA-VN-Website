@@ -24,14 +24,15 @@ const barlow = Barlow({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "YUSEA — Regional development in Viet Nam",
-    template: "%s | YUSEA",
-  },
-  description:
-    "YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.",
-};
+/** Title, description and favicon all come from the ACF options page. */
+export async function generateMetadata(): Promise<Metadata> {
+  const { siteName, seo, favicon } = await getSiteSettings();
+  return {
+    title: { default: seo.title, template: `%s | ${siteName}` },
+    description: seo.description,
+    icons: favicon ? { icon: favicon.url } : undefined,
+  };
+}
 
 export default async function RootLayout({
   children,
@@ -47,12 +48,24 @@ export default async function RootLayout({
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-sun focus:px-4 focus:py-2 focus:font-display focus:text-sm focus:font-bold focus:uppercase focus:text-navy"
         >
-          Skip to content
+          {settings.labels.skipToContent}
         </a>
 
-        <Header navigation={settings.navigation} social={settings.social} />
+        <Header
+          siteName={settings.siteName}
+          logo={settings.logo}
+          labels={settings.labels}
+          navigation={settings.navigation}
+          social={settings.social}
+        />
         <main id="main">{children}</main>
-        <Footer footerLinks={settings.footerLinks} social={settings.social} />
+        <Footer
+          siteName={settings.siteName}
+          logo={settings.logo}
+          footer={settings.footer}
+          footerLinks={settings.footerLinks}
+          social={settings.social}
+        />
       </body>
     </html>
   );
