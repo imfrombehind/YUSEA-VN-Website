@@ -164,6 +164,10 @@ notice lists what was added. The plugin:
 - v1.6.0 adds the **About page: sections** box (`aboutPageFields`, below)
   to the `/about` page. Fields are registered in code, so nothing to
   migrate; headings come with default wording.
+- v1.7.0 adds an **Our Focus** menu: the focus cards (the first three
+  pillars) on one screen, in site order, each with title, text and a photo
+  slot that shows a placeholder until a photo is chosen. Saving purges
+  `pillars`, which refreshes the homepage and /about.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
 - Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in
@@ -244,7 +248,9 @@ links are listed under the item.
 body is the report summary; empty `file` hides the download button.
 
 **`pillar` term** → group `pillarFields`: `image` (the Our Focus card image,
-3:2). The term description is the card text.
+3:2). The term description is the card text. Editors change all three cards
+under **Our Focus** in the WP menu; a card with no image shows an icon
+placeholder on the site.
 
 **Page `/about`** → `indexPageFields` + `aboutPageFields`. The page has four
 sections, each heading doubling as its side-nav label:

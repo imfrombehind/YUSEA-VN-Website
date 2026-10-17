@@ -3,6 +3,22 @@ import Link from "next/link";
 import { pillarHref } from "@/lib/routes";
 import type { Pillar } from "@/lib/cms/types";
 
+/** Shown until a focus card has a photo (WP admin → Our Focus). Decorative. */
+function PhotoPlaceholder() {
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute inset-0 flex items-center justify-center border border-slate-200 rounded-2xl text-slate-300"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" className="size-12">
+        <rect x="3" y="4.5" width="18" height="15" rx="2" />
+        <circle cx="9" cy="10" r="1.75" />
+        <path d="m21 16-5-5-8 8.5" strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
+}
+
 /**
  * The Our Focus cards: one per pillar, each linking to /work?pillar=<slug>.
  * Used on the homepage and /about. `sizes` describes the image width at
@@ -24,7 +40,7 @@ export function PillarCards({
     <ul className={`grid gap-12 md:grid-cols-3 md:gap-8 ${className}`}>
       {pillars.map((pillar) => (
         <li key={pillar.slug} className="flex flex-col">
-          <div className="relative aspect-[3/2] overflow-hidden rounded-2xl bg-slate-200">
+          <div className="relative aspect-[3/2] overflow-hidden rounded-2xl bg-slate-100">
             {pillar.image ? (
               <Image
                 src={pillar.image.url}
@@ -33,7 +49,9 @@ export function PillarCards({
                 sizes={sizes}
                 className="object-cover"
               />
-            ) : null}
+            ) : (
+              <PhotoPlaceholder />
+            )}
           </div>
 
           <div className="flex flex-1 flex-col pt-6">

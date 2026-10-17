@@ -67,7 +67,8 @@ that have bitten this repo:
 ## Content model
 
 - The `pillar` taxonomy (three focus areas) tags Projects, Reports and Posts.
-  The homepage Our Focus cards are its first three terms, and each links to
+  The Our Focus cards (homepage and /about, `PillarCards`) are its first
+  three terms, edited together on the WP **Our Focus** screen; each links to
   `/work?pillar=<slug>`. `/work`, `/work/projects` and `/work/publications`
   filter with `byPillar()` over the fetched list.
 - Publications = WP posts (`kind: "blog"`) + the `report` CPT

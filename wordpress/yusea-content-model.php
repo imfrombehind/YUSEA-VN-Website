@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: YUSEA Content Model
- * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.6.0
+ * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
+ * Version:     1.7.0
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.6.0';
+const YUSEA_CM_VERSION = '1.7.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -188,7 +188,7 @@ add_action('acf/init', function () {
         'location' => [[['param' => 'taxonomy', 'operator' => '==', 'value' => 'pillar']]],
         'fields'   => [
             yusea_cm_field('pillar_image', 'image', 'Card image', 'image', [
-                'instructions'  => 'Homepage Our Focus card, shown at 3:2. The term description is the card text.',
+                'instructions'  => 'Our Focus card photo (homepage and About), shown at 3:2. The description is the card text. All three cards can also be edited together under Our Focus in the left menu.',
                 'return_format' => 'array',
             ]),
         ],
@@ -614,7 +614,7 @@ add_action('acf/init', function () {
             ]),
             yusea_cm_field('about_focus', 'focus', 'Our focus', 'group', [
                 'layout'       => 'block',
-                'instructions' => 'The cards are the first three pillars (Posts → Pillars), the same as the homepage. Edit a pillar there to change its card.',
+                'instructions' => 'The cards are the same three as on the homepage. Edit their titles, text and photos under Our Focus in the left menu.',
                 'sub_fields'   => [
                     yusea_cm_label('about_focus_heading', 'heading', 'Heading', 'Our focus'),
                     yusea_cm_field('about_focus_intro', 'intro', 'Intro', 'textarea', ['rows' => 2, 'instructions' => 'Optional.']),
@@ -1945,3 +1945,186 @@ function yusea_cm_starter_data() {
         ],
     ];
 }
+
+/* ------------------------------------------------------------------ *
+ * 8. Our Focus: the three focus cards on one screen
+ *
+ * The homepage and /about Our Focus cards are the first three pillar
+ * terms: name, description and card image. This screen edits them all at
+ * once, in the order the site shows them, with a photo placeholder for
+ * any card that has none. Saving fires `saved_pillar`, which the
+ * revalidate plugin turns into a "pillars" purge (homepage and /about).
+ * ------------------------------------------------------------------ */
+
+/** Pillar terms in the order the frontend shows them (its own query), else by name. */
+function yusea_cm_focus_terms() {
+    $terms = get_terms(['taxonomy' => 'pillar', 'hide_empty' => false]);
+    if (!is_array($terms)) {
+        return [];
+    }
+    if (function_exists('graphql')) {
+        $result = graphql(['query' => '{ pillars(first: 20, where: { orderby: TERM_ORDER, hideEmpty: false }) { nodes { databaseId } } }']);
+        $order  = array_column($result['data']['pillars']['nodes'] ?? [], 'databaseId');
+        if ($order) {
+            $rank = array_flip(array_map('intval', $order));
+            usort($terms, function ($a, $b) use ($rank) {
+                return ($rank[$a->term_id] ?? PHP_INT_MAX) <=> ($rank[$b->term_id] ?? PHP_INT_MAX);
+            });
+        }
+    }
+    return $terms;
+}
+
+add_action('admin_menu', function () {
+    if (taxonomy_exists('pillar')) {
+        add_menu_page('Our Focus', 'Our Focus', 'manage_categories', 'yusea-focus', 'yusea_cm_focus_page', 'dashicons-grid-view', 22);
+    }
+});
+
+add_action('admin_enqueue_scripts', function ($hook) {
+    if ($hook === 'toplevel_page_yusea-focus') {
+        wp_enqueue_media();
+    }
+});
+
+function yusea_cm_focus_page() {
+    $terms = yusea_cm_focus_terms();
+    echo '<div class="wrap"><h1>Our Focus</h1>';
+    if (isset($_GET['saved'])) {
+        echo '<div class="notice notice-success is-dismissible"><p>Saved. The homepage and About page update within a minute.</p></div>';
+    }
+    echo '<p style="max-width:760px">These are the focus cards on the <strong>homepage</strong> and the <strong>About</strong> page. The section headings, intros and the "Explore more" label are on those pages. Each card links to its projects and publications.</p>';
+
+    if (!$terms) {
+        echo '<p>No focus areas yet. Add them under <a href="' . esc_url(admin_url('edit-tags.php?taxonomy=pillar')) . '">Pillars</a>, or use Tools → YUSEA Setup → Create starter content.</p></div>';
+        return;
+    }
+
+    echo '<style>
+        .yusea-focus{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;max-width:1100px;margin-top:20px}
+        .yusea-focus__card{background:#fff;border:1px solid #dcdcde;border-radius:8px;padding:16px}
+        .yusea-focus__card.is-hidden{opacity:.65}
+        .yusea-focus__photo{aspect-ratio:3/2;border-radius:6px;overflow:hidden;background:#f0f0f1;border:2px dashed #c3c4c7;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:#646970;cursor:pointer;text-align:center}
+        .yusea-focus__photo.has-image{border:0}
+        .yusea-focus__photo img{width:100%;height:100%;object-fit:cover;display:block}
+        .yusea-focus__photo .dashicons{font-size:40px;width:40px;height:40px}
+        .yusea-focus__buttons{margin:8px 0 12px;display:flex;gap:8px}
+        .yusea-focus label{display:block;font-weight:600;margin:10px 0 4px}
+        .yusea-focus input[type=text],.yusea-focus textarea{width:100%}
+    </style>';
+
+    echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
+    wp_nonce_field('yusea_cm_focus_save');
+    echo '<input type="hidden" name="action" value="yusea_cm_focus_save"><div class="yusea-focus">';
+
+    foreach ($terms as $i => $term) {
+        $id     = (int) $term->term_id;
+        $image  = (int) get_field('field_yusea_pillar_image', 'term_' . $id, false);
+        $src    = $image ? wp_get_attachment_image_url($image, 'medium_large') : '';
+        $shown  = $i < 3;
+        $badge  = $shown ? 'Card ' . ($i + 1) : 'Not shown (only the first three are cards)';
+
+        printf('<div class="yusea-focus__card%s"><p style="margin:0 0 8px;color:#646970">%s</p>', $shown ? '' : ' is-hidden', esc_html($badge));
+        printf(
+            '<div class="yusea-focus__photo%s" data-focus-pick="%d" role="button" tabindex="0">%s</div>',
+            $src ? ' has-image' : '',
+            $id,
+            $src
+                ? '<img src="' . esc_url($src) . '" alt="">'
+                : '<span class="dashicons dashicons-format-image"></span><span>No photo yet<br>Click to choose one (landscape, 3:2)</span>'
+        );
+        printf('<input type="hidden" name="focus[%d][image]" value="%s">', $id, $image ?: '');
+        printf(
+            '<div class="yusea-focus__buttons"><button type="button" class="button" data-focus-pick="%1$d">%2$s</button><button type="button" class="button-link button-link-delete" data-focus-remove="%1$d"%3$s>Remove photo</button></div>',
+            $id,
+            $src ? 'Change photo' : 'Choose photo',
+            $src ? '' : ' hidden'
+        );
+        printf('<label for="focus-name-%1$d">Title</label><input type="text" id="focus-name-%1$d" name="focus[%1$d][name]" value="%2$s" required>', $id, esc_attr($term->name));
+        printf('<label for="focus-description-%1$d">Text</label><textarea id="focus-description-%1$d" name="focus[%1$d][description]" rows="4">%2$s</textarea>', $id, esc_textarea($term->description));
+        printf('<p class="description">Links to /work?pillar=%s</p></div>', esc_html($term->slug));
+    }
+
+    echo '</div>';
+    submit_button('Save focus cards');
+    echo '</form>';
+    echo '<p class="description" style="max-width:760px">To add, remove or rename the link (slug) of a focus area, use <a href="' . esc_url(admin_url('edit-tags.php?taxonomy=pillar')) . '">Pillars</a>. Changing a slug breaks existing filter links.</p>';
+    ?>
+    <script>
+    (function () {
+        function card(id) {
+            return {
+                photo: document.querySelector('.yusea-focus__photo[data-focus-pick="' + id + '"]'),
+                input: document.querySelector('input[name="focus[' + id + '][image]"]'),
+                pick: document.querySelector('button[data-focus-pick="' + id + '"]'),
+                remove: document.querySelector('[data-focus-remove="' + id + '"]')
+            };
+        }
+        var placeholder = '<span class="dashicons dashicons-format-image"></span><span>No photo yet<br>Click to choose one (landscape, 3:2)</span>';
+        function set(id, attachment) {
+            var c = card(id);
+            if (attachment) {
+                var size = (attachment.sizes && (attachment.sizes.medium_large || attachment.sizes.large)) || attachment;
+                c.input.value = attachment.id;
+                c.photo.innerHTML = '<img src="' + size.url + '" alt="">';
+                c.photo.classList.add('has-image');
+                c.pick.textContent = 'Change photo';
+                c.remove.hidden = false;
+            } else {
+                c.input.value = '';
+                c.photo.innerHTML = placeholder;
+                c.photo.classList.remove('has-image');
+                c.pick.textContent = 'Choose photo';
+                c.remove.hidden = true;
+            }
+        }
+        function pick(id) {
+            var frame = wp.media({ title: 'Choose a photo for this focus card', library: { type: 'image' }, multiple: false, button: { text: 'Use this photo' } });
+            frame.on('select', function () { set(id, frame.state().get('selection').first().toJSON()); });
+            frame.open();
+        }
+        document.addEventListener('click', function (e) {
+            var p = e.target.closest('[data-focus-pick]');
+            var r = e.target.closest('[data-focus-remove]');
+            if (p) { e.preventDefault(); pick(p.getAttribute('data-focus-pick')); }
+            if (r) { e.preventDefault(); set(r.getAttribute('data-focus-remove'), null); }
+        });
+        document.addEventListener('keydown', function (e) {
+            var p = e.target.closest('.yusea-focus__photo');
+            if (p && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); pick(p.getAttribute('data-focus-pick')); }
+        });
+    })();
+    </script>
+    <?php
+    echo '</div>';
+}
+
+add_action('admin_post_yusea_cm_focus_save', function () {
+    if (!current_user_can('manage_categories')) {
+        wp_die('You are not allowed to do this.');
+    }
+    check_admin_referer('yusea_cm_focus_save');
+
+    foreach ((array) ($_POST['focus'] ?? []) as $id => $row) {
+        $id   = (int) $id;
+        $term = get_term($id, 'pillar');
+        if (!$term || is_wp_error($term)) {
+            continue;
+        }
+        $row = wp_unslash($row);
+        // Photo first: wp_update_term then fires saved_pillar, which purges
+        // the frontend cache once everything is saved.
+        if (function_exists('update_field')) {
+            $image = (int) ($row['image'] ?? 0);
+            update_field('field_yusea_pillar_image', $image ?: '', 'term_' . $id);
+        }
+        $name = sanitize_text_field($row['name'] ?? '');
+        wp_update_term($id, 'pillar', [
+            'name'        => $name !== '' ? $name : $term->name,
+            'description' => sanitize_textarea_field($row['description'] ?? ''),
+        ]);
+    }
+
+    wp_safe_redirect(admin_url('admin.php?page=yusea-focus&saved=1'));
+    exit;
+});
