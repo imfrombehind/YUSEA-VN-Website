@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:cms": "node --experimental-strip-types --no-warnings scripts/check-cms.mts",
+    "wp:zip": "sh wordpress/zip.sh"
   },
   "dependencies": {
     "next": "16.3.5",

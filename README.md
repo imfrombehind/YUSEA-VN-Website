@@ -54,7 +54,11 @@ lib/
   format.ts                Date formatting
   seo.ts                   siteUrl(), pageMetadata() — canonical + Open Graph per page
 wordpress/
+  yusea-content-model.php  WP plugin: post types, taxonomy and fields for v2
   yusea-revalidate.php     WP plugin: pings /api/revalidate on publish
+  zip.sh                   npm run wp:zip → upload-ready zips in wordpress/dist/
+scripts/
+  check-cms.mts            npm run check:cms → live CMS schema check
 prompt/                    The rebuild brief this structure implements
 CLAUDE.md                  Working notes for AI coding agents
 CHECKLIST.md               Pre-launch audit
@@ -102,20 +106,56 @@ flipping the switch — WPGraphQL rejects the whole query if one is missing.
 
 ### What to build in WordPress
 
-Plugins: WPGraphQL, ACF Pro, WPGraphQL for ACF, Custom Post Type UI.
+Plugins: WPGraphQL, **Secure Custom Fields** (SCF, the WordPress.org fork of
+ACF — it includes repeaters and options pages; ACF Pro works the same), and
+WPGraphQL for ACF (v2, which supports SCF). "ACF" below means SCF.
 
-In CPT UI, with **Show in GraphQL** on for each:
+**Install `wordpress/yusea-content-model.php`** — it does the v2 setup in
+one upload:
 
-- **Post type `project`** (GraphQL `project` / `projects`), with editor and excerpt.
-- **Post type `report`** (GraphQL `report` / `reports`), with editor, excerpt and featured image.
-- **Taxonomy `pillar`** (GraphQL `pillar` / `pillars`), attached to `post`,
-  `project` and `report`. Term order drives the Our Focus cards; install a
-  term-ordering plugin to make it editable (the query sorts by `TERM_ORDER`).
-- Enable excerpts on pages too: the /about excerpt is its meta description.
+```bash
+npm run wp:zip     # → wordpress/dist/yusea-content-model.zip (and yusea-revalidate.zip)
+```
+
+Plugins → Add New → Upload Plugin → activate, then open any admin page. A
+notice lists what was added. The plugin:
+
+- Registers **post types `project` and `report`** and the **taxonomy
+  `pillar`** (on posts, projects and reports), all with GraphQL names
+  `project`/`projects`, `report`/`reports`, `pillar`/`pillars`. Anything
+  already registered (in SCF's Post Types screen or CPT UI) is left alone.
+- Enables excerpts on pages (the /about excerpt is its meta description).
+- Registers the new field groups `projectFields`, `reportFields` and
+  `pillarFields` in code (they don't appear under SCF → Field Groups; edit
+  them in the plugin file).
+- **Adds** `ourFocus` to `homepageFields`, and `navCategoriesLabel`,
+  `navQuickLinksLabel`, the `work` group and the `navigation` →
+  `categories`/`quickLinks` sub-repeaters to `siteSettingsFields`. These are
+  saved to the database, so they are editable in SCF afterwards. It only
+  adds: existing fields and content are never changed. If a group is stored
+  in local JSON rather than the database, the notice says so and those
+  fields must be added by hand.
+- Gives every label field default wording (the mock copy), so pages have
+  text before editors fill anything in.
+
+Then check the live schema, which must pass before a build can:
+
+```bash
+npm run check:cms  # sends every query to the CMS; lists rejected fields
+```
+
+Term order drives the Our Focus cards (the query sorts by `TERM_ORDER`);
+install a term-ordering plugin to make it editable. Project `status` is a
+**Radio** field, not a Select: WPGraphQL for ACF v2 returns a list for
+Select fields.
+
+Content editors still need to add: the three pillar terms (name, slug,
+description, card image), projects, reports, the `/about` page, and the nav
+dropdown links.
 
 `lib/cms/queries.ts` was written **before** the CMS on purpose — the field
-names in it are the build spec for ACF. Name the field groups to match and the
-queries work first try:
+names in it are the build spec for ACF. If you build fields by hand instead of
+with the plugin, name them to match and the queries work first try:
 
 Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 (`hero`, `statsBand`, …) are ACF **Group** fields; `[]` means **Repeater**.
@@ -335,6 +375,9 @@ What changed when the site moved to the structure in
 - **Logo.** Bigger in the header; the footer's is bigger still (`size` prop).
 - **Cards** link the title only, stretched over the card, rather than
   wrapping the whole card in one link.
+- **WordPress setup** is a plugin now (`yusea-content-model.php`), plus
+  `npm run check:cms` to confirm the live schema before deploying. The first
+  v2 deploy failed because the live CMS didn't have the new types yet.
 - **Revalidation.** New cache tags (`pillars`, `reports`, `report:<slug>`,
   `project:<slug>`, `pages`, `page:<uri>`); `{}` now purges every tag. The WP
   plugin (v1.1.0) sends them for reports and pillar term edits.

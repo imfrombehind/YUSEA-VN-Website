@@ -23,8 +23,9 @@ relative to the repo root.
 
 ## P0 — must fix before launch
 
-- [ ] **Create the new ACF fields** on the options page: `seoImage`, `notFoundEyebrow`, `notFoundHeading`, `notFoundBody`, `notFoundCtaLabel`, `notFoundCtaHref`, `navCategoriesLabel`, `navQuickLinksLabel`, the `work` group and the nav `categories` / `quickLinks` sub-repeaters. WPGraphQL rejects the whole query if any is missing.
-- [ ] **Create the `report` CPT, the `pillar` taxonomy** (on posts, projects and reports) **and their ACF groups** (`reportFields`, `pillarFields`), plus `homepageFields.ourFocus`. See the README.
+- [ ] **Install and activate `wordpress/yusea-content-model.php`** (`npm run wp:zip`), and re-upload `yusea-revalidate.php` (v1.1.0, adds report and pillar purges). This creates the `project`/`report` post types, the `pillar` taxonomy and every v2 field.
+- [ ] **`npm run check:cms` passes** against the live CMS. WPGraphQL rejects a whole query if any field is missing, which fails the Vercel build.
+- [ ] Add the three pillar terms (with card images), the `/about` page, and the nav dropdown links in WP admin.
 - [ ] **Nav and CTAs must point at routes that exist:** `/`, `/about`, `/work`, `/work/projects`, `/work/publications` and the single templates. Add any new route to [app/sitemap.ts](app/sitemap.ts).
 - [ ] **Mock content could ship.** If `WORDPRESS_USE_MOCKS` isn't `"false"`, production shows mocks, including the "PLACEHOLDER" stats. Once WordPress is live, fail the build when `VERCEL_ENV=production` and the CMS isn't connected.
 - [ ] **Colour contrast (WCAG AA) — needs design sign-off:**

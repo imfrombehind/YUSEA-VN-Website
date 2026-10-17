@@ -41,3 +41,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 tsconfig.tsbuildinfo
+
+# built WordPress plugin zips (npm run wp:zip)
+/wordpress/dist

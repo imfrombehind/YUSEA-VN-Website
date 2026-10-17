@@ -14,6 +14,8 @@ npm run dev          # http://localhost:3000
 npm run build        # also type-checks; run before calling work done
 npm run lint
 npx tsc --noEmit
+npm run check:cms    # live WordPress schema check — run before any deploy that adds fields
+npm run wp:zip       # zips the wordpress/*.php plugins for upload
 ```
 
 There are no tests. To check a change, build, run `npx next start`, and curl
@@ -42,6 +44,14 @@ that have bitten this repo:
 - **Components import content only from `@/lib/cms`** (the facade in
   `lib/cms/index.ts`). They see domain types, never raw WPGraphQL shapes. If
   WordPress field names change, only `queries.ts` and `mappers.ts` change.
+- **Production builds against the live CMS** (`WORDPRESS_USE_MOCKS="false"`
+  on Vercel) and has no fallback, so a query field WordPress lacks fails the
+  deploy. When you add a field to `queries.ts`, add it to
+  `wordpress/yusea-content-model.php` too (bump its version so it re-runs),
+  and have `npm run check:cms` pass before pushing.
+- WordPress uses **Secure Custom Fields** (SCF), not ACF Pro: same `acf_*`
+  API. Use Radio, not Select, for single-choice fields (WPGraphQL for ACF v2
+  returns Select as a list).
 - **Mocks are raw WPGraphQL responses** (`lib/cms/mocks/*.json`) and go
   through the same mappers as live data. Keep them shaped exactly like the
   query in `queries.ts`.
