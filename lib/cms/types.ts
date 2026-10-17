@@ -122,10 +122,22 @@ export type PageDetail = {
   image?: Media;
 };
 
+/** One social profile link, in the header and footer. */
+export type SocialLink = {
+  /** e.g. "LinkedIn" — the accessible name, and picks the built-in icon. */
+  platform: string;
+  href: string;
+  /** Optional uploaded icon; replaces the built-in one. */
+  icon?: Media;
+};
+
 /** A header nav item. Items with categories or quick links get a dropdown. */
 export type NavItem = CTA & {
   categories: CTA[];
   quickLinks: CTA[];
+  /** Column headings in this item's dropdown, e.g. "By focus" / "Quick links". */
+  categoriesHeading: string;
+  quickLinksHeading: string;
 };
 
 /** Heading, intro and eyebrow for one of the /work index pages. */
@@ -163,9 +175,6 @@ export type SiteSettings = {
     skipToContent: string;
     menuOpen: string;
     menuClose: string;
-    /** Column headings inside the header dropdowns. */
-    navCategories: string;
-    navQuickLinks: string;
   };
   footer: {
     /** `{year}` is replaced with the current year. */
@@ -195,7 +204,7 @@ export type SiteSettings = {
   };
   navigation: NavItem[];
   footerLinks: CTA[];
-  social: { platform: string; href: string }[];
+  social: SocialLink[];
 };
 
 /** Everything the homepage renders, in section order. */

@@ -307,8 +307,6 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
         skipToContentLabel
         menuOpenLabel
         menuCloseLabel
-        navCategoriesLabel
-        navQuickLinksLabel
         footerCopyright
         footerAddress
         work {
@@ -339,6 +337,8 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
         navigation {
           label
           href
+          categoriesHeading
+          quickLinksHeading
           categories {
             label
             href
@@ -355,6 +355,11 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
         social {
           platform
           href
+          icon {
+            node {
+              ...MediaFields
+            }
+          }
         }
       }
     }

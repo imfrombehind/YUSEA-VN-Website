@@ -33,7 +33,7 @@ export function Header({
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {navigation.map((item, i) => (
-              <NavEntry key={i} item={item} labels={labels} />
+              <NavEntry key={i} item={item} />
             ))}
           </ul>
         </nav>
@@ -51,13 +51,7 @@ export function Header({
 const LINK =
   "flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold tracking-[0.08em] text-slate-700 uppercase transition-colors hover:bg-slate-50 hover:text-ink";
 
-function NavEntry({
-  item,
-  labels,
-}: {
-  item: NavItem;
-  labels: SiteSettings["labels"];
-}) {
+function NavEntry({ item }: { item: NavItem }) {
   const hasDropdown = item.categories.length > 0 || item.quickLinks.length > 0;
 
   if (!hasDropdown) {
@@ -91,8 +85,8 @@ function NavEntry({
           into the panel without the hover dropping. */}
       <div className="invisible absolute top-full left-1/2 -translate-x-1/2 translate-y-1 pt-3 opacity-0 transition duration-150 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
         <div className="flex w-max max-w-[min(36rem,calc(100vw-3rem))] gap-10 rounded-2xl border border-slate-200 bg-paper p-6 shadow-[0_12px_32px_-12px_rgba(15,23,42,0.18)]">
-          <DropdownColumn heading={labels.navCategories} links={item.categories} />
-          <DropdownColumn heading={labels.navQuickLinks} links={item.quickLinks} />
+          <DropdownColumn heading={item.categoriesHeading} links={item.categories} />
+          <DropdownColumn heading={item.quickLinksHeading} links={item.quickLinks} />
         </div>
       </div>
     </li>

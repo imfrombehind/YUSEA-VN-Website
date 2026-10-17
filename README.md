@@ -128,9 +128,13 @@ notice lists what was added. The plugin:
 - Registers the new field groups `projectFields`, `reportFields` and
   `pillarFields` in code (they don't appear under SCF → Field Groups; edit
   them in the plugin file).
-- **Adds** `ourFocus` to `homepageFields`, and `navCategoriesLabel`,
-  `navQuickLinksLabel`, the `work` group and the `navigation` →
-  `categories`/`quickLinks` sub-repeaters to `siteSettingsFields`. These are
+- **Adds** `ourFocus` to `homepageFields`, and the `work` group, the
+  `navigation` → `categoriesHeading`/`quickLinksHeading` and
+  `categories`/`quickLinks` sub-fields, and a `social` → `icon` image to
+  `siteSettingsFields`. It also re-exposes any of its own fields that were
+  saved hidden from GraphQL. Versions 1.0–1.1 also added top-level
+  `navCategoriesLabel`/`navQuickLinksLabel`; they are no longer used and
+  can be deleted in SCF. These are
   saved to the database, so they are editable in SCF afterwards. It only
   adds: existing fields and content are never changed. If a group is stored
   in local JSON rather than the database, the notice says so and those
@@ -174,11 +178,10 @@ Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 `seoImage` (image, 1200×630 — the default social share image),
 `notFoundEyebrow`, `notFoundHeading`, `notFoundBody`, `notFoundCtaLabel`,
 `notFoundCtaHref` (the 404 page), `skipToContentLabel`,
-`menuOpenLabel`, `menuCloseLabel`, `navCategoriesLabel`, `navQuickLinksLabel`
-(dropdown column headings), `footerCopyright` (`{year}` is replaced),
+`menuOpenLabel`, `menuCloseLabel`, `footerCopyright` (`{year}` is replaced),
 `footerAddress`,
-`navigation[]` { `label`, `href`, `categories[]` { `label`, `href` }, `quickLinks[]` { `label`, `href` } },
-`footerLinks[]` { `label`, `href` }, `social[]` { `platform`, `href` }, and a
+`navigation[]` { `label`, `href`, `categoriesHeading`, `quickLinksHeading`, `categories[]` { `label`, `href` }, `quickLinks[]` { `label`, `href` } },
+`footerLinks[]` { `label`, `href` }, `social[]` { `platform`, `href`, `icon` (image, optional) }, and a
 group `work` with:
 
 | Fields | Used on |
@@ -194,7 +197,9 @@ group `work` with:
 | `downloadReportLabel` | Single report |
 
 A nav row with `categories` or `quickLinks` gets a hover dropdown in the
-header; on mobile they are listed under the item.
+header, with that row's `categoriesHeading` / `quickLinksHeading` over each
+column (e.g. Projects: "By focus", Publications: "By type"); on mobile the
+links are listed under the item.
 
 **`Project` CPT** → group `projectFields`: `latitude`, `longitude`, `city`,
 `province`, `status`, `metrics[]` { `value`, `description`, `source` },
@@ -364,8 +369,8 @@ What changed when the site moved to the structure in
 - **Content model.** New `report` CPT and `pillar` taxonomy; projects use
   `pillars` instead of `topics`. New ACF: `homepageFields.ourFocus`,
   `reportFields`, `pillarFields`, the options-page `work` group,
-  `navCategoriesLabel` / `navQuickLinksLabel` and nav `categories` /
-  `quickLinks`. Removed ACF: `missionGrid`, `latestPosts`, `blog*` labels.
+  per-row nav `categoriesHeading` / `quickLinksHeading` and `categories` /
+  `quickLinks`, and an optional `social` → `icon`. Removed ACF: `missionGrid`, `latestPosts`, `blog*` labels.
 - **Header.** Server Component with CSS-only hover dropdowns; uppercase
   top-level links; `/` separators removed. Mobile menu split into
   `MobileNav` and now closes on navigation.
@@ -408,6 +413,13 @@ step larger at every breakpoint:
 **The mock figures are placeholders.** Every stat in `mocks/homepage.json` carries a
 `source` of `"PLACEHOLDER — replace via CMS"`, and that string renders visibly
 under each stat. It is deliberately ugly so it cannot ship by accident.
+
+**Social icons.** Each `social` row shows its uploaded `icon` if set,
+otherwise a built-in icon for LinkedIn, Facebook, Instagram, YouTube or X,
+matched by `platform` name or by the link's domain. A row with neither is
+skipped. `platform` is also the link's screen-reader name. Upload icons
+square (64×64+, PNG or SVG — WordPress blocks SVG uploads unless a plugin
+allows them).
 
 **Header dropdowns are CSS only.** They open on `group-hover` and, for
 keyboard users, `group-focus-within`; there is no React state, so the header

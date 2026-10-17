@@ -1,3 +1,7 @@
+import Image from "next/image";
+import type { SocialLink } from "@/lib/cms/types";
+
+/** Built-in icons, used when a row has no uploaded icon. */
 const PATHS: Record<string, string> = {
   linkedin:
     "M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.2 1.46-2.2 2.96V21H9z",
@@ -11,38 +15,80 @@ const PATHS: Record<string, string> = {
     "M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.17.4.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2a3.8 3.8 0 0 1-.9 1.38 3.8 3.8 0 0 1-1.38.9c-.4.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.17-.4-.37-1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.4-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.8a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 9.9a3.9 3.9 0 1 1 0-7.8 3.9 3.9 0 0 1 0 7.8zm7.6-10.1a1.4 1.4 0 1 1-2.8 0 1.4 1.4 0 0 1 2.8 0z",
 };
 
+/** Hostnames that identify each built-in icon, for rows whose platform name doesn't match. */
+const HOSTS: Record<string, string[]> = {
+  linkedin: ["linkedin.com"],
+  facebook: ["facebook.com", "fb.com"],
+  instagram: ["instagram.com"],
+  youtube: ["youtube.com", "youtu.be"],
+  twitter: ["twitter.com", "x.com"],
+};
+
+/** "LinkedIn" → linkedin; failing that, https://www.linkedin.com/... → linkedin. */
+function builtInIcon({ platform, href }: SocialLink): string | undefined {
+  const byName = PATHS[platform.toLowerCase().replace(/[^a-z]/g, "")];
+  if (byName) return byName;
+
+  let host = "";
+  try {
+    host = new URL(href).hostname.replace(/^www\./, "");
+  } catch {
+    return undefined;
+  }
+  const match = Object.keys(HOSTS).find((key) =>
+    HOSTS[key].some((h) => host === h || host.endsWith(`.${h}`)),
+  );
+  return match ? PATHS[match] : undefined;
+}
+
 type SocialIconsProps = {
-  items: { platform: string; href: string }[];
+  items: SocialLink[];
   className?: string;
 };
 
+/**
+ * An uploaded icon (ACF `social[].icon`) wins; otherwise the built-in icon
+ * for the platform. Rows with neither are skipped rather than shown blank.
+ */
 export function SocialIcons({
   items,
   className = "",
 }: SocialIconsProps) {
   return (
     <ul className={`flex items-center gap-4 ${className}`}>
-      {items.map(({ platform, href }) => {
-        const path = PATHS[platform.toLowerCase()];
-        if (!path) return null;
+      {items.map((item) => {
+        const path = item.icon ? undefined : builtInIcon(item);
+        if (!item.icon && !path) return null;
 
         return (
-          <li key={platform}>
+          <li key={item.href}>
             <a
-              href={href}
+              href={item.href}
               target="_blank"
               rel="noopener noreferrer"
               className="block text-muted transition-colors hover:text-coral"
             >
-              <span className="sr-only">{platform}</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-                className="h-5 w-5"
-              >
-                <path d={path} />
-              </svg>
+              <span className="sr-only">{item.platform}</span>
+              {item.icon ? (
+                <Image
+                  src={item.icon.url}
+                  alt=""
+                  width={20}
+                  height={20}
+                  // SVG uploads skip the optimiser, which won't process SVG.
+                  unoptimized={item.icon.url.toLowerCase().endsWith(".svg")}
+                  className="h-5 w-5 object-contain opacity-80 transition-opacity hover:opacity-100"
+                />
+              ) : (
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  className="h-5 w-5"
+                >
+                  <path d={path} />
+                </svg>
+              )}
             </a>
           </li>
         );

@@ -20,6 +20,7 @@ import type {
   Report,
   ReportDetail,
   SiteSettings,
+  SocialLink,
   Term,
 } from "./types";
 
@@ -100,6 +101,21 @@ function mapNavigation(rows: any): NavItem[] {
         href: r.href || "#",
         categories: mapLinks(r.categories),
         quickLinks: mapLinks(r.quickLinks),
+        categoriesHeading: r.categoriesHeading ?? "",
+        quickLinksHeading: r.quickLinksHeading ?? "",
+      }),
+    );
+}
+
+/** Social repeater rows. Rows without a link are dropped. */
+function mapSocial(rows: any): SocialLink[] {
+  return (rows ?? [])
+    .filter((r: any) => r?.href)
+    .map(
+      (r: any): SocialLink => ({
+        platform: r.platform ?? "",
+        href: r.href,
+        icon: mapMedia(r.icon?.node),
       }),
     );
 }
@@ -261,8 +277,6 @@ export function mapSiteSettings(data: any): SiteSettings {
       skipToContent: s.skipToContentLabel ?? "",
       menuOpen: s.menuOpenLabel ?? "",
       menuClose: s.menuCloseLabel ?? "",
-      navCategories: s.navCategoriesLabel ?? "",
-      navQuickLinks: s.navQuickLinksLabel ?? "",
     },
     footer: {
       copyright: s.footerCopyright ?? "",
@@ -271,7 +285,7 @@ export function mapSiteSettings(data: any): SiteSettings {
     work: mapWorkCopy(s.work),
     navigation: mapNavigation(s.navigation),
     footerLinks: mapLinks(s.footerLinks),
-    social: s.social ?? [],
+    social: mapSocial(s.social),
   };
 }
 

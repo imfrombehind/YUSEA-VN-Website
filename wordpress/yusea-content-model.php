@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: Registers the Project and Report post types, the Pillar taxonomy and their ACF fields, and adds the v2 fields to the existing Homepage and Site Settings field groups. Everything is exposed to WPGraphQL with the names the Next.js frontend queries.
- * Version:     1.0.0
+ * Version:     1.2.0
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.0.0';
+const YUSEA_CM_VERSION = '1.2.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -233,8 +233,6 @@ function yusea_cm_additions() {
         ],
         'siteSettingsFields' => [
             'fields' => [
-                yusea_cm_label('nav_categories_label', 'navCategoriesLabel', 'Dropdown heading: categories', 'Browse by focus'),
-                yusea_cm_label('nav_quick_links_label', 'navQuickLinksLabel', 'Dropdown heading: quick links', 'Quick links'),
                 yusea_cm_field('work', 'work', 'Work pages', 'group', [
                     'layout'     => 'block',
                     'sub_fields' => [
@@ -267,8 +265,18 @@ function yusea_cm_additions() {
             // Sub-fields to add inside an existing repeater, keyed by its GraphQL name.
             'inside' => [
                 'navigation' => [
+                    // Per-item column headings, e.g. Projects: "By focus", Publications: "By type".
+                    yusea_cm_label('nav_categories_heading', 'categoriesHeading', 'Dropdown heading: categories', 'Categories'),
+                    yusea_cm_label('nav_quick_links_heading', 'quickLinksHeading', 'Dropdown heading: quick links', 'Quick links'),
                     yusea_cm_link_rows('nav_categories', 'categories', 'Dropdown: categories'),
                     yusea_cm_link_rows('nav_quick_links', 'quickLinks', 'Dropdown: quick links'),
+                ],
+                'social' => [
+                    yusea_cm_field('social_icon', 'icon', 'Icon', 'image', [
+                        'instructions'  => 'Optional. Square, shown at 20×20 (upload 64×64 or larger, PNG or SVG). Leave empty to use the built-in LinkedIn / Facebook / Instagram icon.',
+                        'return_format' => 'array',
+                        'preview_size'  => 'thumbnail',
+                    ]),
                 ],
             ],
         ],
@@ -315,15 +323,37 @@ function yusea_cm_create_field($field, $parent_id, $menu_order) {
     return $saved;
 }
 
+/**
+ * A field this plugin created (key "field_yusea_…") must be visible to
+ * WPGraphQL under the name the frontend queries. Fields made by hand are
+ * never touched. Returns true if it had to fix something.
+ */
+function yusea_cm_repair_graphql($field, $graphql_name) {
+    if (strpos($field['key'] ?? '', 'field_yusea_') !== 0 || empty($field['ID'])) {
+        return false;
+    }
+    $exposed = !isset($field['show_in_graphql']) || !empty($field['show_in_graphql']);
+    if ($exposed && ($field['graphql_field_name'] ?? '') === $graphql_name) {
+        return false;
+    }
+    $field['show_in_graphql']    = 1;
+    $field['graphql_field_name'] = $graphql_name;
+    acf_update_field($field);
+    return true;
+}
+
 /** Adds each missing field to `$parent` (a field group or a repeater). */
 function yusea_cm_add_missing($parent, $wanted, $where, &$log) {
     $existing = acf_get_fields($parent) ?: [];
     $order    = count($existing);
 
     foreach ($wanted as $field) {
-        $name = $field['graphql_field_name'];
-        if (yusea_cm_find_by_graphql_name($existing, $name, 'name')) {
-            $log[] = "$where.$name already exists — left as is.";
+        $name  = $field['graphql_field_name'];
+        $found = yusea_cm_find_by_graphql_name($existing, $name, 'name');
+        if ($found) {
+            $log[] = yusea_cm_repair_graphql($found, $name)
+                ? "$where.$name existed but was hidden from GraphQL — now exposed as \"$name\"."
+                : "$where.$name already exists — left as is.";
             continue;
         }
         yusea_cm_create_field($field, $parent['ID'], $order++);
