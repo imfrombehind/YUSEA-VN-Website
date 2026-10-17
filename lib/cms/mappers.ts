@@ -246,12 +246,21 @@ export function mapReportDetail(data: any): ReportDetail | null {
 }
 
 export function mapPageDetail(data: any): PageDetail | null {
-  if (!data?.page) return null;
+  const page = data?.page;
+  if (!page) return null;
+  const hub = page.workHubFields ?? {};
   return {
-    title: decodeEntities(data.page.title ?? ""),
-    excerpt: plainText(data.page.excerpt),
-    content: data.page.content ?? "",
-    image: mapMedia(data.page.featuredImage?.node),
+    title: decodeEntities(page.title ?? ""),
+    excerpt: plainText(page.excerpt),
+    content: page.content ?? "",
+    image: mapMedia(page.featuredImage?.node),
+    eyebrow: page.indexPageFields?.eyebrow ?? "",
+    workHub: {
+      projectsHeading: hub.projectsHeading ?? "",
+      publicationsHeading: hub.publicationsHeading ?? "",
+      viewAllProjects: hub.viewAllProjectsLabel ?? "",
+      viewAllPublications: hub.viewAllPublicationsLabel ?? "",
+    },
   };
 }
 

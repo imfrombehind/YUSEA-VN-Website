@@ -4,6 +4,7 @@ import { ProjectCard } from "@/components/work/ProjectCard";
 import { PublicationCard } from "@/components/work/PublicationCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import {
+  getIndexPage,
   getPillars,
   getProjects,
   getPublications,
@@ -20,16 +21,16 @@ type Props = {
 const PREVIEW = 6;
 
 export async function generateMetadata({ searchParams }: Props) {
-  const [{ work }, pillars, params] = await Promise.all([
-    getSiteSettings(),
+  const [hub, pillars, params] = await Promise.all([
+    getIndexPage("/work"),
     getPillars(),
     searchParams,
   ]);
   const active = pillars.find((p) => p.slug === firstParam(params.pillar));
 
   return pageMetadata({
-    title: active ? `${active.name} | ${work.hub.heading}` : work.hub.heading,
-    description: active?.description || work.hub.intro,
+    title: active ? `${active.name} | ${hub.heading}` : hub.heading,
+    description: active?.description || hub.intro,
     path: active ? pillarHref(active.slug) : "/work",
   });
 }
@@ -43,7 +44,8 @@ export async function generateMetadata({ searchParams }: Props) {
  * route dynamic; the WPGraphQL fetches underneath are still cached.
  */
 export default async function WorkPage({ searchParams }: Props) {
-  const [{ work }, pillars, projects, publications, params] = await Promise.all([
+  const [hub, { work }, pillars, projects, publications, params] = await Promise.all([
+    getIndexPage("/work"),
     getSiteSettings(),
     getPillars(),
     getProjects(),
@@ -62,9 +64,9 @@ export default async function WorkPage({ searchParams }: Props) {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
           as="h1"
-          eyebrow={active ? work.hub.heading : work.hub.eyebrow}
-          title={active?.name ?? work.hub.heading}
-          body={(active?.description || work.hub.intro) || undefined}
+          eyebrow={active ? hub.heading : hub.eyebrow}
+          title={active?.name ?? hub.heading}
+          body={(active?.description || hub.intro) || undefined}
           accent="blue"
         />
 
@@ -82,9 +84,9 @@ export default async function WorkPage({ searchParams }: Props) {
         />
 
         <WorkSection
-          heading={work.projectsHeading}
+          heading={hub.sections.projectsHeading}
           viewAll={{
-            label: work.viewAllProjects,
+            label: hub.sections.viewAllProjects,
             href: withQuery("/work/projects", { pillar }),
           }}
           empty={shownProjects.length === 0 ? work.emptyText : undefined}
@@ -97,9 +99,9 @@ export default async function WorkPage({ searchParams }: Props) {
         </WorkSection>
 
         <WorkSection
-          heading={work.publicationsHeading}
+          heading={hub.sections.publicationsHeading}
           viewAll={{
-            label: work.viewAllPublications,
+            label: hub.sections.viewAllPublications,
             href: withQuery("/work/publications", { pillar }),
           }}
           empty={shownPublications.length === 0 ? work.emptyText : undefined}

@@ -73,6 +73,13 @@ that have bitten this repo:
 - Publications = WP posts (`kind: "blog"`) + the `report` CPT
   (`kind: "report"`), merged newest first by `getPublications()`.
 - The homepage is exactly `HeroSection`, `ImpactSection`, `OurFocusSection`.
+- `/work`, `/work/projects` and `/work/publications` take their heading
+  (page title), intro (excerpt) and eyebrow from the WP page at the same
+  path via `getIndexPage()`, falling back to Site Settings `work`.
+- `wordpress/yusea-content-model.php` is the whole WordPress side: types,
+  fields, index pages, editor layouts, frontend View links, and Tools →
+  YUSEA Setup (status + starter content). Its starter data is generated from
+  the mocks; regenerate it if the mocks change meaningfully.
 
 ## Design
 

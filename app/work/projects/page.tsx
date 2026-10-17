@@ -1,7 +1,7 @@
 import { FilterChips } from "@/components/work/FilterChips";
 import { ProjectCard } from "@/components/work/ProjectCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { getPillars, getProjects, getSiteSettings } from "@/lib/cms";
+import { getIndexPage, getPillars, getProjects, getSiteSettings } from "@/lib/cms";
 import { byPillar, firstParam, pillarHref } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
 
@@ -10,17 +10,18 @@ type Props = {
 };
 
 export async function generateMetadata() {
-  const { work } = await getSiteSettings();
+  const copy = await getIndexPage("/work/projects");
   return pageMetadata({
-    title: work.projects.heading,
-    description: work.projects.intro,
+    title: copy.heading,
+    description: copy.intro,
     path: "/work/projects",
   });
 }
 
 /** Every project, optionally narrowed with ?pillar=<slug> (the header dropdown links). */
 export default async function ProjectsPage({ searchParams }: Props) {
-  const [{ work }, pillars, projects] = await Promise.all([
+  const [copy, { work }, pillars, projects] = await Promise.all([
+    getIndexPage("/work/projects"),
     getSiteSettings(),
     getPillars(),
     getProjects(),
@@ -35,9 +36,9 @@ export default async function ProjectsPage({ searchParams }: Props) {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
           as="h1"
-          eyebrow={work.projects.eyebrow}
-          title={work.projects.heading}
-          body={work.projects.intro || undefined}
+          eyebrow={copy.eyebrow}
+          title={copy.heading}
+          body={copy.intro || undefined}
           accent="blue"
         />
 

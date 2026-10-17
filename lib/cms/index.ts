@@ -46,6 +46,7 @@ import {
 } from "./queries";
 import type {
   Homepage,
+  IndexPage,
   PageDetail,
   Pillar,
   Post,
@@ -238,6 +239,32 @@ export function getPageByUri(uri: string): Promise<PageDetail | null> {
     mock: mockPage(uri),
     map: mapPageDetail,
   });
+}
+
+/**
+ * Copy for /work, /work/projects or /work/publications. The WP page of the
+ * same path wins (title = heading, excerpt = intro, ACF eyebrow and section
+ * labels); any field it leaves empty — or a missing page — falls back to
+ * the Site Settings `work` group, so the page never renders blank.
+ */
+export async function getIndexPage(
+  uri: "/work" | "/work/projects" | "/work/publications",
+): Promise<IndexPage> {
+  const [page, { work }] = await Promise.all([getPageByUri(uri), getSiteSettings()]);
+  const fallback =
+    uri === "/work" ? work.hub : uri === "/work/projects" ? work.projects : work.publications;
+
+  return {
+    eyebrow: page?.eyebrow || fallback.eyebrow,
+    heading: page?.title || fallback.heading,
+    intro: page?.excerpt || fallback.intro,
+    sections: {
+      projectsHeading: page?.workHub.projectsHeading || work.projectsHeading,
+      publicationsHeading: page?.workHub.publicationsHeading || work.publicationsHeading,
+      viewAllProjects: page?.workHub.viewAllProjects || work.viewAllProjects,
+      viewAllPublications: page?.workHub.viewAllPublications || work.viewAllPublications,
+    },
+  };
 }
 
 export * from "./types";

@@ -11,6 +11,8 @@
  *   Project CPT   -> projectFields      { latitude longitude city province status metrics heroImage }
  *   Report CPT    -> reportFields       { file }
  *   Pillar term   -> pillarFields       { image }
+ *   Index pages   -> indexPageFields    { eyebrow }   (Work, Projects, Publications)
+ *   Work page     -> workHubFields      { projectsHeading … }
  *   Options page  -> siteSettings { siteSettingsFields { ... } }
  *
  * The `pillar` taxonomy is attached to Projects, Reports and Posts.
@@ -267,6 +269,15 @@ export const PAGE_BY_URI_QUERY = /* GraphQL */ `
         node {
           ...MediaFields
         }
+      }
+      indexPageFields {
+        eyebrow
+      }
+      workHubFields {
+        projectsHeading
+        publicationsHeading
+        viewAllProjectsLabel
+        viewAllPublicationsLabel
       }
     }
   }

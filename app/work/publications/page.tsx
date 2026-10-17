@@ -1,7 +1,7 @@
 import { FilterChips } from "@/components/work/FilterChips";
 import { PublicationCard } from "@/components/work/PublicationCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { getPillars, getPublications, getSiteSettings } from "@/lib/cms";
+import { getIndexPage, getPillars, getPublications, getSiteSettings } from "@/lib/cms";
 import type { Publication } from "@/lib/cms/types";
 import { byPillar, firstParam, withQuery } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
@@ -16,10 +16,10 @@ type Props = {
 const KINDS: Publication["kind"][] = ["report", "blog"];
 
 export async function generateMetadata() {
-  const { work } = await getSiteSettings();
+  const copy = await getIndexPage("/work/publications");
   return pageMetadata({
-    title: work.publications.heading,
-    description: work.publications.intro,
+    title: copy.heading,
+    description: copy.intro,
     path: "/work/publications",
   });
 }
@@ -29,7 +29,8 @@ export async function generateMetadata() {
  * ?type=report|blog and ?pillar=<slug>. Each chip row keeps the other's value.
  */
 export default async function PublicationsPage({ searchParams }: Props) {
-  const [{ work }, pillars, publications] = await Promise.all([
+  const [copy, { work }, pillars, publications] = await Promise.all([
+    getIndexPage("/work/publications"),
     getSiteSettings(),
     getPillars(),
     getPublications(),
@@ -50,9 +51,9 @@ export default async function PublicationsPage({ searchParams }: Props) {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
           as="h1"
-          eyebrow={work.publications.eyebrow}
-          title={work.publications.heading}
-          body={work.publications.intro || undefined}
+          eyebrow={copy.eyebrow}
+          title={copy.heading}
+          body={copy.intro || undefined}
           accent="blue"
         />
 

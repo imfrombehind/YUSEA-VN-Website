@@ -141,6 +141,26 @@ notice lists what was added. The plugin:
   fields must be added by hand.
 - Gives every label field default wording (the mock copy), so pages have
   text before editors fill anything in.
+- Creates the **Work**, **Projects** and **Publications** pages (`/work`,
+  `/work/projects`, `/work/publications`) if missing. On each, the page
+  **title** is the heading, the **excerpt** the intro, and `indexPageFields`
+  → `eyebrow` the eyebrow; the Work page also gets `workHubFields`
+  (`projectsHeading`, `publicationsHeading`, `viewAllProjectsLabel`,
+  `viewAllPublicationsLabel`). Anything left empty falls back to the Site
+  Settings `work` group (`getIndexPage()` in `lib/cms`).
+- Opens new Projects, Reports and Posts with a **block layout** (e.g.
+  "The challenge / What we are doing / Results so far").
+- Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in
+  `wp-config.php`). Only published content: Preview of drafts stays on
+  WordPress, as the frontend has no draft mode yet.
+- Adds **Tools → YUSEA Setup**: a status checklist (frontend URL, plugins,
+  front page, pages, pillars, social links) and a **Create starter content**
+  button. It creates and **publishes immediately** the three pillars (photos
+  from Unsplash) and the mock site's 4 projects, 3 reports, 6 posts and About
+  page, keeping the mock dates — **the sample text is public until replaced**,
+  including the "This is mock content." lines and "PLACEHOLDER" metric
+  sources. Starter drafts from an earlier run get published. It adds LinkedIn/Facebook/Instagram rows only if there are no social
+  links. It never changes navigation and skips anything that exists by slug.
 
 Then check the live schema, which must pass before a build can:
 

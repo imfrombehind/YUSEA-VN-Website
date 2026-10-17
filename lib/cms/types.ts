@@ -120,6 +120,26 @@ export type PageDetail = {
   excerpt: string;
   content: string;
   image?: Media;
+  /** ACF `indexPageFields` — on the Work, Projects and Publications pages. */
+  eyebrow: string;
+  /** ACF `workHubFields` — on the Work page only; "" elsewhere. */
+  workHub: WorkHubSections;
+};
+
+/** The two section headings and "view all" links on /work. */
+export type WorkHubSections = {
+  projectsHeading: string;
+  publicationsHeading: string;
+  viewAllProjects: string;
+  viewAllPublications: string;
+};
+
+/**
+ * Copy for a /work index page. Comes from its WP page (title = heading,
+ * excerpt = intro), falling back to the Site Settings `work` group.
+ */
+export type IndexPage = IndexCopy & {
+  sections: WorkHubSections;
 };
 
 /** One social profile link, in the header and footer. */

@@ -14,7 +14,44 @@
               "height": 1260
             }
           }
+        },
+        "indexPageFields": null,
+        "workHubFields": null
+      },
+      "/work": {
+        "title": "Projects and publications",
+        "excerpt": "<p>Everything YUSEA is working on, and everything we have published. Filter by focus area to see one pillar at a time.</p>\n",
+        "content": "",
+        "featuredImage": null,
+        "indexPageFields": {
+          "eyebrow": "Our work"
+        },
+        "workHubFields": {
+          "projectsHeading": "Projects",
+          "publicationsHeading": "Publications",
+          "viewAllProjectsLabel": "All projects",
+          "viewAllPublicationsLabel": "All publications"
         }
+      },
+      "/work/projects": {
+        "title": "Projects",
+        "excerpt": "<p>Programmes we run with provinces, cities and communities across Viet Nam.</p>\n",
+        "content": "",
+        "featuredImage": null,
+        "indexPageFields": {
+          "eyebrow": "Our work"
+        },
+        "workHubFields": null
+      },
+      "/work/publications": {
+        "title": "Publications",
+        "excerpt": "<p>Research reports and writing from the YUSEA team.</p>\n",
+        "content": "",
+        "featuredImage": null,
+        "indexPageFields": {
+          "eyebrow": "Our work"
+        },
+        "workHubFields": null
       }
     }
   }
