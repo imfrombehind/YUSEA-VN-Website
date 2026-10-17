@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.7.0
+ * Version:     1.7.1
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.7.0';
+const YUSEA_CM_VERSION = '1.7.1';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -614,7 +614,6 @@ add_action('acf/init', function () {
             ]),
             yusea_cm_field('about_focus', 'focus', 'Our focus', 'group', [
                 'layout'       => 'block',
-                'instructions' => 'The cards are the same three as on the homepage. Edit their titles, text and photos under Our Focus in the left menu.',
                 'sub_fields'   => [
                     yusea_cm_label('about_focus_heading', 'heading', 'Heading', 'Our focus'),
                     yusea_cm_field('about_focus_intro', 'intro', 'Intro', 'textarea', ['rows' => 2, 'instructions' => 'Optional.']),
@@ -1979,6 +1978,21 @@ add_action('admin_menu', function () {
     if (taxonomy_exists('pillar')) {
         add_menu_page('Our Focus', 'Our Focus', 'manage_categories', 'yusea-focus', 'yusea_cm_focus_page', 'dashicons-grid-view', 22);
     }
+});
+
+// The Our Focus boxes on the homepage and About page hold only the section
+// copy; the cards themselves are edited on the Our Focus screen. Link there.
+add_filter('acf/prepare_field', function ($field) {
+    if (!is_array($field) || !taxonomy_exists('pillar')) {
+        return $field;
+    }
+    if (($field['key'] ?? '') === 'field_yusea_about_focus' || ($field['type'] === 'group' && $field['name'] === 'ourFocus')) {
+        $field['instructions'] = 'The heading, intro and link label below are for this page. The three cards (title, text, photo) are shared with the '
+            . (($field['name'] === 'ourFocus') ? 'About page' : 'homepage')
+            . ' and edited on their own screen.<br><a class="button button-secondary" style="margin-top:8px" href="'
+            . esc_url(admin_url('admin.php?page=yusea-focus')) . '">Edit the focus cards &rarr;</a>';
+    }
+    return $field;
 });
 
 add_action('admin_enqueue_scripts', function ($hook) {

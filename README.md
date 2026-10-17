@@ -168,6 +168,8 @@ notice lists what was added. The plugin:
   pillars) on one screen, in site order, each with title, text and a photo
   slot that shows a placeholder until a photo is chosen. Saving purges
   `pillars`, which refreshes the homepage and /about.
+  v1.7.1 adds an **Edit the focus cards** button to the Our Focus boxes on
+  the Home and About pages, linking to that screen.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
 - Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in
