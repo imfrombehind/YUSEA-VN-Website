@@ -8,7 +8,7 @@ import { NextResponse, type NextRequest } from "next/server";
  *   add_action('save_post', fn($id, $post) => wp_remote_post(...));
  *
  * Expected body:
- *   { "secret": "…", "tags": ["projects"], "paths": ["/projects/can-tho"] }
+ *   { "secret": "…", "tags": ["projects"], "paths": ["/work/projects/can-tho"] }
  *
  * The secret is compared in constant time so this endpoint cannot be used as
  * an oracle to recover it one character at a time.
@@ -16,8 +16,16 @@ import { NextResponse, type NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-/** Everything the homepage depends on, purged when no target is given. */
-const PURGE_TAGS = ["homepage", "site-settings", "projects", "posts"] as const;
+/** Every cache tag in lib/cms, purged when no target is given. */
+const PURGE_TAGS = [
+  "homepage",
+  "site-settings",
+  "pillars",
+  "projects",
+  "reports",
+  "posts",
+  "pages",
+] as const;
 
 function safeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
@@ -61,7 +69,7 @@ export async function POST(request: NextRequest) {
   const tags = body.tags ?? [];
   const paths = body.paths ?? [];
 
-  // With no explicit target, purge everything the homepage depends on.
+  // With no explicit target, purge everything.
   if (tags.length === 0 && paths.length === 0) {
     PURGE_TAGS.forEach((tag) => revalidateTag(tag, "max"));
     revalidatePath("/");

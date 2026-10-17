@@ -9,7 +9,7 @@ import type { Homepage } from "@/lib/cms/types";
  * Until an ACF hero image exists, this degrades to a dark gradient ground
  * rather than a broken image.
  */
-export function Hero({ hero }: { hero: Homepage["hero"] }) {
+export function HeroSection({ hero }: { hero: Homepage["hero"] }) {
   const hasImage = Boolean(hero.background.url);
 
   return (
@@ -44,7 +44,7 @@ export function Hero({ hero }: { hero: Homepage["hero"] }) {
 
       <div className="relative mx-auto flex min-h-[clamp(520px,72vh,760px)] max-w-[1400px] flex-col justify-center px-6 py-24 lg:px-10">
         <div className="max-w-3xl">
-          <h1 className="text-[clamp(2.5rem,6.5vw,5rem)] text-white">
+          <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] tracking-tight text-white">
             {hero.headline}
           </h1>
 
@@ -53,7 +53,7 @@ export function Hero({ hero }: { hero: Homepage["hero"] }) {
           </p>
 
           <div className="mt-10">
-            <ButtonLink href={hero.cta.href} variant="sun">
+            <ButtonLink href={hero.cta.href} variant="sun" className="px-7 py-3.5 text-base">
               {hero.cta.label}
             </ButtonLink>
           </div>

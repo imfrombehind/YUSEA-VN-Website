@@ -7,23 +7,37 @@
  */
 
 import homepage from "./homepage.json";
+import pages from "./pages.json";
+import pillars from "./pillars.json";
 import posts from "./posts.json";
 import projects from "./projects.json";
+import reports from "./reports.json";
 import siteSettings from "./site-settings.json";
 
 /** POSTS_QUERY / POST_BY_SLUG_QUERY source. */
 export const mockPosts = posts.data;
 
-/** HOMEPAGE_QUERY: page ACF fields + the newest posts, as one response. */
-export function mockHomepage(postsFirst = 3) {
-  return {
-    pageData: homepage.data.pageData,
-    posts: { nodes: posts.data.posts.nodes.slice(0, postsFirst) },
-  };
+/** PILLARS_QUERY: every pillar term, in admin order. */
+export function mockPillars(pillarsFirst = 20) {
+  return { pillars: { nodes: pillars.data.pillars.nodes.slice(0, pillarsFirst) } };
 }
 
-/** PROJECTS_QUERY */
+/** HOMEPAGE_QUERY: page ACF fields + the first pillars, as one response. */
+export function mockHomepage(pillarsFirst = 3) {
+  return { pageData: homepage.data.pageData, ...mockPillars(pillarsFirst) };
+}
+
+/** PROJECTS_QUERY / PROJECT_BY_SLUG_QUERY source. */
 export const mockProjects = projects.data;
+
+/** REPORTS_QUERY / REPORT_BY_SLUG_QUERY source. */
+export const mockReports = reports.data;
+
+/** PAGE_BY_URI_QUERY: pages keyed by URI, e.g. "/about". */
+export function mockPage(uri: string) {
+  const byUri: Record<string, unknown> = pages.data.pages;
+  return { page: byUri[uri] ?? null };
+}
 
 /** SITE_SETTINGS_QUERY */
 export const mockSiteSettings = siteSettings.data;

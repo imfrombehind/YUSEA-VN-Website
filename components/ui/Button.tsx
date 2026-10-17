@@ -7,8 +7,7 @@ const VARIANTS: Record<Variant, string> = {
   coral: "bg-coral text-white hover:bg-coral-600",
   ink: "bg-ink text-white hover:bg-muted",
   sun: "bg-sun text-ink hover:bg-sun-600",
-  outline:
-    "bg-transparent text-current ring-2 ring-current hover:bg-current/10",
+  outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-50",
 };
 
 type ButtonLinkProps = {
@@ -16,10 +15,7 @@ type ButtonLinkProps = {
   variant?: Variant;
 } & Omit<ComponentProps<typeof Link>, "href">;
 
-/**
- * Square-cornered by design: the reference aesthetic is color-blocked and
- * geometric, so no border radius anywhere.
- */
+/** Pill-shaped, sentence-case CTA. `outline` is the Our Focus button. */
 export function ButtonLink({
   href,
   variant = "coral",
@@ -33,7 +29,7 @@ export function ButtonLink({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 px-7 py-3.5 font-display text-sm font-bold uppercase tracking-[0.12em] transition-colors ${VARIANTS[variant]} ${className}`}
+      className={`inline-flex items-center gap-2 rounded-full px-6 py-2.5 font-display text-sm font-semibold transition-colors ${VARIANTS[variant]} ${className}`}
       {...rest}
     >
       {children}

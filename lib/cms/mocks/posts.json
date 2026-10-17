@@ -8,7 +8,7 @@
           "title": "Planning Ho Chi Minh City&#8217;s riverfront for the next generation",
           "excerpt": "<p>How the Saigon River edge could balance new development with public space, flood protection and access for the neighbourhoods behind it.</p>\n",
           "date": "2026-09-28T09:00:00",
-          "content": "<p>How the Saigon River edge could balance new development with public space, flood protection and access for the neighbourhoods behind it.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/projects\">our projects</a>.</p>\n",
+          "content": "<p>How the Saigon River edge could balance new development with public space, flood protection and access for the neighbourhoods behind it.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/work/projects\">our projects</a>.</p>\n",
           "featuredImage": {
             "node": {
               "sourceUrl": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1600&q=80&auto=format&fit=crop",
@@ -25,6 +25,18 @@
                 "name": "Mock data"
               }
             ]
+          },
+          "pillars": {
+            "nodes": [
+              {
+                "slug": "urban-mobility",
+                "name": "Urban mobility"
+              },
+              {
+                "slug": "liveable-neighbourhoods",
+                "name": "Liveable neighbourhoods"
+              }
+            ]
           }
         },
         {
@@ -33,7 +45,7 @@
           "title": "Keeping street life at the heart of Ha Noi&#8217;s Old Quarter",
           "excerpt": "<p>Narrow streets, shopfront homes and shared spaces are what make the Old Quarter work. We look at how regeneration can protect them.</p>\n",
           "date": "2026-09-21T09:00:00",
-          "content": "<p>Narrow streets, shopfront homes and shared spaces are what make the Old Quarter work. We look at how regeneration can protect them.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/projects\">our projects</a>.</p>\n",
+          "content": "<p>Narrow streets, shopfront homes and shared spaces are what make the Old Quarter work. We look at how regeneration can protect them.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/work/projects\">our projects</a>.</p>\n",
           "featuredImage": {
             "node": {
               "sourceUrl": "https://images.unsplash.com/photo-1555921015-5532091f6026?w=1600&q=80&auto=format&fit=crop",
@@ -50,6 +62,14 @@
                 "name": "Mock data"
               }
             ]
+          },
+          "pillars": {
+            "nodes": [
+              {
+                "slug": "liveable-neighbourhoods",
+                "name": "Liveable neighbourhoods"
+              }
+            ]
           }
         },
         {
@@ -58,7 +78,7 @@
           "title": "Tourism, livelihoods and resilience around Ha Long Bay",
           "excerpt": "<p>Coastal provinces depend on visitors and on healthy ecosystems. Planning has to serve both at once.</p>\n",
           "date": "2026-09-14T09:00:00",
-          "content": "<p>Coastal provinces depend on visitors and on healthy ecosystems. Planning has to serve both at once.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/projects\">our projects</a>.</p>\n",
+          "content": "<p>Coastal provinces depend on visitors and on healthy ecosystems. Planning has to serve both at once.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/work/projects\">our projects</a>.</p>\n",
           "featuredImage": {
             "node": {
               "sourceUrl": "https://images.unsplash.com/photo-1528127269322-539801943592?w=1600&q=80&auto=format&fit=crop",
@@ -75,6 +95,14 @@
                 "name": "Mock data"
               }
             ]
+          },
+          "pillars": {
+            "nodes": [
+              {
+                "slug": "climate-resilience",
+                "name": "Climate resilience"
+              }
+            ]
           }
         },
         {
@@ -83,7 +111,7 @@
           "title": "Growing up in a growing city: housing and density in the north",
           "excerpt": "<p>New towers are reshaping the skyline. We ask what it takes to make high-density districts liveable at street level.</p>\n",
           "date": "2026-09-07T09:00:00",
-          "content": "<p>New towers are reshaping the skyline. We ask what it takes to make high-density districts liveable at street level.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/projects\">our projects</a>.</p>\n",
+          "content": "<p>New towers are reshaping the skyline. We ask what it takes to make high-density districts liveable at street level.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/work/projects\">our projects</a>.</p>\n",
           "featuredImage": {
             "node": {
               "sourceUrl": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1600&q=80&auto=format&fit=crop",
@@ -100,6 +128,14 @@
                 "name": "Mock data"
               }
             ]
+          },
+          "pillars": {
+            "nodes": [
+              {
+                "slug": "liveable-neighbourhoods",
+                "name": "Liveable neighbourhoods"
+              }
+            ]
           }
         },
         {
@@ -108,7 +144,7 @@
           "title": "Da Nang&#8217;s hills: managing visitors and landscape together",
           "excerpt": "<p>Landmark attractions bring investment to the central coast. Regional plans decide whether the surrounding landscape benefits too.</p>\n",
           "date": "2026-08-31T09:00:00",
-          "content": "<p>Landmark attractions bring investment to the central coast. Regional plans decide whether the surrounding landscape benefits too.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/projects\">our projects</a>.</p>\n",
+          "content": "<p>Landmark attractions bring investment to the central coast. Regional plans decide whether the surrounding landscape benefits too.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/work/projects\">our projects</a>.</p>\n",
           "featuredImage": {
             "node": {
               "sourceUrl": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=1600&q=80&auto=format&fit=crop",
@@ -125,6 +161,14 @@
                 "name": "Mock data"
               }
             ]
+          },
+          "pillars": {
+            "nodes": [
+              {
+                "slug": "urban-mobility",
+                "name": "Urban mobility"
+              }
+            ]
           }
         },
         {
@@ -133,7 +177,7 @@
           "title": "Heritage landscapes and the case for slower growth in Ninh Binh",
           "excerpt": "<p>Some places gain the most by changing least. A look at protecting heritage landscapes while supporting local incomes.</p>\n",
           "date": "2026-08-24T09:00:00",
-          "content": "<p>Some places gain the most by changing least. A look at protecting heritage landscapes while supporting local incomes.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/projects\">our projects</a>.</p>\n",
+          "content": "<p>Some places gain the most by changing least. A look at protecting heritage landscapes while supporting local incomes.</p>\n<p><strong>This is mock content.</strong> It stands in for a WordPress post body until cms.yuseavietnam.com is live, so the article layout can be reviewed with realistic markup.</p>\n<h2>Why it matters</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. Body copy here exists to test headings, paragraphs, lists and links rendered from the WordPress block editor.</p>\n<ul>\n<li>A first point for list styling</li>\n<li>A second point for list styling</li>\n<li>A third point for list styling</li>\n</ul>\n<h3>What comes next</h3>\n<p>Read more about <a href=\"/work/projects\">our projects</a>.</p>\n",
           "featuredImage": {
             "node": {
               "sourceUrl": "https://images.unsplash.com/photo-1557750255-c76072a7aad1?w=1600&q=80&auto=format&fit=crop",
@@ -148,6 +192,14 @@
             "nodes": [
               {
                 "name": "Mock data"
+              }
+            ]
+          },
+          "pillars": {
+            "nodes": [
+              {
+                "slug": "climate-resilience",
+                "name": "Climate resilience"
               }
             ]
           }

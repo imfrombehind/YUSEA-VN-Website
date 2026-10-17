@@ -1,12 +1,12 @@
 # YUSEA — Headless WordPress + Next.js
 
 Frontend for the YUSEA regional development platform. Next.js 16 (App Router,
-React Server Components), Tailwind v4, MapLibre GL.
+React Server Components), Tailwind v4.
 
 **The site runs today with no CMS.** Content comes from mock WPGraphQL
 responses in `lib/cms/mocks/` until WordPress is ready on
 `cms.yuseavietnam.com`. **No visible text or image is written in a component**
-— everything comes from ACF fields, posts, or (for the map) the projects CSV. See [Connecting
+— everything comes from ACF fields or posts. See [Connecting
 WordPress](#connecting-wordpress).
 
 ```bash
@@ -17,25 +17,30 @@ npm run build
 
 Before going live, work through [CHECKLIST.md](CHECKLIST.md) — the
 pre-launch audit (SEO, accessibility, performance, error handling, ops).
+[CLAUDE.md](CLAUDE.md) is the short version of this file for AI coding
+agents: commands, Next 16 gotchas and the rules below.
 
 ## Layout
 
 ```
 app/
   layout.tsx               Fonts, header/footer, skip link, default metadata
-  page.tsx                 Homepage — composes the five spec sections
+  page.tsx                 Homepage — HeroSection, ImpactSection, OurFocusSection
   not-found.tsx            Branded 404 (copy from the options page)
   error.tsx                Runtime error fallback, inside header/footer
   global-error.tsx         Last resort when the root layout itself fails
   robots.ts / sitemap.ts   robots.txt (closed on previews) and sitemap.xml
-  blog/page.tsx            Blog index (WP posts)
-  blog/[slug]/page.tsx     Single post
+  about/page.tsx           The WP page at /about
+  work/page.tsx            Hub: projects + publications, filtered by ?pillar=<slug>
+  work/projects/           All projects index (?pillar=) and [slug] template
+  work/publications/       All publications index (?type=, ?pillar=),
+                           reports/[slug] and blog/[slug] templates
   globals.css              Design tokens (this IS the Tailwind config)
   api/revalidate/route.ts  On-demand ISR purge, called by a WP webhook
 components/
-  layout/                  Header (slash nav), Footer, Logo, SocialIcons
-  home/                    Hero, StatsBand, MissionGrid, ProjectsSection, VietnamMap, LatestPosts, Partners
-  blog/                    PostCard (shared by /blog and the homepage)
+  layout/                  Header (CSS hover dropdowns), MobileNav, Footer, Logo, SocialIcons
+  home/                    HeroSection, ImpactSection, OurFocusSection
+  work/                    ProjectCard, PublicationCard, FilterChips, PillarTags, Prose
   ui/                      ButtonLink, SectionHeading, Eyebrow (accent bar + label)
 lib/
   cms/
@@ -45,15 +50,26 @@ lib/
     client.ts              Transport (fetch + ISR tags)
     mappers.ts             WPGraphQL response → domain model
     mocks/                 Mock WPGraphQL responses, one JSON per query
-  projects-csv.ts          CSV → typed nodes → GeoJSON
+  routes.ts                URL builders for /work, and the pillar filter
+  format.ts                Date formatting
   seo.ts                   siteUrl(), pageMetadata() — canonical + Open Graph per page
-public/data/projects.csv   Map data source
 wordpress/
   yusea-revalidate.php     WP plugin: pings /api/revalidate on publish
+prompt/                    The rebuild brief this structure implements
+CLAUDE.md                  Working notes for AI coding agents
+CHECKLIST.md               Pre-launch audit
 ```
 
-Section IDs match the spec: `#homepage-hero`, `#homepage-section-1` … `-4`,
-plus `#homepage-latest-posts`.
+Homepage section IDs: `#homepage-hero`, `#homepage-impact`, `#homepage-focus`.
+
+**Pillars and the /work filter.** A custom taxonomy `pillar` (the "hashtag"
+for the three focus areas) is attached to Projects, Reports and Posts. The
+homepage Our Focus cards are its first three terms; each card's "Explore
+more" links to `/work?pillar=<term slug>`. `/work` is a Server Component that
+reads `searchParams` and keeps only items tagged with that pillar. WPGraphQL
+has no taxonomy filter on connections without an extension, so the filtering
+runs over the fetched list (`byPillar()` in `lib/routes.ts`); move it into
+the query if the lists grow past ~100 items. An unknown slug shows everything.
 
 ## Connecting WordPress
 
@@ -88,6 +104,15 @@ flipping the switch — WPGraphQL rejects the whole query if one is missing.
 
 Plugins: WPGraphQL, ACF Pro, WPGraphQL for ACF, Custom Post Type UI.
 
+In CPT UI, with **Show in GraphQL** on for each:
+
+- **Post type `project`** (GraphQL `project` / `projects`), with editor and excerpt.
+- **Post type `report`** (GraphQL `report` / `reports`), with editor, excerpt and featured image.
+- **Taxonomy `pillar`** (GraphQL `pillar` / `pillars`), attached to `post`,
+  `project` and `report`. Term order drives the Our Focus cards; install a
+  term-ordering plugin to make it editable (the query sorts by `TERM_ORDER`).
+- Enable excerpts on pages too: the /about excerpt is its meta description.
+
 `lib/cms/queries.ts` was written **before** the CMS on purpose — the field
 names in it are the build spec for ACF. Name the field groups to match and the
 queries work first try:
@@ -100,11 +125,8 @@ Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 | Group | Fields |
 |---|---|
 | `hero` | `headline`, `subheadline`, `ctaLabel`, `ctaHref`, `background` (image) |
-| `statsBand` | `eyebrow`, `heading`, `intro`, `stats[]` { `value`, `description`, `source` } |
-| `missionGrid` | `eyebrow`, `heading`, `body`, `points[]` { `title`, `body` } |
-| `projects` | `eyebrow`, `heading`, `body`, `ctaLabel`, `ctaHref`, `mapErrorText`, `mapCountOne`, `mapCountOther`, `statusActive`, `statusCompleted`, `statusPlanned` |
-| `latestPosts` | `eyebrow`, `heading`, `ctaLabel`, `ctaHref` |
-| `partners` | `eyebrow`, `heading`, `body`, `ctaLabel`, `ctaHref`, `funderLabel`, `leadLabel`, `partnerLabel`, `image` (image) |
+| `statsBand` | `eyebrow`, `heading`, `intro` (WYSIWYG), `stats[]` { `value`, `description`, `source` } |
+| `ourFocus` | `heading`, `ctaLabel`, `ctaHref` (`/work`), `linkLabel` ("Explore more") |
 
 **Options page** (GraphQL type name `SiteSettings`) → group `siteSettingsFields`
 
@@ -112,18 +134,39 @@ Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 `seoImage` (image, 1200×630 — the default social share image),
 `notFoundEyebrow`, `notFoundHeading`, `notFoundBody`, `notFoundCtaLabel`,
 `notFoundCtaHref` (the 404 page), `skipToContentLabel`,
-`menuOpenLabel`, `menuCloseLabel`, `footerCopyright` (`{year}` is replaced),
-`footerAddress`, `blogEyebrow`, `blogHeading`, `blogIntro`, `blogEmptyText`,
-`navigation[]` { `label`, `href` }, `footerLinks[]` { `label`, `href` },
-`social[]` { `platform`, `href` }, `partners[]` { `name`, `tier`
-(funder/lead/partner), `href`, `logo` (image) }
+`menuOpenLabel`, `menuCloseLabel`, `navCategoriesLabel`, `navQuickLinksLabel`
+(dropdown column headings), `footerCopyright` (`{year}` is replaced),
+`footerAddress`,
+`navigation[]` { `label`, `href`, `categories[]` { `label`, `href` }, `quickLinks[]` { `label`, `href` } },
+`footerLinks[]` { `label`, `href` }, `social[]` { `platform`, `href` }, and a
+group `work` with:
+
+| Fields | Used on |
+|---|---|
+| `hubEyebrow`, `hubHeading`, `hubIntro` | `/work` |
+| `projectsEyebrow`, `projectsHeading`, `projectsIntro` | `/work/projects` |
+| `publicationsEyebrow`, `publicationsHeading`, `publicationsIntro` | `/work/publications` |
+| `filterLabel`, `filterAllLabel` | Filter chip rows |
+| `projectsSectionHeading`, `publicationsSectionHeading`, `viewAllProjectsLabel`, `viewAllPublicationsLabel`, `emptyText` | `/work` sections |
+| `kindBlogLabel`, `kindReportLabel` | Publication cards and the type filter |
+| `statusActiveLabel`, `statusCompletedLabel`, `statusPlannedLabel` | Project cards |
+| `metricsHeading` | Single project |
+| `downloadReportLabel` | Single report |
+
+A nav row with `categories` or `quickLinks` gets a hover dropdown in the
+header; on mobile they are listed under the item.
 
 **`Project` CPT** → group `projectFields`: `latitude`, `longitude`, `city`,
 `province`, `status`, `metrics[]` { `value`, `description`, `source` },
-`heroImage` (image)
+`heroImage` (image). The body is the post content.
 
-`mapCountOne`/`mapCountOther` take `{count}`, e.g. `{count} project`. An empty
-CTA label hides that button. `navigation` and `footerLinks` are repeaters: the
+**`Report` CPT** → group `reportFields`: `file` (file, usually the PDF). The
+body is the report summary; empty `file` hides the download button.
+
+**`pillar` term** → group `pillarFields`: `image` (the Our Focus card image,
+3:2). The term description is the card text.
+
+An empty CTA label hides that button. `navigation` and `footerLinks` are repeaters: the
 header and footer render exactly the rows in WP admin, in order (rows without a
 label are skipped; an empty `href` becomes `#`). Make `footerAddress` a textarea;
 its line breaks are kept, and leaving it empty hides it. Options page data is publicly queryable over
@@ -140,12 +183,13 @@ point of the facade.
 time.
 
 ```jsonc
-{ "tags": ["projects"], "paths": ["/projects/can-tho"] }  // targeted
-{}                                                        // purge homepage deps
+{ "tags": ["projects"], "paths": ["/work/projects/can-tho"] }  // targeted
+{}                                                             // purge every tag
 ```
 
-Cache tags in use: `homepage`, `site-settings`, `projects`, `posts`,
-`post:<slug>`. Standard ISR window is 3600s (spec §3).
+Cache tags in use: `homepage`, `site-settings`, `pillars`, `projects`,
+`project:<slug>`, `reports`, `report:<slug>`, `posts`, `post:<slug>`,
+`pages`, `page:<uri>`. Standard ISR window is 3600s (spec §3).
 
 WordPress side: install `wordpress/yusea-revalidate.php` as a plugin (zip it,
 then Plugins → Add New → Upload) and add to `wp-config.php`:
@@ -174,8 +218,8 @@ export function generateMetadata() {
 ```
 
 The share image is `seoImage` from the options page unless the page passes
-its own (blog posts use their featured image and are tagged `og:type
-article` with a publish date).
+its own (projects, reports and posts use their image; reports and posts are
+tagged `og:type article` with a publish date).
 
 **Site URL.** `siteUrl()` reads `SITE_URL`, then falls back to Vercel's
 production domain, then `http://localhost:3000`. Previews therefore point
@@ -183,8 +227,9 @@ canonicals at production, which is what search engines should see.
 
 **robots.txt / sitemap.xml.** `app/robots.ts` disallows everything unless
 `VERCEL_ENV` is `production` (off Vercel: a production build). The sitemap
-lists `/`, `/blog` and every post (up to 100). Add each new route to
-`app/sitemap.ts` as it is built.
+lists every route and every project, report and post (up to 100 each).
+Filtered views (`?pillar=`) are left out. Old `/blog` and `/projects` URLs
+308-redirect to their `/work` equivalents (`next.config.ts`).
 
 **Error pages.** `app/not-found.tsx` is the branded 404, inside the normal
 header and footer; Next adds `noindex` to it automatically. `app/error.tsx`
@@ -197,27 +242,6 @@ error digest, which matches the server log line.
 route; Vercel adds HSTS. A Content-Security-Policy is still to do — see the
 checklist.
 
-## The map
-
-`components/home/VietnamMap.tsx` parses `public/data/projects.csv` client-side
-(Papa Parse) and plots each row as a vector node, coloured by status using
-the logo accents: active `coral`, completed `blue`, planned `sun`.
-
-Built on **MapLibre GL, not Mapbox GL** — same API surface and vector
-rendering, but no access token, so the map works without provisioning keys. The
-basemap is CARTO Positron (also token-free), deliberately muted so the project
-nodes carry the visual weight. To move to Mapbox: swap the import for
-`mapbox-gl`, set `mapboxgl.accessToken`, point `style` at a Mapbox style URL.
-Nothing else in that file changes.
-
-Rows with unparseable coordinates are dropped rather than crashing the map. The
-same nodes are also rendered as a scrollable list beside the map, so the
-section works by keyboard, by screen reader, and if the basemap fails to load.
-
-To move the map onto WordPress data later, either export this CSV from WP on
-publish, or point `loadProjectNodes` at `getProjects()` — `ProjectNode` is a
-deliberate subset of `Project`, so either source satisfies it.
-
 ## Design system
 
 Tailwind v4 is CSS-first: the `@theme` block in `app/globals.css` **is** the
@@ -225,51 +249,95 @@ config. There is no `tailwind.config.js`. Every token becomes a utility
 (`--color-blue` → `bg-blue` / `text-blue` / `border-blue`).
 
 The palette follows the four quadrants of the YUSEA logo — black, orange, blue,
-yellow. Tints of them are the section grounds, alternated with white; the
-full-strength colours are accents only (eyebrow bars, numbers, thin rules,
-markers, hover states), never a whole section.
+yellow. The full-strength colours are accents only
+(eyebrow bars, list markers, hover states), never a whole section.
+
+The look is clean and expansive: lots of white, sentence-case headings,
+hairline `slate` borders, rounded image corners and pill buttons. **No
+neo-brutalist elements** — no hard offset shadows, heavy borders or stark
+colour blocking. The only shadow is the soft one under header dropdowns.
+
+Uppercase is kept for small labels only: the header's top-level nav links
+(desktop and mobile), eyebrows and dropdown column headings. Dropdown links
+and all headings are sentence case.
 
 | Token | Hex | Role |
 |---|---|---|
-| `paper` / `paper-soft` | `#ffffff` `#f8fafc` | Primary ground (header, white sections) |
-| `tint-blue` / `tint-warm` / `tint-gray` | `#dbeafe` `#fef3c7` `#e2e8f0` | Section grounds (gray stands in for the black quadrant) |
+| `paper` | `#ffffff` | Primary ground (header, every page) |
+| `tint-gray` | `#e2e8f0` | Footer ground (stands in for the black quadrant) |
+| `paper-soft` / `tint-blue` / `tint-warm` | `#f8fafc` `#dbeafe` `#fef3c7` | Defined but currently unused; kept for future sections |
 | `coral` | `#f26640` | Orange accent; `coral-700` `#b8431f` for small text |
 | `blue` | `#1f6fd1` | Blue accent; `blue-700` `#1a63c4` for small text |
 | `sun` | `#ffd450` | Yellow accent, hero CTA — fills and bars only, never text on light |
 | `ink` / `muted` / `faint` / `line` | `#232429` `#55565b` `#828388` `#d3d4d9` | Text and rules; `ink` is also the black accent |
 
+The rebuild also uses Tailwind's **default** `slate` scale (borders, the Our
+Focus ground, nav text) and `blue-50` / `blue-600` (pill buttons, links,
+active filter chips), as the brief specifies them by name. Note that
+`blue-700` is **overridden** by the theme to `#1a63c4`, so it isn't Tailwind's
+default `blue-700`.
+
 `#1f6fd1` is a stand-in for the logo blue. When the official logo hex values
 are confirmed, update `coral`, `blue` and `sun` (and their `-700` text shades)
 in `globals.css` — every component reads from the tokens.
 
-**Homepage rhythm.** Each section pairs a ground with one logo accent, which
-it passes to `SectionHeading` / `Eyebrow` as `accent`:
+**Homepage rhythm.**
 
-| Section | Ground | Accent |
+| Section | Ground | Notes |
 |---|---|---|
 | Hero | Full-bleed photo, dark gradient overlay | `sun` CTA |
-| Stats (`#homepage-section-1`) | `tint-blue` | `blue` |
-| What we do (`#homepage-section-2`) | `tint-warm` | `coral` |
-| Projects (`#homepage-section-3`) | `paper` | `sun` |
-| Latest posts | `tint-gray` | `ink` |
-| Partners (`#homepage-section-4`) | `paper` | `blue` |
+| Impact (`#homepage-impact`) | white | 5/7 headline/body split; stats divided by `border-l-2 border-slate-300` |
+| Our Focus (`#homepage-focus`) | `slate-50` | Outlined `blue-600` pill CTA; three borderless pillar cards |
 | Footer | `tint-gray`, four-colour stripe on top | — |
 
-The header is `paper` with a hairline border and soft shadow; nav text is
-`ink`. There are no dark section grounds — the hero photo is the only dark
-surface, and only it uses white text.
+The header is white with a hairline bottom border. There are no dark section
+grounds — the hero photo is the only dark surface, and only it uses white text.
+
+**CMS HTML** (WYSIWYG fields, post/report/project/page bodies) is styled by
+Tailwind Typography: `prose prose-lg prose-yusea`, where `.prose-yusea` in
+`globals.css` maps it onto the site fonts and tokens (blue list markers).
 
 **Contrast rules.** Full-strength `coral` and `sun` fail WCAG AA as small text,
 so accent *text* uses `coral-700` / `blue-700`, and `sun` is never text on a
-light ground (its eyebrow label is `ink`, beside a `sun` bar). Every tint is
-the darkest that keeps the `-700` shades at AA; go darker (e.g. blue-200) and
-that section's eyebrow text must switch to `ink`.
-
-Nothing has a border radius — the aesthetic is color-blocked and geometric.
+light ground (its eyebrow label is `ink`, beside a `sun` bar). If a tinted
+section ground comes back, keep it no darker than the 100–200 strength, or
+its `-700` eyebrow text drops below AA. `text-faint` fails AA as text; it is
+no longer used for text.
 
 **Type:** Archivo (display) + Barlow (body), both with `vietnamese` subsets
 loaded. The reference site uses Ambit, a commercial TypeMates face; Archivo is
 the closest open substitute. Swap in `app/layout.tsx` if YUSEA licenses Ambit.
+
+## Rebuild v2 (October 2026)
+
+What changed when the site moved to the structure in
+`prompt/yusea_website_rebuild_prompt_v2.txt`, for anyone who knew the old one:
+
+- **Routes.** New: `/about`, `/work` (filterable hub), `/work/projects`,
+  `/work/projects/[slug]`, `/work/publications`,
+  `/work/publications/reports/[slug]`, `/work/publications/blog/[slug]`.
+  Removed: `/blog`, `/blog/[slug]`. Old `/blog` and `/projects` URLs
+  308-redirect to their `/work` equivalents.
+- **Homepage.** Now exactly Hero, Impact and Our Focus. The "What we do"
+  grid, latest-posts strip, project map and partner logos are gone (with the
+  `maplibre-gl` and `papaparse` dependencies and `public/data/projects.csv`).
+- **Content model.** New `report` CPT and `pillar` taxonomy; projects use
+  `pillars` instead of `topics`. New ACF: `homepageFields.ourFocus`,
+  `reportFields`, `pillarFields`, the options-page `work` group,
+  `navCategoriesLabel` / `navQuickLinksLabel` and nav `categories` /
+  `quickLinks`. Removed ACF: `missionGrid`, `latestPosts`, `blog*` labels.
+- **Header.** Server Component with CSS-only hover dropdowns; uppercase
+  top-level links; `/` separators removed. Mobile menu split into
+  `MobileNav` and now closes on navigation.
+- **Styling.** Sentence-case headings, pill buttons, rounded images, hairline
+  borders. `@tailwindcss/typography` (`prose`) replaced the hand-written
+  `.rich-text` styles. Footer nav lost its slashes and uppercase.
+- **Logo.** Bigger in the header; the footer's is bigger still (`size` prop).
+- **Cards** link the title only, stretched over the card, rather than
+  wrapping the whole card in one link.
+- **Revalidation.** New cache tags (`pillars`, `reports`, `report:<slug>`,
+  `project:<slug>`, `pages`, `page:<uri>`); `{}` now purges every tag. The WP
+  plugin (v1.1.0) sends them for reports and pillar term edits.
 
 ## Things to know
 
@@ -281,13 +349,26 @@ is not an error in that sense and reads its copy from the options page.
 **No logo is set in the mocks.** With `logo` empty, the header and footer show
 `siteName` as a bold `ink` wordmark on a transparent background. Once a logo
 is uploaded in WP admin it replaces the wordmark automatically. Upload a
-version made for a **white** ground, roughly 160×32.
+version made for a **white** ground, wide rather than tall (roughly 5:1); it
+is scaled by height.
+
+**The footer logo is always bigger than the header's.** `Logo` takes a
+`size` prop; both sizes live in one `SIZES` map in
+`components/layout/Logo.tsx`. Change them together so the footer stays a
+step larger at every breakpoint:
+
+| `size` | Used in | Wordmark | Image height |
+|---|---|---|---|
+| `md` | Header | `text-3xl`, `lg:text-4xl` | 40px, 48px on `lg` |
+| `lg` | Footer | `text-5xl`, `lg:text-6xl` | 56px, 64px on `lg` |
 
 **The mock figures are placeholders.** Every stat in `mocks/homepage.json` carries a
 `source` of `"PLACEHOLDER — replace via CMS"`, and that string renders visibly
 under each stat. It is deliberately ugly so it cannot ship by accident.
 
-**The slash-separated nav is from the spec, not from the reference.**
-shiftcities.org uses a conventional menu with dropdowns. The `/` separators are
-a YUSEA-specific choice; they are rendered as `aria-hidden` so screen readers
-announce a clean list of links.
+**Header dropdowns are CSS only.** They open on `group-hover` and, for
+keyboard users, `group-focus-within`; there is no React state, so the header
+is a Server Component. Only `MobileNav` is a client component.
+
+**The report download button is hidden in the mocks.** No mock report has a
+`file`; set one in WP to see it.

@@ -28,6 +28,22 @@ export type Stat = {
   source?: string;
 };
 
+/** A taxonomy term, as attached to a project or publication. */
+export type Term = {
+  slug: string;
+  name: string;
+};
+
+/**
+ * `pillar` taxonomy — the three core focus areas. Shared by Projects,
+ * Reports and Posts, so one slug filters all of them on /work.
+ */
+export type Pillar = Term & {
+  description: string;
+  /** ACF on the term: the Our Focus card image. */
+  image?: Media;
+};
+
 /** `Projects` CPT — case studies of regional transformations. */
 export type Project = {
   id: string;
@@ -42,8 +58,13 @@ export type Project = {
   /** ACF: impact metrics. */
   metrics: Stat[];
   heroImage?: Media;
-  topics: string[];
+  pillars: Term[];
   status: "active" | "completed" | "planned";
+};
+
+/** A single project with its body. `content` is WordPress-rendered HTML. */
+export type ProjectDetail = Project & {
+  content: string;
 };
 
 /** `Events` CPT — upcoming initiatives and gatherings. */
@@ -58,31 +79,60 @@ export type YuseaEvent = {
   image?: Media;
 };
 
-/** `Topics / Blog` — standard post architecture. */
-export type Post = {
+/**
+ * Publications: standard WP posts (kind "blog") and the `Report` CPT
+ * (kind "report"). Both list together on /work and /work/publications.
+ */
+export type Publication = {
+  kind: "blog" | "report";
   id: string;
   slug: string;
   title: string;
   excerpt: string;
   date: string;
+  /** First category name, shown in the card eyebrow. */
   topic?: string;
   image?: Media;
+  pillars: Term[];
 };
+
+/** A blog post. */
+export type Post = Publication & { kind: "blog" };
+
+/** A `Report` CPT entry. */
+export type Report = Publication & { kind: "report" };
 
 /** A single post with its body. `content` is WordPress-rendered HTML. */
 export type PostDetail = Post & {
   content: string;
 };
 
-export type Partner = {
-  name: string;
-  logo?: Media;
-  href?: string;
-  /**
-   * The reference site groups logos into tiers rather than one flat
-   * grid, and the tier carries real meaning about the relationship.
-   */
-  tier: "funder" | "lead" | "partner";
+/** A single report with its body and optional downloadable file. */
+export type ReportDetail = Report & {
+  content: string;
+  /** ACF file field: the full report, usually a PDF. */
+  fileUrl?: string;
+};
+
+/** A standard WP page (e.g. /about): title, body, featured image. */
+export type PageDetail = {
+  title: string;
+  excerpt: string;
+  content: string;
+  image?: Media;
+};
+
+/** A header nav item. Items with categories or quick links get a dropdown. */
+export type NavItem = CTA & {
+  categories: CTA[];
+  quickLinks: CTA[];
+};
+
+/** Heading, intro and eyebrow for one of the /work index pages. */
+export type IndexCopy = {
+  eyebrow: string;
+  heading: string;
+  intro: string;
 };
 
 /**
@@ -113,23 +163,39 @@ export type SiteSettings = {
     skipToContent: string;
     menuOpen: string;
     menuClose: string;
+    /** Column headings inside the header dropdowns. */
+    navCategories: string;
+    navQuickLinks: string;
   };
   footer: {
     /** `{year}` is replaced with the current year. */
     copyright: string;
     address: string;
   };
-  /** Copy for the /blog index. */
-  blog: {
-    eyebrow: string;
-    heading: string;
-    intro: string;
+  /** Copy for /work, its two indexes and the single templates. */
+  work: {
+    hub: IndexCopy;
+    projects: IndexCopy;
+    publications: IndexCopy;
+    /** aria-label for the pillar / type filter row. */
+    filterLabel: string;
+    /** The "no filter" chip. */
+    filterAll: string;
+    projectsHeading: string;
+    publicationsHeading: string;
+    viewAllProjects: string;
+    viewAllPublications: string;
     emptyText: string;
+    kind: Record<Publication["kind"], string>;
+    status: Record<Project["status"], string>;
+    /** Single project: heading over the metrics column. */
+    metricsHeading: string;
+    /** Single report: the file download button. */
+    downloadReport: string;
   };
-  navigation: CTA[];
+  navigation: NavItem[];
   footerLinks: CTA[];
   social: { platform: string; href: string }[];
-  partners: Partner[];
 };
 
 /** Everything the homepage renders, in section order. */
@@ -144,47 +210,17 @@ export type Homepage = {
   statsBand: {
     eyebrow: string;
     heading: string;
+    /** ACF WYSIWYG — an HTML string (paragraphs, bullet lists). */
     intro?: string;
     stats: Stat[];
   };
-  /** §5 #homepage-section-2 */
-  missionGrid: {
-    eyebrow: string;
+  /** Our Focus — copy from ACF, the cards from the `pillar` taxonomy. */
+  ourFocus: {
     heading: string;
-    body: string;
-    points: { title: string; body: string }[];
-  };
-  /** §5 #homepage-section-3 */
-  projects: {
-    eyebrow: string;
-    heading: string;
-    body: string;
+    /** "Discover all our initiatives" → /work */
     cta: CTA;
-    map: MapLabels;
+    /** "Explore more" on each card. */
+    linkLabel: string;
+    pillars: Pillar[];
   };
-  /** #homepage-latest-posts — copy from ACF, posts from the same query. */
-  latestPosts: {
-    eyebrow: string;
-    heading: string;
-    cta: CTA;
-    posts: Post[];
-  };
-  /** §5 #homepage-section-4 */
-  partners: {
-    eyebrow: string;
-    heading: string;
-    body: string;
-    cta: CTA;
-    image: Media;
-    tierLabels: Record<Partner["tier"], string>;
-  };
-};
-
-/** Every string the client-side map renders. */
-export type MapLabels = {
-  errorText: string;
-  /** `{count}` is replaced, e.g. "{count} project" / "{count} projects". */
-  countOne: string;
-  countOther: string;
-  status: Record<Project["status"], string>;
 };

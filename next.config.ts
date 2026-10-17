@@ -19,7 +19,7 @@ function imagePatterns(): RemotePattern[] {
   const patterns: RemotePattern[] = [
     { protocol: "https", hostname: CMS_HOST, pathname: "/wp-content/uploads/**" },
     { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
-    // Placeholder logo / favicon / partner logos in the site-settings mock.
+    // Placeholder favicon in the site-settings mock.
     { protocol: "https", hostname: "placehold.co", pathname: "/**" },
   ];
 
@@ -44,9 +44,8 @@ function imagePatterns(): RemotePattern[] {
 
 /**
  * Baseline security headers. Vercel already sends HSTS. A Content-Security-
- * Policy is still to do: it has to allow MapLibre's blob: workers, the CARTO
- * basemap and whatever embeds editors paste into posts, so it needs testing
- * against real CMS content first.
+ * Policy is still to do: it has to allow whatever embeds editors paste into
+ * posts, so it needs testing against real CMS content first.
  */
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -61,6 +60,15 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: imagePatterns(),
+  },
+  // The blog and projects moved under /work; keep old links working.
+  async redirects() {
+    return [
+      { source: "/blog", destination: "/work/publications?type=blog", permanent: true },
+      { source: "/blog/:slug", destination: "/work/publications/blog/:slug", permanent: true },
+      { source: "/projects", destination: "/work/projects", permanent: true },
+      { source: "/projects/:slug", destination: "/work/projects/:slug", permanent: true },
+    ];
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

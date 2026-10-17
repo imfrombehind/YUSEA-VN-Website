@@ -1,0 +1,21 @@
+{
+  "data": {
+    "pages": {
+      "/about": {
+        "title": "About YUSEA",
+        "excerpt": "<p>YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.</p>\n",
+        "content": "<p>YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.</p>\n<p><strong>This is mock content.</strong> It stands in for the About page body from WordPress.</p>\n<h2>Who we are</h2>\n<p>A team of planners, researchers and organisers based in Viet Nam, working with partners across Southeast Asia.</p>\n<h2>How we work</h2>\n<ul>\n<li>We start from the places plans describe, not from the plans.</li>\n<li>We bring young people into decisions they will live with longest.</li>\n<li>We publish our data and methods openly.</li>\n</ul>\n",
+        "featuredImage": {
+          "node": {
+            "sourceUrl": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=2000&q=80&auto=format&fit=crop",
+            "altText": "A Vietnamese city skyline at dusk",
+            "mediaDetails": {
+              "width": 2000,
+              "height": 1260
+            }
+          }
+        }
+      }
+    }
+  }
+}

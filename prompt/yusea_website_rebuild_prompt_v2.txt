@@ -1,0 +1,68 @@
+**YUSEA Website Rebuild - Master Prompt for Claude**
+
+**1. Project Context & Tech Stack**
+*   **Framework:** Next.js (App Router)
+*   **Styling:** Tailwind CSS
+*   **Data Source:** Headless WordPress via WPGraphQL
+*   **Design Language:** Clean, expansive, modern, and professional organizational aesthetic. Abundant white space, subtle borders, soft text styling. 
+*   **STRICT CONSTRAINT:** Do NOT use any Neo-Brutalist design elements (e.g., hard shadows, stark contrast, oversized borders).
+
+**2. Next.js App Router Architecture**
+The application follows this route structure:
+app/
+├── layout.tsx                     # Global Header (with dropdowns) & Footer
+├── page.tsx                       # Homepage (Hero, Impact, Focus)
+├── about/
+│   └── page.tsx                   # About page
+└── work/
+    ├── page.tsx                   # Filterable hub for all projects & publications
+    ├── projects/
+    │   ├── page.tsx               # All Projects index
+    │   └── [slug]/page.tsx        # Single Project Template
+    └── publications/
+        ├── page.tsx               # All Publications index
+        ├── reports/
+        │   └── [slug]/page.tsx    # Single Report Template
+        └── blog/
+            └── [slug]/page.tsx    # Single Blog Article Template
+
+**3. Global Header Component (`components/Header.tsx`)**
+*   Sticky top navigation with a white background and subtle bottom border.
+*   **Left:** YUSEA text logo.
+*   **Middle:** Navigation links (About, Projects, Publications).
+*   **Dropdowns:** Projects and Publications must have hover dropdown menus implemented via Tailwind CSS (`group` and `group-hover`), not React state. These dropdowns should display sub-categories and quick links.
+*   **Right:** Social media icons.
+
+**4. Homepage Assembly (`app/page.tsx`)**
+The homepage sequentially renders the following components:
+1.  `<HeroSection />`
+2.  `<ImpactSection />`
+3.  `<OurFocusSection />`
+
+**5. Impact Section (`components/ImpactSection.tsx`)**
+*   A clean, borderless layout on a pure white background.
+*   **Top (Asymmetric 2-Column Grid):** Desktop grid `lg:grid-cols-12`.
+    *   Left (`lg:col-span-5`): Heavy, tight multiline headline (e.g., `text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1]`).
+    *   Right (`lg:col-span-7`): Body content parsed from WordPress WYSIWYG HTML via `dangerouslySetInnerHTML`. Must support styled `<ul>` and `<li>` elements using Tailwind Typography (`prose`).
+*   **Bottom (3-Column Stats Grid):** Desktop grid `md:grid-cols-3`.
+    *   No cards or background colors.
+    *   Separate each stat using a subtle left border (`border-l-2 border-slate-300 pl-6`).
+    *   Massive stat number on top, standard readable text label underneath.
+
+**6. Our Focus Section (`components/OurFocusSection.tsx`)**
+*   A dedicated section with a light tinted background (e.g., `bg-slate-50`).
+*   **Header Row:**
+    *   Left: Bold title "Our Focus" (`text-3xl md:text-4xl font-extrabold`).
+    *   Right: "Discover all our initiatives" button linking to `/work`. Styled as an outlined pill (`rounded-full border-2 border-blue-600 text-blue-600 px-6 py-2.5 hover:bg-blue-50`).
+*   **The Grid:**
+    *   Strictly a 3-column grid (`md:grid-cols-3`) representing 3 core pillars.
+    *   Borderless cards with transparent backgrounds.
+    *   Image top: `next/image` wrapper with a fixed aspect ratio (`aspect-[3/2]`).
+    *   Body: Bold title and paragraph description.
+    *   Footer: "Explore more" link pushed securely to the bottom (`mt-auto`).
+*   **Routing Logic (CRITICAL):**
+    *   The "Explore more" links must use a URL parameter to filter the `/work` page (e.g., `href="/work?pillar=urban-mobility"`).
+
+**7. Work Page Filter Logic (`app/work/page.tsx`)**
+*   The `/work` page must be a Server Component that accepts the `searchParams` prop.
+*   Use the `?pillar=slug` parameter (passed from the Our Focus section) to conditionally filter the WPGraphQL query or array map, rendering only the Projects and Publications associated with that specific hashtag/pillar category.

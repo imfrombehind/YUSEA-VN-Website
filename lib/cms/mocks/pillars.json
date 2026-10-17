@@ -1,0 +1,59 @@
+{
+  "data": {
+    "pillars": {
+      "nodes": [
+        {
+          "slug": "urban-mobility",
+          "name": "Urban mobility",
+          "description": "Streets, transit and walkable districts that connect people to jobs, schools and each other without locking cities into car dependence.",
+          "pillarFields": {
+            "image": {
+              "node": {
+                "sourceUrl": "https://images.unsplash.com/photo-1557750255-c76072a7aad1?w=1600&q=80&auto=format&fit=crop",
+                "altText": "Motorbikes and pedestrians sharing a busy Vietnamese city street",
+                "mediaDetails": {
+                  "width": 1600,
+                  "height": 1067
+                }
+              }
+            }
+          }
+        },
+        {
+          "slug": "climate-resilience",
+          "name": "Climate resilience",
+          "description": "Helping delta and coastal provinces plan for flooding, salinity and heat as design constraints rather than emergencies.",
+          "pillarFields": {
+            "image": {
+              "node": {
+                "sourceUrl": "https://images.unsplash.com/photo-1528127269322-539801943592?w=1600&q=80&auto=format&fit=crop",
+                "altText": "Limestone karsts rising from the water of Ha Long Bay",
+                "mediaDetails": {
+                  "width": 1600,
+                  "height": 1067
+                }
+              }
+            }
+          }
+        },
+        {
+          "slug": "liveable-neighbourhoods",
+          "name": "Liveable neighbourhoods",
+          "description": "Protecting the street life, shade and shared space that make dense Vietnamese neighbourhoods work as they grow.",
+          "pillarFields": {
+            "image": {
+              "node": {
+                "sourceUrl": "https://images.unsplash.com/photo-1555921015-5532091f6026?w=1600&q=80&auto=format&fit=crop",
+                "altText": "A narrow street in Ha Noi's Old Quarter lined with shopfront homes",
+                "mediaDetails": {
+                  "width": 1600,
+                  "height": 1067
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

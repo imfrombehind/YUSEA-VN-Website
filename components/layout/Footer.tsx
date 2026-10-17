@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Fragment } from "react";
 import { Logo } from "./Logo";
 import { SocialIcons } from "./SocialIcons";
 import type { SiteSettings } from "@/lib/cms/types";
@@ -30,26 +29,19 @@ export function Footer({
       </div>
       <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-20">
         <div className="flex flex-col gap-10 border-b border-ink/15 pb-10 lg:flex-row lg:items-center lg:justify-between">
-          <Logo siteName={siteName} logo={logo} />
+          <Logo siteName={siteName} logo={logo} size="lg" />
 
           <nav aria-label="Footer">
-            <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
+            <ul className="flex flex-wrap items-center gap-x-8 gap-y-2">
               {footerLinks.map((item, i) => (
-                <Fragment key={i}>
-                  {i > 0 ? (
-                    <li aria-hidden="true" className="text-faint select-none">
-                      /
-                    </li>
-                  ) : null}
-                  <li>
-                    <Link
-                      href={item.href}
-                      className="font-display text-sm font-bold uppercase tracking-[0.14em] text-ink decoration-coral decoration-2 underline-offset-4 hover:underline"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                </Fragment>
+                <li key={i}>
+                  <Link
+                    href={item.href}
+                    className="text-[0.9375rem] font-medium text-slate-700 transition-colors hover:text-blue-600"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
               ))}
             </ul>
           </nav>

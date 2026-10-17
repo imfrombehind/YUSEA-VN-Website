@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Frontend Revalidation
  * Description: Tells the Next.js frontend to refresh its cached pages whenever content is saved, published, or trashed.
- * Version:     1.0.0
+ * Version:     1.1.0
  *
  * Requires two constants in wp-config.php:
  *   define('YUSEA_FRONTEND_URL', 'https://your-nextjs-site.example');
@@ -33,13 +33,24 @@ add_action('save_post', function ($post_id, $post) {
             $tags = ['posts', 'post:' . $post->post_name];
             break;
         case 'project':
-            $tags = ['projects', 'homepage'];
+            $tags = ['projects', 'project:' . $post->post_name];
+            break;
+        case 'report':
+            $tags = ['reports', 'report:' . $post->post_name];
             break;
         case 'page':
-            $tags = ['homepage'];
+            $tags = ['homepage', 'pages'];
             break;
         default:
             return;
+    }
+
+    yusea_revalidate($tags);
+}, 10, 2);
+
+function yusea_revalidate(array $tags) {
+    if (!defined('YUSEA_FRONTEND_URL') || !defined('YUSEA_REVALIDATE_SECRET')) {
+        return;
     }
 
     wp_remote_post(rtrim(YUSEA_FRONTEND_URL, '/') . '/api/revalidate', [
@@ -52,4 +63,11 @@ add_action('save_post', function ($post_id, $post) {
         // Don't make editors wait on the frontend when they click Publish.
         'blocking' => false,
     ]);
-}, 10, 2);
+}
+
+// Pillar terms feed the homepage Our Focus cards and the /work filters.
+foreach (['saved_pillar', 'delete_pillar'] as $hook) {
+    add_action($hook, function () {
+        yusea_revalidate(['pillars']);
+    });
+}

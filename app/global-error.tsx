@@ -37,7 +37,7 @@ export default function GlobalError({
           <button
             type="button"
             onClick={() => retry()}
-            className="mt-10 inline-flex items-center gap-2 bg-ink px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-muted"
+            className="mt-10 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-muted"
           >
             Try again
           </button>

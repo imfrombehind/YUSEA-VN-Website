@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* `prose` for CMS WYSIWYG HTML: post, report, project and page bodies. */
+@plugin "@tailwindcss/typography";
 
 /* ============================================================
    YUSEA DESIGN TOKENS
@@ -69,13 +71,12 @@
     line-height: 1.65;
   }
 
-  /* Institutional voice: uppercase, tight, high-contrast display type. */
+  /* Sentence-case display type: heavy but tight, never shouting. */
   h1, h2, h3 {
     font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
   }
 
   ::selection {
@@ -89,7 +90,7 @@
   }
 
   /* Honour the OS "reduce motion" setting: no hover zooms, pulsing
-     skeletons or smooth scrolling. (MapLibre's flyTo already respects it.) */
+     skeletons or smooth scrolling. */
   @media (prefers-reduced-motion: reduce) {
     *,
     ::before,
@@ -110,5 +111,39 @@
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
+  }
+
+  /* House style for `prose`: site fonts and tokens, blue list markers.
+     Applied wherever CMS HTML is rendered. */
+  .prose-yusea {
+    --tw-prose-body: var(--color-muted);
+    --tw-prose-headings: var(--color-ink);
+    --tw-prose-bold: var(--color-ink);
+    --tw-prose-links: var(--color-blue-700);
+    --tw-prose-bullets: var(--color-blue);
+    --tw-prose-counters: var(--color-blue-700);
+    --tw-prose-quotes: var(--color-ink);
+    --tw-prose-quote-borders: var(--color-line);
+    --tw-prose-hr: var(--color-line);
+    font-family: var(--font-body);
+  }
+  .prose-yusea :where(h2, h3, h4) {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prose-yusea :where(a) {
+    text-underline-offset: 3px;
+  }
+  /* Block-editor embeds, tables and code never force horizontal scroll. */
+  .prose-yusea :where(iframe) {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: auto;
+  }
+  .prose-yusea :where(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
   }
 }

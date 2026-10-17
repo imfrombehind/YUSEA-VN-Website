@@ -10,10 +10,17 @@ import type {
   CTA,
   Homepage,
   Media,
+  NavItem,
+  PageDetail,
+  Pillar,
   Post,
   PostDetail,
   Project,
+  ProjectDetail,
+  Report,
+  ReportDetail,
   SiteSettings,
+  Term,
 } from "./types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -83,6 +90,40 @@ function mapLinks(rows: any): CTA[] {
     .map((r: any): CTA => ({ label: r.label, href: r.href || "#" }));
 }
 
+/** Header nav rows, each with optional dropdown sub-repeaters. */
+function mapNavigation(rows: any): NavItem[] {
+  return (rows ?? [])
+    .filter((r: any) => r?.label)
+    .map(
+      (r: any): NavItem => ({
+        label: r.label,
+        href: r.href || "#",
+        categories: mapLinks(r.categories),
+        quickLinks: mapLinks(r.quickLinks),
+      }),
+    );
+}
+
+/** `pillars { nodes { slug name } }` on a project, report or post. */
+function mapTerms(connection: any): Term[] {
+  return (connection?.nodes ?? [])
+    .filter((t: any) => t?.slug)
+    .map((t: any): Term => ({ slug: t.slug, name: decodeEntities(t.name ?? "") }));
+}
+
+export function mapPillars(data: any): Pillar[] {
+  return (data?.pillars?.nodes ?? [])
+    .filter((t: any) => t?.slug)
+    .map(
+      (t: any): Pillar => ({
+        slug: t.slug,
+        name: decodeEntities(t.name ?? ""),
+        description: decodeEntities(t.description ?? ""),
+        image: mapMedia(t.pillarFields?.image?.node),
+      }),
+    );
+}
+
 /**
  * HOMEPAGE_QUERY → Homepage. Empty ACF fields become "" rather than
  * fallback copy, so nothing on the page is ever written in code.
@@ -102,72 +143,46 @@ export function mapHomepage(data: any): Homepage {
       intro: f.statsBand?.intro ?? undefined,
       stats: f.statsBand?.stats ?? [],
     },
-    missionGrid: {
-      eyebrow: f.missionGrid?.eyebrow ?? "",
-      heading: f.missionGrid?.heading ?? "",
-      body: f.missionGrid?.body ?? "",
-      points: f.missionGrid?.points ?? [],
-    },
-    projects: {
-      eyebrow: f.projects?.eyebrow ?? "",
-      heading: f.projects?.heading ?? "",
-      body: f.projects?.body ?? "",
-      cta: mapCta(f.projects),
-      map: {
-        errorText: f.projects?.mapErrorText ?? "",
-        countOne: f.projects?.mapCountOne ?? "{count}",
-        countOther: f.projects?.mapCountOther ?? "{count}",
-        status: {
-          active: f.projects?.statusActive ?? "",
-          completed: f.projects?.statusCompleted ?? "",
-          planned: f.projects?.statusPlanned ?? "",
-        },
-      },
-    },
-    latestPosts: {
-      eyebrow: f.latestPosts?.eyebrow ?? "",
-      heading: f.latestPosts?.heading ?? "",
-      cta: mapCta(f.latestPosts),
-      posts: mapPosts(data),
-    },
-    partners: {
-      eyebrow: f.partners?.eyebrow ?? "",
-      heading: f.partners?.heading ?? "",
-      body: f.partners?.body ?? "",
-      cta: mapCta(f.partners),
-      image: mapMedia(f.partners?.image?.node) ?? EMPTY_MEDIA,
-      tierLabels: {
-        funder: f.partners?.funderLabel ?? "",
-        lead: f.partners?.leadLabel ?? "",
-        partner: f.partners?.partnerLabel ?? "",
-      },
+    ourFocus: {
+      heading: f.ourFocus?.heading ?? "",
+      cta: mapCta(f.ourFocus),
+      linkLabel: f.ourFocus?.linkLabel ?? "",
+      // The section is a strict three-column grid of the core pillars.
+      pillars: mapPillars(data).slice(0, 3),
     },
   };
 }
 
+function mapProject(n: any): Project {
+  const p = n.projectFields ?? {};
+  return {
+    id: n.id,
+    slug: n.slug,
+    title: decodeEntities(n.title ?? ""),
+    excerpt: plainText(n.excerpt),
+    latitude: Number(p.latitude),
+    longitude: Number(p.longitude),
+    city: p.city ?? "",
+    province: p.province ?? "",
+    metrics: p.metrics ?? [],
+    heroImage: mapMedia(p.heroImage?.node),
+    pillars: mapTerms(n.pillars),
+    status: p.status ?? "active",
+  };
+}
+
 export function mapProjects(data: any): Project[] {
-  const nodes = data?.projects?.nodes ?? [];
-  return nodes.map((n: any): Project => {
-    const p = n.projectFields ?? {};
-    return {
-      id: n.id,
-      slug: n.slug,
-      title: decodeEntities(n.title ?? ""),
-      excerpt: plainText(n.excerpt),
-      latitude: Number(p.latitude),
-      longitude: Number(p.longitude),
-      city: p.city ?? "",
-      province: p.province ?? "",
-      metrics: p.metrics ?? [],
-      heroImage: mapMedia(p.heroImage?.node),
-      topics: (n.topics?.nodes ?? []).map((t: any) => t.name),
-      status: p.status ?? "active",
-    };
-  });
+  return (data?.projects?.nodes ?? []).map(mapProject);
+}
+
+export function mapProjectDetail(data: any): ProjectDetail | null {
+  if (!data?.project) return null;
+  return { ...mapProject(data.project), content: data.project.content ?? "" };
 }
 
 function mapPost(n: any): Post {
   return {
+    kind: "blog",
     id: n.id,
     slug: n.slug,
     title: decodeEntities(n.title ?? ""),
@@ -175,6 +190,7 @@ function mapPost(n: any): Post {
     date: n.date ?? "",
     topic: n.categories?.nodes?.[0]?.name ?? undefined,
     image: mapMedia(n.featuredImage?.node),
+    pillars: mapTerms(n.pillars),
   };
 }
 
@@ -185,6 +201,42 @@ export function mapPosts(data: any): Post[] {
 export function mapPostDetail(data: any): PostDetail | null {
   if (!data?.post) return null;
   return { ...mapPost(data.post), content: data.post.content ?? "" };
+}
+
+function mapReport(n: any): Report {
+  return {
+    kind: "report",
+    id: n.id,
+    slug: n.slug,
+    title: decodeEntities(n.title ?? ""),
+    excerpt: plainText(n.excerpt),
+    date: n.date ?? "",
+    image: mapMedia(n.featuredImage?.node),
+    pillars: mapTerms(n.pillars),
+  };
+}
+
+export function mapReports(data: any): Report[] {
+  return (data?.reports?.nodes ?? []).map(mapReport);
+}
+
+export function mapReportDetail(data: any): ReportDetail | null {
+  if (!data?.report) return null;
+  return {
+    ...mapReport(data.report),
+    content: data.report.content ?? "",
+    fileUrl: data.report.reportFields?.file?.node?.mediaItemUrl || undefined,
+  };
+}
+
+export function mapPageDetail(data: any): PageDetail | null {
+  if (!data?.page) return null;
+  return {
+    title: decodeEntities(data.page.title ?? ""),
+    excerpt: plainText(data.page.excerpt),
+    content: data.page.content ?? "",
+    image: mapMedia(data.page.featuredImage?.node),
+  };
 }
 
 /** SITE_SETTINGS_QUERY → SiteSettings. Fields sit one level down, in the group. */
@@ -209,25 +261,55 @@ export function mapSiteSettings(data: any): SiteSettings {
       skipToContent: s.skipToContentLabel ?? "",
       menuOpen: s.menuOpenLabel ?? "",
       menuClose: s.menuCloseLabel ?? "",
+      navCategories: s.navCategoriesLabel ?? "",
+      navQuickLinks: s.navQuickLinksLabel ?? "",
     },
     footer: {
       copyright: s.footerCopyright ?? "",
       address: s.footerAddress ?? "",
     },
-    blog: {
-      eyebrow: s.blogEyebrow ?? "",
-      heading: s.blogHeading ?? "",
-      intro: s.blogIntro ?? "",
-      emptyText: s.blogEmptyText ?? "",
-    },
-    navigation: mapLinks(s.navigation),
+    work: mapWorkCopy(s.work),
+    navigation: mapNavigation(s.navigation),
     footerLinks: mapLinks(s.footerLinks),
     social: s.social ?? [],
-    partners: (s.partners ?? []).map((p: any) => ({
-      name: p.name,
-      tier: p.tier ?? "partner",
-      href: p.href ?? undefined,
-      logo: mapMedia(p.logo?.node),
-    })),
+  };
+}
+
+/** The options page's `work` group → SiteSettings["work"]. */
+function mapWorkCopy(w: any): SiteSettings["work"] {
+  return {
+    hub: {
+      eyebrow: w?.hubEyebrow ?? "",
+      heading: w?.hubHeading ?? "",
+      intro: w?.hubIntro ?? "",
+    },
+    projects: {
+      eyebrow: w?.projectsEyebrow ?? "",
+      heading: w?.projectsHeading ?? "",
+      intro: w?.projectsIntro ?? "",
+    },
+    publications: {
+      eyebrow: w?.publicationsEyebrow ?? "",
+      heading: w?.publicationsHeading ?? "",
+      intro: w?.publicationsIntro ?? "",
+    },
+    filterLabel: w?.filterLabel ?? "",
+    filterAll: w?.filterAllLabel ?? "",
+    projectsHeading: w?.projectsSectionHeading ?? "",
+    publicationsHeading: w?.publicationsSectionHeading ?? "",
+    viewAllProjects: w?.viewAllProjectsLabel ?? "",
+    viewAllPublications: w?.viewAllPublicationsLabel ?? "",
+    emptyText: w?.emptyText ?? "",
+    kind: {
+      blog: w?.kindBlogLabel ?? "",
+      report: w?.kindReportLabel ?? "",
+    },
+    status: {
+      active: w?.statusActiveLabel ?? "",
+      completed: w?.statusCompletedLabel ?? "",
+      planned: w?.statusPlannedLabel ?? "",
+    },
+    metricsHeading: w?.metricsHeading ?? "",
+    downloadReport: w?.downloadReportLabel ?? "",
   };
 }

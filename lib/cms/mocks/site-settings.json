@@ -34,32 +34,97 @@
         "skipToContentLabel": "Skip to content",
         "menuOpenLabel": "Menu",
         "menuCloseLabel": "Close",
+        "navCategoriesLabel": "Browse by focus",
+        "navQuickLinksLabel": "Quick links",
         "footerCopyright": "© {year} YUSEA. All rights reserved.",
         "footerAddress": "Ha Noi, Viet Nam",
-        "blogEyebrow": "News",
-        "blogHeading": "Blog",
-        "blogIntro": "",
-        "blogEmptyText": "No posts yet.",
+        "work": {
+          "hubEyebrow": "Our work",
+          "hubHeading": "Projects and publications",
+          "hubIntro": "Everything YUSEA is working on, and everything we have published. Filter by focus area to see one pillar at a time.",
+          "projectsEyebrow": "Our work",
+          "projectsHeading": "Projects",
+          "projectsIntro": "Programmes we run with provinces, cities and communities across Viet Nam.",
+          "publicationsEyebrow": "Our work",
+          "publicationsHeading": "Publications",
+          "publicationsIntro": "Research reports and writing from the YUSEA team.",
+          "filterLabel": "Filter by focus",
+          "filterAllLabel": "All",
+          "projectsSectionHeading": "Projects",
+          "publicationsSectionHeading": "Publications",
+          "viewAllProjectsLabel": "All projects",
+          "viewAllPublicationsLabel": "All publications",
+          "emptyText": "Nothing published here yet.",
+          "kindBlogLabel": "Blog",
+          "kindReportLabel": "Report",
+          "statusActiveLabel": "Active",
+          "statusCompletedLabel": "Completed",
+          "statusPlannedLabel": "Planned",
+          "metricsHeading": "Impact",
+          "downloadReportLabel": "Download the full report"
+        },
         "navigation": [
           {
             "label": "About",
-            "href": "/about"
-          },
-          {
-            "label": "Topics",
-            "href": "/topics"
+            "href": "/about",
+            "categories": [],
+            "quickLinks": []
           },
           {
             "label": "Projects",
-            "href": "/projects"
+            "href": "/work/projects",
+            "categories": [
+              {
+                "label": "Urban mobility",
+                "href": "/work/projects?pillar=urban-mobility"
+              },
+              {
+                "label": "Climate resilience",
+                "href": "/work/projects?pillar=climate-resilience"
+              },
+              {
+                "label": "Liveable neighbourhoods",
+                "href": "/work/projects?pillar=liveable-neighbourhoods"
+              }
+            ],
+            "quickLinks": [
+              {
+                "label": "All projects",
+                "href": "/work/projects"
+              },
+              {
+                "label": "Ho Chi Minh City Metro Access",
+                "href": "/work/projects/ho-chi-minh-city-metro-access"
+              },
+              {
+                "label": "Can Tho Delta Resilience",
+                "href": "/work/projects/can-tho-delta-resilience"
+              }
+            ]
           },
           {
-            "label": "Events",
-            "href": "/events"
-          },
-          {
-            "label": "Resources",
-            "href": "/resources"
+            "label": "Publications",
+            "href": "/work/publications",
+            "categories": [
+              {
+                "label": "Reports",
+                "href": "/work/publications?type=report"
+              },
+              {
+                "label": "Blog",
+                "href": "/work/publications?type=blog"
+              }
+            ],
+            "quickLinks": [
+              {
+                "label": "All publications",
+                "href": "/work/publications"
+              },
+              {
+                "label": "Mekong Delta adaptation review 2026",
+                "href": "/work/publications/reports/mekong-delta-adaptation-review-2026"
+              }
+            ]
           }
         ],
         "footerLinks": [
@@ -68,24 +133,16 @@
             "href": "/about"
           },
           {
-            "label": "Topics",
-            "href": "/topics"
+            "label": "Our work",
+            "href": "/work"
           },
           {
             "label": "Projects",
-            "href": "/projects"
+            "href": "/work/projects"
           },
           {
-            "label": "Events",
-            "href": "/events"
-          },
-          {
-            "label": "Blog",
-            "href": "/blog"
-          },
-          {
-            "label": "Contact",
-            "href": "/contact"
+            "label": "Publications",
+            "href": "/work/publications"
           }
         ],
         "social": [
@@ -100,98 +157,6 @@
           {
             "platform": "YouTube",
             "href": "https://www.youtube.com"
-          }
-        ],
-        "partners": [
-          {
-            "name": "Partner One",
-            "tier": "funder",
-            "href": null,
-            "logo": {
-              "node": {
-                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+One",
-                "altText": "Partner One",
-                "mediaDetails": {
-                  "width": 280,
-                  "height": 112
-                }
-              }
-            }
-          },
-          {
-            "name": "Partner Two",
-            "tier": "lead",
-            "href": null,
-            "logo": {
-              "node": {
-                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Two",
-                "altText": "Partner Two",
-                "mediaDetails": {
-                  "width": 280,
-                  "height": 112
-                }
-              }
-            }
-          },
-          {
-            "name": "Partner Three",
-            "tier": "partner",
-            "href": null,
-            "logo": {
-              "node": {
-                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Three",
-                "altText": "Partner Three",
-                "mediaDetails": {
-                  "width": 280,
-                  "height": 112
-                }
-              }
-            }
-          },
-          {
-            "name": "Partner Four",
-            "tier": "partner",
-            "href": null,
-            "logo": {
-              "node": {
-                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Four",
-                "altText": "Partner Four",
-                "mediaDetails": {
-                  "width": 280,
-                  "height": 112
-                }
-              }
-            }
-          },
-          {
-            "name": "Partner Five",
-            "tier": "partner",
-            "href": null,
-            "logo": {
-              "node": {
-                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Five",
-                "altText": "Partner Five",
-                "mediaDetails": {
-                  "width": 280,
-                  "height": 112
-                }
-              }
-            }
-          },
-          {
-            "name": "Partner Six",
-            "tier": "partner",
-            "href": null,
-            "logo": {
-              "node": {
-                "sourceUrl": "https://placehold.co/280x112/FFFFFF/55565B/png?text=Partner+Six",
-                "altText": "Partner Six",
-                "mediaDetails": {
-                  "width": 280,
-                  "height": 112
-                }
-              }
-            }
           }
         ]
       }

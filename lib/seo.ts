@@ -28,7 +28,7 @@ type PageMetadata = {
   /** Omit on the homepage to use the CMS default title. */
   title?: string;
   description?: string;
-  /** Path from the site root, e.g. "/blog". Becomes the canonical URL. */
+  /** Path from the site root, e.g. "/work". Becomes the canonical URL. */
   path: string;
   /** Overrides the CMS default share image. */
   image?: Media;

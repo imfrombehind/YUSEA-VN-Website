@@ -1,0 +1,99 @@
+{
+  "data": {
+    "reports": {
+      "nodes": [
+        {
+          "id": "cmVwb3J0OjE=",
+          "slug": "mekong-delta-adaptation-review-2026",
+          "title": "Mekong Delta adaptation review 2026",
+          "excerpt": "<p>Where delta provinces stand on flood and salinity planning, and which investments are falling behind.</p>\n",
+          "date": "2026-09-15T09:00:00",
+          "content": "<p><strong>This is mock content.</strong> It stands in for the report summary from WordPress so the single report template can be reviewed with realistic markup.</p>\n<h2>Key findings</h2>\n<ul>\n<li>A first finding for list styling</li>\n<li>A second finding for list styling</li>\n<li>A third finding for list styling</li>\n</ul>\n<h2>Recommendations</h2>\n<p>What provinces, cities and funders can do next.</p>\n",
+          "featuredImage": {
+            "node": {
+              "sourceUrl": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=1600&q=80&auto=format&fit=crop",
+              "altText": "Boats on a waterway in the Mekong Delta",
+              "mediaDetails": {
+                "width": 1600,
+                "height": 1067
+              }
+            }
+          },
+          "pillars": {
+            "nodes": [
+              {
+                "slug": "climate-resilience",
+                "name": "Climate resilience"
+              }
+            ]
+          },
+          "reportFields": {
+            "file": null
+          }
+        },
+        {
+          "id": "cmVwb3J0OjI=",
+          "slug": "walkable-station-areas",
+          "title": "Walkable station areas: a guide for Vietnamese cities",
+          "excerpt": "<p>How to plan the ten-minute walk around a new metro or BRT station so ridership follows the investment.</p>\n",
+          "date": "2026-08-20T09:00:00",
+          "content": "<p><strong>This is mock content.</strong> It stands in for the report summary from WordPress so the single report template can be reviewed with realistic markup.</p>\n<h2>Key findings</h2>\n<ul>\n<li>A first finding for list styling</li>\n<li>A second finding for list styling</li>\n<li>A third finding for list styling</li>\n</ul>\n<h2>Recommendations</h2>\n<p>What provinces, cities and funders can do next.</p>\n",
+          "featuredImage": {
+            "node": {
+              "sourceUrl": "https://images.unsplash.com/photo-1557750255-c76072a7aad1?w=1600&q=80&auto=format&fit=crop",
+              "altText": "A crowded city street with motorbikes and pedestrians",
+              "mediaDetails": {
+                "width": 1600,
+                "height": 1067
+              }
+            }
+          },
+          "pillars": {
+            "nodes": [
+              {
+                "slug": "urban-mobility",
+                "name": "Urban mobility"
+              }
+            ]
+          },
+          "reportFields": {
+            "file": null
+          }
+        },
+        {
+          "id": "cmVwb3J0OjM=",
+          "slug": "shade-and-street-life",
+          "title": "Shade and street life in dense districts",
+          "excerpt": "<p>Survey results from four Ha Noi districts on heat, public space and how residents use their streets.</p>\n",
+          "date": "2026-07-10T09:00:00",
+          "content": "<p><strong>This is mock content.</strong> It stands in for the report summary from WordPress so the single report template can be reviewed with realistic markup.</p>\n<h2>Key findings</h2>\n<ul>\n<li>A first finding for list styling</li>\n<li>A second finding for list styling</li>\n<li>A third finding for list styling</li>\n</ul>\n<h2>Recommendations</h2>\n<p>What provinces, cities and funders can do next.</p>\n",
+          "featuredImage": {
+            "node": {
+              "sourceUrl": "https://images.unsplash.com/photo-1555921015-5532091f6026?w=1600&q=80&auto=format&fit=crop",
+              "altText": "A shaded street in Ha Noi's Old Quarter",
+              "mediaDetails": {
+                "width": 1600,
+                "height": 1067
+              }
+            }
+          },
+          "pillars": {
+            "nodes": [
+              {
+                "slug": "climate-resilience",
+                "name": "Climate resilience"
+              },
+              {
+                "slug": "liveable-neighbourhoods",
+                "name": "Liveable neighbourhoods"
+              }
+            ]
+          },
+          "reportFields": {
+            "file": null
+          }
+        }
+      ]
+    }
+  }
+}
