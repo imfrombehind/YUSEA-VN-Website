@@ -30,7 +30,7 @@ const VARIABLES: Record<string, Record<string, string>> = {
   PROJECT_BY_SLUG_QUERY: { slug: "schema-check" },
   REPORT_BY_SLUG_QUERY: { slug: "schema-check" },
   POST_BY_SLUG_QUERY: { slug: "schema-check" },
-  PAGE_BY_URI_QUERY: { uri: "/about" },
+  PAGE_BY_URI_QUERY: { uri: "/work" },
 };
 
 const url = endpoint();
@@ -53,7 +53,7 @@ for (const [name, query] of Object.entries(queries)) {
     failures++;
     console.log(`✗ ${name}`);
     errors.forEach((message) => console.log(`    ${message}`));
-  } else if (name === "PAGE_BY_URI_QUERY" && !payload.data?.page) {
+  } else if (name === "ABOUT_PAGE_QUERY" && !payload.data?.page) {
     console.log(`✓ ${name}  (but there is no page at /about yet: it will 404)`);
   } else {
     console.log(`✓ ${name}`);

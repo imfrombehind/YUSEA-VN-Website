@@ -120,10 +120,48 @@ export type PageDetail = {
   excerpt: string;
   content: string;
   image?: Media;
-  /** ACF `indexPageFields` — on the Work, Projects and Publications pages. */
-  eyebrow: string;
+  /**
+   * ACF `indexPageFields` — the "Page content" box on the Work, Projects,
+   * Publications and About pages. An empty heading falls back to the page
+   * title; the excerpt stays the meta description only.
+   */
+  header: IndexCopy;
   /** ACF `workHubFields` — on the Work page only; "" elsewhere. */
   workHub: WorkHubSections;
+};
+
+/** A person on the About page's board. */
+export type BoardMember = {
+  name: string;
+  /** Title and organisation, e.g. "Chair, YUSEA". */
+  role: string;
+  photo?: Media;
+};
+
+/**
+ * /about. "Who we are" is the page itself (Page content box, featured
+ * image, body); the other sections come from ACF `aboutPageFields`.
+ * Section headings double as the side-nav labels.
+ */
+export type AboutPage = {
+  page: PageDetail;
+  mission: {
+    heading: string;
+    points: string[];
+  };
+  /** The first three pillars, as on the homepage. */
+  focus: {
+    heading: string;
+    intro: string;
+    /** "Explore more" on each card. */
+    linkLabel: string;
+    pillars: Pillar[];
+  };
+  board: {
+    heading: string;
+    intro: string;
+    members: BoardMember[];
+  };
 };
 
 /** The two section headings and "view all" links on /work. */
@@ -134,10 +172,7 @@ export type WorkHubSections = {
   viewAllPublications: string;
 };
 
-/**
- * Copy for a /work index page. Comes from its WP page (title = heading,
- * excerpt = intro), falling back to the Site Settings `work` group.
- */
+/** Copy for a /work index page, from the WP page at the same path. */
 export type IndexPage = IndexCopy & {
   sections: WorkHubSections;
 };
@@ -160,7 +195,7 @@ export type NavItem = CTA & {
   quickLinksHeading: string;
 };
 
-/** Heading, intro and eyebrow for one of the /work index pages. */
+/** Eyebrow, heading and intro at the top of a page. */
 export type IndexCopy = {
   eyebrow: string;
   heading: string;
@@ -201,19 +236,16 @@ export type SiteSettings = {
     copyright: string;
     address: string;
   };
-  /** Copy for /work, its two indexes and the single templates. */
+  /** Labels for the projects/publications lists and single templates. */
+  /**
+   * Labels shared by every projects/publications page and template. Page
+   * headings live on the pages themselves (PageDetail.header).
+   */
   work: {
-    hub: IndexCopy;
-    projects: IndexCopy;
-    publications: IndexCopy;
     /** aria-label for the pillar / type filter row. */
     filterLabel: string;
     /** The "no filter" chip. */
     filterAll: string;
-    projectsHeading: string;
-    publicationsHeading: string;
-    viewAllProjects: string;
-    viewAllPublications: string;
     emptyText: string;
     kind: Record<Publication["kind"], string>;
     status: Record<Project["status"], string>;

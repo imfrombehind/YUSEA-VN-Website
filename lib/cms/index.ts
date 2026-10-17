@@ -12,6 +12,7 @@
 
 import { wpQuery } from "./client";
 import {
+  mapAboutPage,
   mapHomepage,
   mapPageDetail,
   mapPillars,
@@ -24,6 +25,7 @@ import {
   mapSiteSettings,
 } from "./mappers";
 import {
+  mockAboutPage,
   mockHomepage,
   mockPage,
   mockPillars,
@@ -33,6 +35,7 @@ import {
   mockSiteSettings,
 } from "./mocks";
 import {
+  ABOUT_PAGE_QUERY,
   HOMEPAGE_QUERY,
   PAGE_BY_URI_QUERY,
   PILLARS_QUERY,
@@ -45,6 +48,7 @@ import {
   SITE_SETTINGS_QUERY,
 } from "./queries";
 import type {
+  AboutPage,
   Homepage,
   IndexPage,
   PageDetail,
@@ -229,7 +233,22 @@ export async function getPublications(): Promise<Publication[]> {
   return [...reports, ...posts].sort((a, b) => b.date.localeCompare(a.date));
 }
 
-/** A standard WP page by path, e.g. "/about", or null. */
+/**
+ * /about with its sections and the Our focus pillars, or null if WP has no
+ * /about page. Tagged "pillars" too, so editing a pillar refreshes it.
+ */
+export function getAboutPage(): Promise<AboutPage | null> {
+  return cmsRequest({
+    label: "getAboutPage",
+    query: ABOUT_PAGE_QUERY,
+    variables: { pillarsFirst: 3 },
+    tags: ["pages", "page:/about", "pillars"],
+    mock: mockAboutPage(3),
+    map: mapAboutPage,
+  });
+}
+
+/** A standard WP page by path, e.g. "/work", or null. */
 export function getPageByUri(uri: string): Promise<PageDetail | null> {
   return cmsRequest({
     label: "getPageByUri",
@@ -242,27 +261,23 @@ export function getPageByUri(uri: string): Promise<PageDetail | null> {
 }
 
 /**
- * Copy for /work, /work/projects or /work/publications. The WP page of the
- * same path wins (title = heading, excerpt = intro, ACF eyebrow and section
- * labels); any field it leaves empty — or a missing page — falls back to
- * the Site Settings `work` group, so the page never renders blank.
+ * Copy for /work, /work/projects or /work/publications, from the "Page
+ * content" box on the WP page at that path. A missing page gives empty
+ * strings rather than an error, so the list below still renders.
  */
 export async function getIndexPage(
   uri: "/work" | "/work/projects" | "/work/publications",
 ): Promise<IndexPage> {
-  const [page, { work }] = await Promise.all([getPageByUri(uri), getSiteSettings()]);
-  const fallback =
-    uri === "/work" ? work.hub : uri === "/work/projects" ? work.projects : work.publications;
-
+  const page = await getPageByUri(uri);
   return {
-    eyebrow: page?.eyebrow || fallback.eyebrow,
-    heading: page?.title || fallback.heading,
-    intro: page?.excerpt || fallback.intro,
-    sections: {
-      projectsHeading: page?.workHub.projectsHeading || work.projectsHeading,
-      publicationsHeading: page?.workHub.publicationsHeading || work.publicationsHeading,
-      viewAllProjects: page?.workHub.viewAllProjects || work.viewAllProjects,
-      viewAllPublications: page?.workHub.viewAllPublications || work.viewAllPublications,
+    eyebrow: page?.header.eyebrow ?? "",
+    heading: page?.header.heading ?? "",
+    intro: page?.header.intro ?? "",
+    sections: page?.workHub ?? {
+      projectsHeading: "",
+      publicationsHeading: "",
+      viewAllProjects: "",
+      viewAllPublications: "",
     },
   };
 }

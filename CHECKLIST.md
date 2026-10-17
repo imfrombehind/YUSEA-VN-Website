@@ -25,7 +25,7 @@ relative to the repo root.
 
 - [ ] **Install and activate `wordpress/yusea-content-model.php`** (`npm run wp:zip`), and re-upload `yusea-revalidate.php` (v1.1.0, adds report and pillar purges). This creates the `project`/`report` post types, the `pillar` taxonomy and every v2 field.
 - [ ] **`npm run check:cms` passes** against the live CMS. WPGraphQL rejects a whole query if any field is missing, which fails the Vercel build.
-- [ ] In **Tools → YUSEA Setup**, everything is ticked. **Create starter content** publishes sample pillars, projects, reports, posts and About immediately — replace every "This is mock content." line, "PLACEHOLDER" source and Unsplash photo before launch.
+- [ ] In **Tools → YUSEA Setup**, everything is ticked. **Create starter content** publishes sample pillars, projects, reports, posts and About immediately — replace every "This is mock content." line, "PLACEHOLDER" source and Unsplash photo before launch, including the placeholder **board of directors** on About (names, roles, photos) and its mission points.
 - [ ] Add nav dropdown links per row, and real social profile URLs, in Site Settings.
 - [ ] **Nav and CTAs must point at routes that exist:** `/`, `/about`, `/work`, `/work/projects`, `/work/publications` and the single templates. Add any new route to [app/sitemap.ts](app/sitemap.ts).
 - [ ] **Mock content could ship.** If `WORDPRESS_USE_MOCKS` isn't `"false"`, production shows mocks, including the "PLACEHOLDER" stats. Once WordPress is live, fail the build when `VERCEL_ENV=production` and the CMS isn't connected.

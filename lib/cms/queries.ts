@@ -11,8 +11,9 @@
  *   Project CPT   -> projectFields      { latitude longitude city province status metrics heroImage }
  *   Report CPT    -> reportFields       { file }
  *   Pillar term   -> pillarFields       { image }
- *   Index pages   -> indexPageFields    { eyebrow }   (Work, Projects, Publications)
+ *   Pages         -> indexPageFields    { eyebrow heading intro }   (Work, Projects, Publications, About)
  *   Work page     -> workHubFields      { projectsHeading … }
+ *   About page    -> aboutPageFields    { mission focus board }
  *   Options page  -> siteSettings { siteSettingsFields { ... } }
  *
  * The `pillar` taxonomy is attached to Projects, Reports and Posts.
@@ -278,6 +279,8 @@ export const PAGE_BY_URI_QUERY = /* GraphQL */ `
       }
       indexPageFields {
         eyebrow
+        heading
+        intro
       }
       workHubFields {
         projectsHeading
@@ -286,6 +289,58 @@ export const PAGE_BY_URI_QUERY = /* GraphQL */ `
         viewAllPublicationsLabel
       }
     }
+  }
+`;
+
+/**
+ * /about in one round trip: the page, its `aboutPageFields` and the three
+ * pillars for the Our focus section (the same cards as the homepage).
+ */
+export const ABOUT_PAGE_QUERY = /* GraphQL */ `
+  ${MEDIA_FRAGMENT}
+  query AboutPage($pillarsFirst: Int = 3) {
+    page(id: "/about", idType: URI) {
+      title
+      excerpt
+      content
+      featuredImage {
+        node {
+          ...MediaFields
+        }
+      }
+      indexPageFields {
+        eyebrow
+        heading
+        intro
+      }
+      aboutPageFields {
+        mission {
+          heading
+          points {
+            text
+          }
+        }
+        focus {
+          heading
+          intro
+          linkLabel
+        }
+        board {
+          heading
+          intro
+          members {
+            name
+            role
+            photo {
+              node {
+                ...MediaFields
+              }
+            }
+          }
+        }
+      }
+    }
+    ${PILLARS_CONNECTION}
   }
 `;
 
@@ -327,21 +382,8 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
         footerCopyright
         footerAddress
         work {
-          hubEyebrow
-          hubHeading
-          hubIntro
-          projectsEyebrow
-          projectsHeading
-          projectsIntro
-          publicationsEyebrow
-          publicationsHeading
-          publicationsIntro
           filterLabel
           filterAllLabel
-          projectsSectionHeading
-          publicationsSectionHeading
-          viewAllProjectsLabel
-          viewAllPublicationsLabel
           emptyText
           kindBlogLabel
           kindReportLabel

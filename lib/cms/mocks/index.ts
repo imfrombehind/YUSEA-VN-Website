@@ -6,6 +6,7 @@
  * change what the site shows while WORDPRESS_USE_MOCKS is "true".
  */
 
+import about from "./about.json";
 import homepage from "./homepage.json";
 import pages from "./pages.json";
 import pillars from "./pillars.json";
@@ -27,13 +28,18 @@ export function mockHomepage(pillarsFirst = 3) {
   return { pageData: homepage.data.pageData, ...mockPillars(pillarsFirst) };
 }
 
+/** ABOUT_PAGE_QUERY: the /about page + the first pillars, as one response. */
+export function mockAboutPage(pillarsFirst = 3) {
+  return { page: about.data.page, ...mockPillars(pillarsFirst) };
+}
+
 /** PROJECTS_QUERY / PROJECT_BY_SLUG_QUERY source. */
 export const mockProjects = projects.data;
 
 /** REPORTS_QUERY / REPORT_BY_SLUG_QUERY source. */
 export const mockReports = reports.data;
 
-/** PAGE_BY_URI_QUERY: pages keyed by URI, e.g. "/about". */
+/** PAGE_BY_URI_QUERY: pages keyed by URI, e.g. "/work". */
 export function mockPage(uri: string) {
   const byUri: Record<string, unknown> = pages.data.pages;
   return { page: byUri[uri] ?? null };

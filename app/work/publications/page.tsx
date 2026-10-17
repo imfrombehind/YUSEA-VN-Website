@@ -59,7 +59,7 @@ export default async function PublicationsPage({ searchParams }: Props) {
 
         <div className="mt-10 space-y-3">
           <FilterChips
-            label={work.publicationsHeading}
+            label={copy.heading}
             chips={[
               { label: work.filterAll, href: href({ type: undefined }), active: !type },
               ...KINDS.map((k) => ({

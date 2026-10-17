@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: YUSEA Content Model
- * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.4.0
+ * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
+ * Version:     1.6.0
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.4.0';
+const YUSEA_CM_VERSION = '1.6.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -252,24 +252,11 @@ function yusea_cm_additions() {
         ],
         'siteSettingsFields' => [
             'fields' => [
-                yusea_cm_field('work', 'work', 'Work pages', 'group', [
+                yusea_cm_field('work', 'work', 'Labels: projects & publications', 'group', [
                     'layout'     => 'block',
                     'sub_fields' => [
-                        yusea_cm_label('work_hub_eyebrow', 'hubEyebrow', '/work eyebrow', 'Our work'),
-                        yusea_cm_label('work_hub_heading', 'hubHeading', '/work heading', 'Projects and publications'),
-                        yusea_cm_label('work_hub_intro', 'hubIntro', '/work intro', 'Everything YUSEA is working on, and everything we have published. Filter by focus area to see one pillar at a time.', 'textarea'),
-                        yusea_cm_label('work_projects_eyebrow', 'projectsEyebrow', '/work/projects eyebrow', 'Our work'),
-                        yusea_cm_label('work_projects_heading', 'projectsHeading', '/work/projects heading', 'Projects'),
-                        yusea_cm_label('work_projects_intro', 'projectsIntro', '/work/projects intro', 'Programmes we run with provinces, cities and communities across Viet Nam.', 'textarea'),
-                        yusea_cm_label('work_publications_eyebrow', 'publicationsEyebrow', '/work/publications eyebrow', 'Our work'),
-                        yusea_cm_label('work_publications_heading', 'publicationsHeading', '/work/publications heading', 'Publications'),
-                        yusea_cm_label('work_publications_intro', 'publicationsIntro', '/work/publications intro', 'Research reports and writing from the YUSEA team.', 'textarea'),
                         yusea_cm_label('work_filter_label', 'filterLabel', 'Filter row label (screen readers)', 'Filter by focus'),
                         yusea_cm_label('work_filter_all', 'filterAllLabel', '"All" filter chip', 'All'),
-                        yusea_cm_label('work_projects_section', 'projectsSectionHeading', '/work projects heading', 'Projects'),
-                        yusea_cm_label('work_publications_section', 'publicationsSectionHeading', '/work publications heading', 'Publications'),
-                        yusea_cm_label('work_view_all_projects', 'viewAllProjectsLabel', '"All projects" link', 'All projects'),
-                        yusea_cm_label('work_view_all_publications', 'viewAllPublicationsLabel', '"All publications" link', 'All publications'),
                         yusea_cm_label('work_empty', 'emptyText', 'Empty list text', 'Nothing published here yet.'),
                         yusea_cm_label('work_kind_blog', 'kindBlogLabel', 'Label: blog post', 'Blog'),
                         yusea_cm_label('work_kind_report', 'kindReportLabel', 'Label: report', 'Report'),
@@ -437,7 +424,19 @@ function yusea_cm_migrate() {
         }
     }
 
-    return array_merge($log, yusea_cm_ensure_pages());
+    // The Site Settings `work` group now holds only shared labels.
+    $settings = yusea_cm_settings_group();
+    if ($settings) {
+        $work = yusea_cm_find_by_graphql_name(acf_get_fields($settings) ?: [], 'work', 'name');
+        if ($work && !empty($work['ID']) && $work['label'] !== 'Labels: projects & publications') {
+            $work['label'] = 'Labels: projects & publications';
+            acf_update_field($work);
+            $log[] = 'Site Settings "Work pages" renamed to "Labels: projects & publications".';
+        }
+    }
+
+    $log = array_merge($log, yusea_cm_ensure_pages());
+    return array_merge($log, yusea_cm_copy_page_copy_from_settings());
 }
 
 /**
@@ -551,28 +550,36 @@ add_action('acf/init', function () {
         'show_in_graphql'                       => 1,
         'map_graphql_types_from_location_rules' => 0,
         'graphql_types'                         => ['Page'],
-        'position'                              => 'side',
+        'position'                              => 'acf_after_title',
+        'style'                                 => 'default',
     ];
 
     acf_add_local_field_group(array_merge([
         'key'                => 'group_yusea_index_page_fields',
-        'title'              => 'Index page',
+        'title'              => 'Page content',
         'graphql_field_name' => 'indexPageFields',
-        'location'           => yusea_cm_page_location(array_keys(yusea_cm_index_pages())),
+        'location'           => yusea_cm_page_location(array_merge(array_keys(yusea_cm_index_pages()), ['about'])),
+        'menu_order'         => 0,
         'fields'             => [
-            yusea_cm_label('index_eyebrow', 'eyebrow', 'Eyebrow', 'Our work'),
-            yusea_cm_field('index_help', 'index_help', 'How this page works', 'message', [
-                'message'         => 'The page <strong>title</strong> is the heading and the <strong>excerpt</strong> is the intro. The block content is not shown; the lists come from Projects, Reports and Posts.',
-                'show_in_graphql' => 0,
+            yusea_cm_field('index_eyebrow', 'eyebrow', 'Eyebrow', 'text', [
+                'instructions' => 'Small label above the heading.',
+            ]),
+            yusea_cm_field('index_heading', 'heading', 'Heading', 'text', [
+                'instructions' => 'The page heading. Empty: the page title is used.',
+            ]),
+            yusea_cm_field('index_intro', 'intro', 'Intro', 'textarea', [
+                'instructions' => 'One or two sentences under the heading.',
+                'rows'         => 3,
             ]),
         ],
     ], $on_pages));
 
     acf_add_local_field_group(array_merge([
         'key'                => 'group_yusea_work_hub_fields',
-        'title'              => 'Work page sections',
+        'title'              => 'Work page: sections',
         'graphql_field_name' => 'workHubFields',
         'location'           => yusea_cm_page_location(['work']),
+        'menu_order'         => 1,
         'fields'             => [
             yusea_cm_label('hub_projects_heading', 'projectsHeading', 'Projects heading', 'Projects'),
             yusea_cm_label('hub_publications_heading', 'publicationsHeading', 'Publications heading', 'Publications'),
@@ -580,6 +587,200 @@ add_action('acf/init', function () {
             yusea_cm_label('hub_view_all_publications', 'viewAllPublicationsLabel', '"All publications" link', 'All publications'),
         ],
     ], $on_pages));
+
+    // /about: "Who we are" is the Page content box, featured image and body;
+    // these are the sections below it. Each heading is also its side-nav
+    // label, and a section with no points / pillars / members is hidden.
+    acf_add_local_field_group(array_merge([
+        'key'                => 'group_yusea_about_page_fields',
+        'title'              => 'About page: sections',
+        'graphql_field_name' => 'aboutPageFields',
+        'location'           => yusea_cm_page_location(['about']),
+        'menu_order'         => 1,
+        'fields'             => [
+            yusea_cm_field('about_mission', 'mission', 'Mission', 'group', [
+                'layout'     => 'block',
+                'sub_fields' => [
+                    yusea_cm_label('about_mission_heading', 'heading', 'Heading', 'Our mission'),
+                    yusea_cm_field('about_mission_points', 'points', 'Points', 'repeater', [
+                        'instructions' => 'Three points work best. Shown as a numbered list.',
+                        'layout'       => 'table',
+                        'button_label' => 'Add point',
+                        'sub_fields'   => [
+                            yusea_cm_field('about_mission_point_text', 'text', 'Text', 'textarea', ['rows' => 2]),
+                        ],
+                    ]),
+                ],
+            ]),
+            yusea_cm_field('about_focus', 'focus', 'Our focus', 'group', [
+                'layout'       => 'block',
+                'instructions' => 'The cards are the first three pillars (Posts → Pillars), the same as the homepage. Edit a pillar there to change its card.',
+                'sub_fields'   => [
+                    yusea_cm_label('about_focus_heading', 'heading', 'Heading', 'Our focus'),
+                    yusea_cm_field('about_focus_intro', 'intro', 'Intro', 'textarea', ['rows' => 2, 'instructions' => 'Optional.']),
+                    yusea_cm_label('about_focus_link_label', 'linkLabel', 'Card link label', 'Explore more'),
+                ],
+            ]),
+            yusea_cm_field('about_board', 'board', 'Board of directors', 'group', [
+                'layout'     => 'block',
+                'sub_fields' => [
+                    yusea_cm_label('about_board_heading', 'heading', 'Heading', 'Board of directors'),
+                    yusea_cm_field('about_board_intro', 'intro', 'Intro', 'textarea', ['rows' => 2, 'instructions' => 'Optional.']),
+                    yusea_cm_field('about_board_members', 'members', 'Members', 'repeater', [
+                        'instructions' => 'Shown in this order, two per row. Drag rows to reorder.',
+                        'layout'       => 'table',
+                        'button_label' => 'Add member',
+                        'sub_fields'   => [
+                            yusea_cm_field('about_board_member_photo', 'photo', 'Photo', 'image', [
+                                'instructions'  => 'Square, shown as a circle (upload 400×400 or larger).',
+                                'return_format' => 'array',
+                                'preview_size'  => 'thumbnail',
+                            ]),
+                            yusea_cm_field('about_board_member_name', 'name', 'Name'),
+                            yusea_cm_field('about_board_member_role', 'role', 'Role', 'text', ['instructions' => 'e.g. Chair, YUSEA']),
+                        ],
+                    ]),
+                ],
+            ]),
+        ],
+    ], $on_pages));
+});
+
+/** True for the Work, Projects and Publications pages. */
+function yusea_cm_is_index_page($post_id) {
+    foreach (array_keys(yusea_cm_index_pages()) as $path) {
+        $page = get_page_by_path($path);
+        if ($page && (int) $page->ID === (int) $post_id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// The three list pages show only their Page content box: their body and
+// excerpt aren't used anywhere, so the plain editor screen hides both.
+add_filter('use_block_editor_for_post', function ($use, $post) {
+    return $post && yusea_cm_is_index_page($post->ID) ? false : $use;
+}, 10, 2);
+
+add_action('add_meta_boxes_page', function ($post) {
+    if (yusea_cm_is_index_page($post->ID)) {
+        remove_post_type_support('page', 'editor');
+        remove_meta_box('postexcerpt', 'page', 'normal');
+    }
+});
+
+/**
+ * One-off: copies the page headings editors typed into Site Settings → Work
+ * pages onto the pages' own Page content boxes, so nothing typed is lost
+ * when those Site Settings fields go. A page field that is already filled
+ * in is never overwritten.
+ */
+function yusea_cm_copy_page_copy_from_settings() {
+    $log   = [];
+    $group = yusea_cm_settings_group();
+    if (!$group) {
+        return $log;
+    }
+    $work = get_field('work', yusea_cm_options_post_id($group));
+    $work = is_array($work) ? $work : [];
+
+    $set = function ($page, $name, $key, $value) use (&$log) {
+        if ($value === '' || $value === null || metadata_exists('post', $page->ID, $name)) {
+            return;
+        }
+        update_field($key, $value, $page->ID);
+        $log[] = '/' . get_page_uri($page) . " → $name set to \"" . wp_trim_words($value, 8) . '"';
+    };
+
+    foreach (['work' => 'hub', 'work/projects' => 'projects', 'work/publications' => 'publications'] as $path => $prefix) {
+        $page = get_page_by_path($path);
+        if (!$page) {
+            continue;
+        }
+        $set($page, 'eyebrow', 'field_yusea_index_eyebrow', $work[$prefix . 'Eyebrow'] ?? '');
+        $set($page, 'heading', 'field_yusea_index_heading', ($work[$prefix . 'Heading'] ?? '') ?: $page->post_title);
+        $set($page, 'intro', 'field_yusea_index_intro', ($work[$prefix . 'Intro'] ?? '') ?: $page->post_excerpt);
+    }
+
+    $hub = get_page_by_path('work');
+    if ($hub) {
+        $set($hub, 'projectsHeading', 'field_yusea_hub_projects_heading', $work['projectsSectionHeading'] ?? '');
+        $set($hub, 'publicationsHeading', 'field_yusea_hub_publications_heading', $work['publicationsSectionHeading'] ?? '');
+        $set($hub, 'viewAllProjectsLabel', 'field_yusea_hub_view_all_projects', $work['viewAllProjectsLabel'] ?? '');
+        $set($hub, 'viewAllPublicationsLabel', 'field_yusea_hub_view_all_publications', $work['viewAllPublicationsLabel'] ?? '');
+    }
+
+    $about = get_page_by_path('about');
+    if ($about) {
+        $set($about, 'heading', 'field_yusea_index_heading', $about->post_title);
+    }
+    return $log;
+}
+
+/**
+ * Fields the site no longer reads, as "group" => ["field" or "parent.field"].
+ * Removed only from Tools → YUSEA Setup, after the matching frontend is
+ * deployed: an older deployed frontend still queries some of them.
+ */
+function yusea_cm_obsolete_fields() {
+    return [
+        'siteSettingsFields' => [
+            'blogEyebrow', 'blogHeading', 'blogIntro', 'blogEmptyText', 'partners',
+            'navCategoriesLabel', 'navQuickLinksLabel',
+            'work.hubEyebrow', 'work.hubHeading', 'work.hubIntro',
+            'work.projectsEyebrow', 'work.projectsHeading', 'work.projectsIntro',
+            'work.publicationsEyebrow', 'work.publicationsHeading', 'work.publicationsIntro',
+            'work.projectsSectionHeading', 'work.publicationsSectionHeading',
+            'work.viewAllProjectsLabel', 'work.viewAllPublicationsLabel',
+        ],
+        'homepageFields' => ['hero.pauseLabel', 'hero.playLabel'],
+    ];
+}
+
+/** [label, field] for each obsolete field still in the database. */
+function yusea_cm_find_obsolete() {
+    if (!function_exists('acf_get_field_groups')) {
+        return [];
+    }
+    $found  = [];
+    $groups = acf_get_field_groups();
+    foreach (yusea_cm_obsolete_fields() as $group_name => $paths) {
+        $group = yusea_cm_find_by_graphql_name($groups, $group_name, 'title');
+        if (!$group) {
+            continue;
+        }
+        foreach ($paths as $path) {
+            $parent = $group;
+            $field  = null;
+            foreach (explode('.', $path) as $name) {
+                $field = yusea_cm_find_by_graphql_name(acf_get_fields($parent) ?: [], $name, 'name');
+                if (!$field) {
+                    break;
+                }
+                $parent = $field;
+            }
+            if ($field && !empty($field['ID'])) {
+                $found[] = ["$group_name.$path (" . $field['label'] . ')', $field];
+            }
+        }
+    }
+    return $found;
+}
+
+add_action('admin_post_yusea_cm_cleanup', function () {
+    if (!current_user_can('manage_options')) {
+        wp_die('You are not allowed to do this.');
+    }
+    check_admin_referer('yusea_cm_cleanup');
+    $log = [];
+    foreach (yusea_cm_find_obsolete() as [$label, $field]) {
+        acf_delete_field($field['ID']);
+        $log[] = "Removed $label. Its saved values stay in the database.";
+    }
+    set_transient('yusea_cm_seed_log', $log ?: ['Nothing to remove.'], 10 * MINUTE_IN_SECONDS);
+    wp_safe_redirect(admin_url('tools.php?page=yusea-setup&seeded=1'));
+    exit;
 });
 
 /* ------------------------------------------------------------------ *
@@ -727,6 +928,13 @@ function yusea_cm_status() {
     }
     $about  = get_page_by_path('about');
     $rows[] = [$about && $about->post_status === 'publish', 'Page /about', $about ? 'Exists (' . $about->post_status . ').' : 'Missing: the frontend shows a 404.'];
+    if ($about && function_exists('get_field')) {
+        $mission = get_field('field_yusea_about_mission', $about->ID);
+        $board   = get_field('field_yusea_about_board', $about->ID);
+        $points  = is_array($mission['points'] ?? null) ? count($mission['points']) : 0;
+        $members = is_array($board['members'] ?? null) ? count($board['members']) : 0;
+        $rows[]  = [$points > 0 && $members > 0, 'About page sections', "$points mission point(s), $members board member(s). An empty section is hidden on the site."];
+    }
 
     $pillars = taxonomy_exists('pillar') ? get_terms(['taxonomy' => 'pillar', 'hide_empty' => false]) : [];
     $count   = is_array($pillars) ? count($pillars) : 0;
@@ -734,6 +942,9 @@ function yusea_cm_status() {
 
     $social = yusea_cm_social_field();
     $rows[] = [$social && $social['count'] > 0, 'Social links', $social ? $social['count'] . ' row(s) in Site Settings.' : 'Social repeater not found.'];
+
+    $old    = count(yusea_cm_find_obsolete());
+    $rows[] = [$old === 0, 'Old fields', $old ? "$old field(s) the site no longer uses. Remove them below once the latest site is deployed." : 'None left.'];
 
     return $rows;
 }
@@ -766,11 +977,27 @@ function yusea_cm_setup_page() {
     }
     echo '</tbody></table>';
 
-    echo '<h2>Starter content</h2><p style="max-width:900px">Creates and <strong>publishes immediately</strong> the three pillars, 4 projects, 3 reports, 6 blog posts and an About page, with the text and photos from the design mock-ups. <strong>The sample text is public until you replace it.</strong> Starter drafts from an earlier run are published too. If the hero slideshow is empty, it is filled with your Background photo plus starter photos. Adds LinkedIn, Facebook and Instagram rows to Site Settings if there are no social links yet (replace their URLs with your real profiles). Your navigation is not changed. Anything that already exists, matched by slug, is skipped, so running it twice is safe. Photos are downloaded from Unsplash into the Media Library.</p>';
+    echo '<h2>Starter content</h2><p style="max-width:900px">Creates and <strong>publishes immediately</strong> the three pillars, 4 projects, 3 reports, 6 blog posts and an About page, with the text and photos from the design mock-ups. <strong>The sample text is public until you replace it.</strong> Starter drafts from an earlier run are published too. If the hero slideshow is empty, it is filled with your Background photo plus starter photos. Empty About page sections (mission points, board members) get sample content, including placeholder board members; anything already filled in is kept. Adds LinkedIn, Facebook and Instagram rows to Site Settings if there are no social links yet (replace their URLs with your real profiles). Your navigation is not changed. Anything that already exists, matched by slug, is skipped, so running it twice is safe. Photos are downloaded from Unsplash into the Media Library.</p>';
     echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
     wp_nonce_field('yusea_cm_seed');
     echo '<input type="hidden" name="action" value="yusea_cm_seed">';
     submit_button('Create starter content', 'primary', 'submit', false);
+    echo '</form>';
+
+    $old = yusea_cm_find_obsolete();
+    echo '<h2>Old fields</h2>';
+    if (!$old) {
+        echo '<p>Nothing to remove.</p></div>';
+        return;
+    }
+    echo '<p style="max-width:900px">These fields are no longer shown on the site. Their text has been copied to each page\'s <strong>Page content</strong> box where it is still needed. <strong>Remove them only after the latest version of the site is deployed</strong>: the version before it still reads some of them. Saved values stay in the database.</p><ul style="list-style:disc;padding-left:1.5em">';
+    foreach ($old as [$label]) {
+        echo '<li>' . esc_html($label) . '</li>';
+    }
+    echo '</ul><form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
+    wp_nonce_field('yusea_cm_cleanup');
+    echo '<input type="hidden" name="action" value="yusea_cm_cleanup">';
+    submit_button('Remove old fields', 'delete', 'submit', false);
     echo '</form></div>';
 }
 
@@ -925,7 +1152,16 @@ function yusea_cm_seed() {
     foreach ($data['posts'] as $p) {
         $create('post', $p);
     }
-    $create('page', $data['about']);
+    $about_id = $create('page', $data['about']);
+    $about    = $about_id ? get_post($about_id) : get_page_by_path('about');
+    if ($about_id) {
+        foreach ($data['about']['header'] as $name => $value) {
+            update_field('field_yusea_index_' . $name, $value, $about_id);
+        }
+    }
+    if ($about) {
+        $log = array_merge($log, yusea_cm_seed_about_sections($about->ID, $data['about']['sections'], $image));
+    }
 
     // Hero slideshow, only if empty: the current Background photo first, then
     // three starter photos, so four photos crossfade straight away.
@@ -968,6 +1204,40 @@ function yusea_cm_seed() {
 
     $log[] = 'Navigation was not changed. Add dropdown links per row in Site Settings → navigation.';
     $log[] = 'Everything above is live. Replace the sample text, photos and "PLACEHOLDER" metric sources under Projects, Reports, Posts and Pages.';
+    return $log;
+}
+
+/**
+ * Fills the About page's sections (mission, focus, board) from the
+ * starter data, one sub-field at a time and only where it is still empty,
+ * so nothing an editor typed is overwritten. Board photos are Unsplash IDs.
+ */
+function yusea_cm_seed_about_sections($page_id, $sections, $image) {
+    $log = [];
+    foreach ($sections as $name => $starter) {
+        $current = get_field('field_yusea_about_' . $name, $page_id);
+        $current = is_array($current) ? $current : [];
+        $filled  = [];
+        foreach ($starter as $sub => $value) {
+            if (!empty($current[$sub])) {
+                continue;
+            }
+            if ($sub === 'members') {
+                foreach ($value as &$member) {
+                    $member['photo'] = $image($member['photo'] ?? null) ?: '';
+                }
+                unset($member);
+            }
+            $current[$sub] = $value;
+            $filled[]      = $sub;
+        }
+        if ($filled) {
+            update_field('field_yusea_about_' . $name, $current, $page_id);
+            $log[] = "About page → $name: " . implode(', ', $filled) . ' filled with starter content.';
+        } else {
+            $log[] = "About page → $name already filled in — left as is.";
+        }
+    }
     return $log;
 }
 
@@ -1575,35 +1845,75 @@ function yusea_cm_starter_data() {
             'title' => 'About YUSEA',
             'excerpt' => 'YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.',
             'content' => '<!-- wp:paragraph -->
-<p>YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.</p>
+<p><strong>This is mock content.</strong> It stands in for the About page body from WordPress: the rest of the Who we are section.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>This is mock content.</strong> It stands in for the About page body from WordPress.</p>
+<p>YUSEA is a team of planners, researchers and organisers based in Viet Nam, working with partners across Southeast Asia. We start from the places plans describe, not from the plans, and we bring young people into the decisions they will live with longest.</p>
 <!-- /wp:paragraph -->
-
-<!-- wp:heading -->
-<h2 class="wp-block-heading">Who we are</h2>
-<!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>A team of planners, researchers and organisers based in Viet Nam, working with partners across Southeast Asia.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading -->
-<h2 class="wp-block-heading">How we work</h2>
-<!-- /wp:heading -->
-
-<!-- wp:list -->
-<ul class="wp-block-list"><!-- wp:list-item -->
-<li>We start from the places plans describe, not from the plans.</li>
-<!-- /wp:list-item --><!-- wp:list-item -->
-<li>We bring young people into decisions they will live with longest.</li>
-<!-- /wp:list-item --><!-- wp:list-item -->
-<li>We publish our data and methods openly.</li>
-<!-- /wp:list-item --></ul>
-<!-- /wp:list -->',
+<p>We publish our data and methods openly, so that provinces, cities and communities can build on what we learn.</p>
+<!-- /wp:paragraph -->',
             'photo' => 'photo-1509030450996-dd1a26dda07a',
+            'header' => [
+                'eyebrow' => 'About YUSEA',
+                'heading' => 'Who we are',
+                'intro' => 'YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.',
+            ],
+            'sections' => [
+                'mission' => [
+                    'points' => [
+                        [
+                            'text' => 'Help Viet Nam\'s provinces and cities plan growth that is equitable, low-carbon and resilient to a changing climate.',
+                        ],
+                        [
+                            'text' => 'Bring young people and local communities into the decisions that shape the places they will live in longest.',
+                        ],
+                        [
+                            'text' => 'Turn research into practical tools, open data and evidence that decision-makers can act on.',
+                        ],
+                    ],
+                ],
+                'focus' => [
+                    'intro' => 'Three areas where we work with provinces, cities and communities.',
+                ],
+                'board' => [
+                    'intro' => 'PLACEHOLDER: replace these sample members with the real board.',
+                    'members' => [
+                        [
+                            'name' => 'Nguyễn Văn A',
+                            'role' => 'Chair — placeholder title, organisation',
+                            'photo' => 'photo-1507003211169-0a1dd7228f2d',
+                        ],
+                        [
+                            'name' => 'Trần Thị B',
+                            'role' => 'Vice chair — placeholder title, organisation',
+                            'photo' => 'photo-1494790108377-be9c29b29330',
+                        ],
+                        [
+                            'name' => 'Lê Văn C',
+                            'role' => 'Treasurer — placeholder title, organisation',
+                            'photo' => 'photo-1500648767791-00dcc994a43e',
+                        ],
+                        [
+                            'name' => 'Phạm Thị D',
+                            'role' => 'Director — placeholder title, organisation',
+                            'photo' => 'photo-1438761681033-6461ffad8d80',
+                        ],
+                        [
+                            'name' => 'Hoàng Văn E',
+                            'role' => 'Director — placeholder title, organisation',
+                            'photo' => 'photo-1472099645785-5658abf4ff4e',
+                        ],
+                        [
+                            'name' => 'Vũ Thị F',
+                            'role' => 'Director — placeholder title, organisation',
+                            'photo' => 'photo-1544005313-94ddf0286df2',
+                        ],
+                    ],
+                ],
+            ],
         ],
         'social' => [
             [
@@ -1620,6 +1930,12 @@ function yusea_cm_starter_data() {
             ],
         ],
         'photos' => [
+            'photo-1507003211169-0a1dd7228f2d' => 'Portrait of a board member (placeholder)',
+            'photo-1494790108377-be9c29b29330' => 'Portrait of a board member (placeholder)',
+            'photo-1500648767791-00dcc994a43e' => 'Portrait of a board member (placeholder)',
+            'photo-1438761681033-6461ffad8d80' => 'Portrait of a board member (placeholder)',
+            'photo-1472099645785-5658abf4ff4e' => 'Portrait of a board member (placeholder)',
+            'photo-1544005313-94ddf0286df2' => 'Portrait of a board member (placeholder)',
             'photo-1557750255-c76072a7aad1' => 'Motorbikes and pedestrians sharing a busy Vietnamese city street',
             'photo-1528127269322-539801943592' => 'Limestone karsts rising from the water of Ha Long Bay',
             'photo-1555921015-5532091f6026' => 'A narrow street in Ha Noi\'s Old Quarter lined with shopfront homes',

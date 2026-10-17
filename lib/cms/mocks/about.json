@@ -1,0 +1,135 @@
+{
+  "data": {
+    "page": {
+      "title": "About YUSEA",
+      "excerpt": "<p>YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.</p>\n",
+      "content": "<p><strong>This is mock content.</strong> It stands in for the About page body from WordPress: the rest of the Who we are section.</p>\n<p>YUSEA is a team of planners, researchers and organisers based in Viet Nam, working with partners across Southeast Asia. We start from the places plans describe, not from the plans, and we bring young people into the decisions they will live with longest.</p>\n<p>We publish our data and methods openly, so that provinces, cities and communities can build on what we learn.</p>\n",
+      "featuredImage": {
+        "node": {
+          "sourceUrl": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=2000&q=80&auto=format&fit=crop",
+          "altText": "A Vietnamese city skyline at dusk",
+          "mediaDetails": {
+            "width": 2000,
+            "height": 1260
+          }
+        }
+      },
+      "indexPageFields": {
+        "eyebrow": "About YUSEA",
+        "heading": "Who we are",
+        "intro": "YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led."
+      },
+      "aboutPageFields": {
+        "mission": {
+          "heading": "Our mission",
+          "points": [
+            {
+              "text": "Help Viet Nam's provinces and cities plan growth that is equitable, low-carbon and resilient to a changing climate."
+            },
+            {
+              "text": "Bring young people and local communities into the decisions that shape the places they will live in longest."
+            },
+            {
+              "text": "Turn research into practical tools, open data and evidence that decision-makers can act on."
+            }
+          ]
+        },
+        "focus": {
+          "heading": "Our focus",
+          "intro": "Three areas where we work with provinces, cities and communities.",
+          "linkLabel": "Explore more"
+        },
+        "board": {
+          "heading": "Board of directors",
+          "intro": "PLACEHOLDER: replace these sample members with the real board.",
+          "members": [
+            {
+              "name": "Nguyễn Văn A",
+              "role": "Chair — placeholder title, organisation",
+              "photo": {
+                "node": {
+                  "sourceUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&auto=format&fit=crop",
+                  "altText": "Portrait of Nguyễn Văn A",
+                  "mediaDetails": {
+                    "width": 600,
+                    "height": 600
+                  }
+                }
+              }
+            },
+            {
+              "name": "Trần Thị B",
+              "role": "Vice chair — placeholder title, organisation",
+              "photo": {
+                "node": {
+                  "sourceUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80&auto=format&fit=crop",
+                  "altText": "Portrait of Trần Thị B",
+                  "mediaDetails": {
+                    "width": 600,
+                    "height": 600
+                  }
+                }
+              }
+            },
+            {
+              "name": "Lê Văn C",
+              "role": "Treasurer — placeholder title, organisation",
+              "photo": {
+                "node": {
+                  "sourceUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80&auto=format&fit=crop",
+                  "altText": "Portrait of Lê Văn C",
+                  "mediaDetails": {
+                    "width": 600,
+                    "height": 600
+                  }
+                }
+              }
+            },
+            {
+              "name": "Phạm Thị D",
+              "role": "Director — placeholder title, organisation",
+              "photo": {
+                "node": {
+                  "sourceUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80&auto=format&fit=crop",
+                  "altText": "Portrait of Phạm Thị D",
+                  "mediaDetails": {
+                    "width": 600,
+                    "height": 600
+                  }
+                }
+              }
+            },
+            {
+              "name": "Hoàng Văn E",
+              "role": "Director — placeholder title, organisation",
+              "photo": {
+                "node": {
+                  "sourceUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80&auto=format&fit=crop",
+                  "altText": "Portrait of Hoàng Văn E",
+                  "mediaDetails": {
+                    "width": 600,
+                    "height": 600
+                  }
+                }
+              }
+            },
+            {
+              "name": "Vũ Thị F",
+              "role": "Director — placeholder title, organisation",
+              "photo": {
+                "node": {
+                  "sourceUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80&auto=format&fit=crop",
+                  "altText": "Portrait of Vũ Thị F",
+                  "mediaDetails": {
+                    "width": 600,
+                    "height": 600
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

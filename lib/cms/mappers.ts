@@ -7,6 +7,8 @@
  */
 
 import type {
+  AboutPage,
+  BoardMember,
   CTA,
   Homepage,
   Media,
@@ -307,12 +309,55 @@ export function mapPageDetail(data: any): PageDetail | null {
     excerpt: plainText(page.excerpt),
     content: page.content ?? "",
     image: mapMedia(page.featuredImage?.node),
-    eyebrow: page.indexPageFields?.eyebrow ?? "",
+    header: {
+      eyebrow: page.indexPageFields?.eyebrow ?? "",
+      heading: page.indexPageFields?.heading || decodeEntities(page.title ?? ""),
+      intro: page.indexPageFields?.intro ?? "",
+    },
     workHub: {
       projectsHeading: hub.projectsHeading ?? "",
       publicationsHeading: hub.publicationsHeading ?? "",
       viewAllProjects: hub.viewAllProjectsLabel ?? "",
       viewAllPublications: hub.viewAllPublicationsLabel ?? "",
+    },
+  };
+}
+
+/**
+ * ABOUT_PAGE_QUERY → AboutPage, or null if WP has no /about page. Rows
+ * without their main text (a point, a member's name, a link label) are
+ * dropped, so half-filled rows never render.
+ */
+export function mapAboutPage(data: any): AboutPage | null {
+  const page = mapPageDetail(data);
+  if (!page) return null;
+  const f = data.page.aboutPageFields ?? {};
+  return {
+    page,
+    mission: {
+      heading: f.mission?.heading ?? "",
+      points: (f.mission?.points ?? [])
+        .map((r: any) => (r?.text ?? "").trim())
+        .filter(Boolean),
+    },
+    focus: {
+      heading: f.focus?.heading ?? "",
+      intro: f.focus?.intro ?? "",
+      linkLabel: f.focus?.linkLabel ?? "",
+      pillars: mapPillars(data).slice(0, 3),
+    },
+    board: {
+      heading: f.board?.heading ?? "",
+      intro: f.board?.intro ?? "",
+      members: (f.board?.members ?? [])
+        .filter((r: any) => r?.name)
+        .map(
+          (r: any): BoardMember => ({
+            name: r.name,
+            role: r.role ?? "",
+            photo: mapMedia(r.photo?.node),
+          }),
+        ),
     },
   };
 }
@@ -354,27 +399,8 @@ export function mapSiteSettings(data: any): SiteSettings {
 /** The options page's `work` group → SiteSettings["work"]. */
 function mapWorkCopy(w: any): SiteSettings["work"] {
   return {
-    hub: {
-      eyebrow: w?.hubEyebrow ?? "",
-      heading: w?.hubHeading ?? "",
-      intro: w?.hubIntro ?? "",
-    },
-    projects: {
-      eyebrow: w?.projectsEyebrow ?? "",
-      heading: w?.projectsHeading ?? "",
-      intro: w?.projectsIntro ?? "",
-    },
-    publications: {
-      eyebrow: w?.publicationsEyebrow ?? "",
-      heading: w?.publicationsHeading ?? "",
-      intro: w?.publicationsIntro ?? "",
-    },
     filterLabel: w?.filterLabel ?? "",
     filterAll: w?.filterAllLabel ?? "",
-    projectsHeading: w?.projectsSectionHeading ?? "",
-    publicationsHeading: w?.publicationsSectionHeading ?? "",
-    viewAllProjects: w?.viewAllProjectsLabel ?? "",
-    viewAllPublications: w?.viewAllPublicationsLabel ?? "",
     emptyText: w?.emptyText ?? "",
     kind: {
       blog: w?.kindBlogLabel ?? "",

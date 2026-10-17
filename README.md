@@ -30,7 +30,7 @@ app/
   error.tsx                Runtime error fallback, inside header/footer
   global-error.tsx         Last resort when the root layout itself fails
   robots.ts / sitemap.ts   robots.txt (closed on previews) and sitemap.xml
-  about/page.tsx           The WP page at /about
+  about/page.tsx           /about: side nav + Who we are, Mission, Our focus, Board
   work/page.tsx            Hub: projects + publications, filtered by ?pillar=<slug>
   work/projects/           All projects index (?pillar=) and [slug] template
   work/publications/       All publications index (?type=, ?pillar=),
@@ -40,7 +40,8 @@ app/
 components/
   layout/                  Header (CSS hover dropdowns), MobileNav, Footer, Logo, SocialIcons
   home/                    HeroSection, ImpactSection, OurFocusSection
-  work/                    ProjectCard, PublicationCard, FilterChips, PillarTags, Prose
+  about/                   AboutNav (client: in-page links, arrow on the section in view)
+  work/                    ProjectCard, PublicationCard, PillarCards, FilterChips, PillarTags, Prose
   ui/                      ButtonLink, SectionHeading, Eyebrow (accent bar + label)
 lib/
   cms/
@@ -146,12 +147,23 @@ notice lists what was added. The plugin:
 - Gives every label field default wording (the mock copy), so pages have
   text before editors fill anything in.
 - Creates the **Work**, **Projects** and **Publications** pages (`/work`,
-  `/work/projects`, `/work/publications`) if missing. On each, the page
-  **title** is the heading, the **excerpt** the intro, and `indexPageFields`
-  → `eyebrow` the eyebrow; the Work page also gets `workHubFields`
-  (`projectsHeading`, `publicationsHeading`, `viewAllProjectsLabel`,
-  `viewAllPublicationsLabel`). Anything left empty falls back to the Site
-  Settings `work` group (`getIndexPage()` in `lib/cms`).
+  `/work/projects`, `/work/publications`) if missing. Each, and **About**,
+  has a **Page content** box (`indexPageFields`: `eyebrow`, `heading` —
+  empty falls back to the page title — and `intro`); the Work page also has
+  `workHubFields` (`projectsHeading`, `publicationsHeading`,
+  `viewAllProjectsLabel`, `viewAllPublicationsLabel`). The three list pages
+  open as a plain form with no block editor or excerpt, since neither is
+  shown. Page copy lives only on the pages; Site Settings holds site-wide
+  settings and shared labels.
+- v1.5.0 copies any page headings typed into the old Site Settings → Work
+  pages fields onto those pages (never overwriting a filled field), and
+  lists fields the site no longer reads (blog labels, partners, the old
+  dropdown headings, the per-page Work fields, the hero pause/play labels)
+  under Tools → YUSEA Setup → **Remove old fields**. Click it only **after**
+  the matching frontend is deployed: the previous one still queries some.
+- v1.6.0 adds the **About page: sections** box (`aboutPageFields`, below)
+  to the `/about` page. Fields are registered in code, so nothing to
+  migrate; headings come with default wording.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
 - Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in
@@ -163,7 +175,10 @@ notice lists what was added. The plugin:
   from Unsplash) and the mock site's 4 projects, 3 reports, 6 posts and About
   page, keeping the mock dates — **the sample text is public until replaced**,
   including the "This is mock content." lines and "PLACEHOLDER" metric
-  sources. Starter drafts from an earlier run get published. It adds LinkedIn/Facebook/Instagram rows only if there are no social
+  sources. Starter drafts from an earlier run get published. Empty About
+  sections (mission points, board members) are filled with
+  sample content, including **placeholder board members**; filled ones are
+  kept. It adds LinkedIn/Facebook/Instagram rows only if there are no social
   links. It never changes navigation and skips anything that exists by slug.
 
 Then check the live schema, which must pass before a build can:
@@ -210,11 +225,7 @@ group `work` with:
 
 | Fields | Used on |
 |---|---|
-| `hubEyebrow`, `hubHeading`, `hubIntro` | `/work` |
-| `projectsEyebrow`, `projectsHeading`, `projectsIntro` | `/work/projects` |
-| `publicationsEyebrow`, `publicationsHeading`, `publicationsIntro` | `/work/publications` |
-| `filterLabel`, `filterAllLabel` | Filter chip rows |
-| `projectsSectionHeading`, `publicationsSectionHeading`, `viewAllProjectsLabel`, `viewAllPublicationsLabel`, `emptyText` | `/work` sections |
+| `filterLabel`, `filterAllLabel`, `emptyText` | Filter chip rows, empty lists |
 | `kindBlogLabel`, `kindReportLabel` | Publication cards and the type filter |
 | `statusActiveLabel`, `statusCompletedLabel`, `statusPlannedLabel` | Project cards |
 | `metricsHeading` | Single project |
@@ -234,6 +245,19 @@ body is the report summary; empty `file` hides the download button.
 
 **`pillar` term** → group `pillarFields`: `image` (the Our Focus card image,
 3:2). The term description is the card text.
+
+**Page `/about`** → `indexPageFields` + `aboutPageFields`. The page has four
+sections, each heading doubling as its side-nav label:
+
+| Section | Source |
+|---|---|
+| Who we are | `indexPageFields`: `eyebrow`, `heading` (the H1 and nav label, e.g. "Who we are"), `intro` (bold lead); then the featured image and the page body |
+| `mission` | `heading`, `points[]` { `text` } — three work best, shown numbered |
+| `focus` | `heading`, `intro`, `linkLabel`; the cards are the first three pillars, as on the homepage |
+| `board` | `heading`, `intro`, `members[]` { `photo` (image, square, shown round), `name`, `role` } |
+
+A section with no points, pillars or members is hidden, along with its nav
+link. The excerpt is the meta description.
 
 An empty CTA label hides that button. `navigation` and `footerLinks` are repeaters: the
 header and footer render exactly the rows in WP admin, in order (rows without a
@@ -410,6 +434,13 @@ What changed when the site moved to the structure in
 - **Revalidation.** New cache tags (`pillars`, `reports`, `report:<slug>`,
   `project:<slug>`, `pages`, `page:<uri>`); `{}` now purges every tag. The WP
   plugin (v1.1.0) sends them for reports and pillar term edits.
+- **About page** (plugin v1.6.0). Rebuilt as a two-column page modelled
+  on weforum.org/about: a sticky side nav, then Who we are, Mission, Our
+  focus and Board of directors.
+  New ACF group `aboutPageFields`; one query (`ABOUT_PAGE_QUERY`,
+  `getAboutPage()`) fetches the page and the pillars, tagged `pages`,
+  `page:/about` and `pillars`. The Our Focus cards are a shared
+  `PillarCards` component.
 
 ## Things to know
 
