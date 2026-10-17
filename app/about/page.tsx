@@ -93,7 +93,7 @@ export default async function AboutPage() {
 
 
             {page.header.intro ? (
-              <p className="mt-8 text-xl leading-relaxed font-semibold text-ink lg:text-2xl lg:leading-relaxed">
+              <p className="mt-8 text-xl leading-relaxed text-ink lg:text-2xl lg:leading-relaxed">
                 {page.header.intro}
               </p>
             ) : null}
