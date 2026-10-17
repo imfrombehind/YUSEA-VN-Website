@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pillarHref } from "@/lib/routes";
 import type { Homepage } from "@/lib/cms/types";
 
@@ -18,7 +19,14 @@ export function OurFocusSection({ data }: { data: Homepage["ourFocus"] }) {
     <section id="homepage-focus" className="bg-slate-50 py-section lg:py-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="text-3xl font-extrabold text-ink md:text-4xl">{data.heading}</h2>
+          <div>
+            {data.eyebrow ? (
+              <Eyebrow accent="blue" className="mb-4">
+                {data.eyebrow}
+              </Eyebrow>
+            ) : null}
+            <h2 className="text-3xl font-extrabold text-ink md:text-4xl">{data.heading}</h2>
+          </div>
           <div className="shrink-0">
             <ButtonLink href={data.cta.href} variant="outline">
               {data.cta.label}

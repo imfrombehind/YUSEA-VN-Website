@@ -74,7 +74,59 @@ export function mapMedia(node: any): Media | undefined {
   };
 }
 
-const EMPTY_MEDIA: Media = { url: "", alt: "" };
+/** The gallery if it has photos, otherwise the single background image. */
+function mapHeroSlides(hero: any): Media[] {
+  const gallery = (hero?.backgrounds?.nodes ?? [])
+    .map(mapMedia)
+    .filter((m: Media | undefined): m is Media => Boolean(m));
+  if (gallery.length > 0) return gallery;
+  const single = mapMedia(hero?.background?.node);
+  return single ? [single] : [];
+}
+
+const escapeHtml = (text: string) =>
+  text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+/** Typed bullets: "•", or "-" / "*" followed by a space. */
+const BULLET = /^(?:•\s*|[-*]\s+)(.+)$/;
+
+/**
+ * Editors often type bullets by hand instead of using the list button.
+ * Plain text (a textarea) becomes paragraphs, and bullet lines become a
+ * list; in HTML (a WYSIWYG, where each line is its own <p>), runs of
+ * bullet paragraphs become a list. Anything else passes through untouched.
+ */
+export function textToHtml(text: string): string {
+  if (/<[a-z][^>]*>/i.test(text)) {
+    return text.replace(/(?:<p>\s*(?:•\s*|[-*]\s+)[\s\S]*?<\/p>\s*)+/g, (run) => {
+      const items = [...run.matchAll(/<p>\s*(?:•\s*|[-*]\s+)([\s\S]*?)<\/p>/g)].map(
+        (m) => `<li>${m[1].trim()}</li>`,
+      );
+      return `<ul>${items.join("")}</ul>\n`;
+    });
+  }
+
+  const html: string[] = [];
+  let items: string[] = [];
+  const flush = () => {
+    if (items.length) html.push(`<ul>${items.map((i) => `<li>${i}</li>`).join("")}</ul>`);
+    items = [];
+  };
+
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    const bullet = line.match(BULLET);
+    if (bullet) {
+      items.push(escapeHtml(bullet[1]));
+    } else {
+      flush();
+      html.push(`<p>${escapeHtml(line)}</p>`);
+    }
+  }
+  flush();
+  return html.join("\n");
+}
 
 /** ACF stores a CTA as a ctaLabel + ctaHref pair on its group. */
 function mapCta(group: any): CTA {
@@ -151,15 +203,16 @@ export function mapHomepage(data: any): Homepage {
       headline: f.hero?.headline ?? "",
       subheadline: f.hero?.subheadline ?? "",
       cta: mapCta(f.hero),
-      background: mapMedia(f.hero?.background?.node) ?? EMPTY_MEDIA,
+      slides: mapHeroSlides(f.hero),
     },
     statsBand: {
       eyebrow: f.statsBand?.eyebrow ?? "",
       heading: f.statsBand?.heading ?? "",
-      intro: f.statsBand?.intro ?? undefined,
+      intro: f.statsBand?.intro ? textToHtml(f.statsBand.intro) : undefined,
       stats: f.statsBand?.stats ?? [],
     },
     ourFocus: {
+      eyebrow: f.ourFocus?.eyebrow ?? "",
       heading: f.ourFocus?.heading ?? "",
       cta: mapCta(f.ourFocus),
       linkLabel: f.ourFocus?.linkLabel ?? "",

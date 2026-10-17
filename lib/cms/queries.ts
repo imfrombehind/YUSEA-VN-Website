@@ -149,6 +149,11 @@ export const HOMEPAGE_QUERY = /* GraphQL */ `
               ...MediaFields
             }
           }
+          backgrounds {
+            nodes {
+              ...MediaFields
+            }
+          }
         }
         statsBand {
           eyebrow
@@ -161,6 +166,7 @@ export const HOMEPAGE_QUERY = /* GraphQL */ `
           }
         }
         ourFocus {
+          eyebrow
           heading
           ctaLabel
           ctaHref

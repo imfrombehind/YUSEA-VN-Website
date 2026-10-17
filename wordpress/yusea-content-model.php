@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.3.1
+ * Version:     1.4.0
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.3.1';
+const YUSEA_CM_VERSION = '1.4.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -230,6 +230,25 @@ function yusea_cm_additions() {
                     ],
                 ]),
             ],
+            'inside' => [
+                'hero' => [
+                    yusea_cm_field('hero_backgrounds', 'backgrounds', 'Slideshow', 'gallery', [
+                        'instructions'  => 'Add 4 or more landscape photos (at least 2000px wide). They crossfade every 6 seconds; drag to reorder. When this has photos it replaces Background.',
+                        'return_format' => 'array',
+                        'preview_size'  => 'medium',
+                        'insert'        => 'append',
+                        'library'       => 'all',
+                    ]),
+                ],
+                'ourFocus' => [
+                    yusea_cm_label('our_focus_eyebrow', 'eyebrow', 'Eyebrow', 'What we work on', 'text') + ['menu_order' => -1],
+                ],
+            ],
+            // Old sections the homepage no longer shows. Deleting a field keeps
+            // its saved values in the database.
+            'remove' => ['missionGrid', 'projects', 'latestPosts', 'partners'],
+            // The frontend renders statsBand.intro as rich text.
+            'retype' => ['statsBand' => ['intro' => 'wysiwyg']],
         ],
         'siteSettingsFields' => [
             'fields' => [
@@ -356,7 +375,7 @@ function yusea_cm_add_missing($parent, $wanted, $where, &$log) {
                 : "$where.$name already exists — left as is.";
             continue;
         }
-        yusea_cm_create_field($field, $parent['ID'], $order++);
+        yusea_cm_create_field($field, $parent['ID'], $field['menu_order'] ?? $order++);
         $log[] = "$where.$name added.";
     }
 }
@@ -387,6 +406,34 @@ function yusea_cm_migrate() {
                 continue;
             }
             yusea_cm_add_missing($repeater, $sub_fields, "$group_name.$repeater_name", $log);
+        }
+
+        foreach ($spec['remove'] ?? [] as $name) {
+            $field = yusea_cm_find_by_graphql_name(acf_get_fields($group) ?: [], $name, 'name');
+            if ($field && !empty($field['ID'])) {
+                acf_delete_field($field['ID']);
+                $log[] = "$group_name.$name removed (no longer on the site; its saved values stay in the database).";
+            }
+        }
+
+        foreach ($spec['retype'] ?? [] as $parent_name => $children) {
+            $parent = yusea_cm_find_by_graphql_name(acf_get_fields($group) ?: [], $parent_name, 'name');
+            if (!$parent) {
+                continue;
+            }
+            foreach ($children as $child_name => $type) {
+                $child = yusea_cm_find_by_graphql_name(acf_get_fields($parent) ?: [], $child_name, 'name');
+                if (!$child || empty($child['ID']) || $child['type'] === $type) {
+                    continue;
+                }
+                $old           = $child['type'];
+                $child['type'] = $type;
+                if ($type === 'wysiwyg') {
+                    $child += ['tabs' => 'all', 'toolbar' => 'basic', 'media_upload' => 0];
+                }
+                acf_update_field($child);
+                $log[] = "$group_name.$parent_name.$child_name changed from $old to $type (text kept).";
+            }
         }
     }
 
@@ -719,7 +766,7 @@ function yusea_cm_setup_page() {
     }
     echo '</tbody></table>';
 
-    echo '<h2>Starter content</h2><p style="max-width:900px">Creates and <strong>publishes immediately</strong> the three pillars, 4 projects, 3 reports, 6 blog posts and an About page, with the text and photos from the design mock-ups. <strong>The sample text is public until you replace it.</strong> Starter drafts from an earlier run are published too. Adds LinkedIn, Facebook and Instagram rows to Site Settings if there are no social links yet (replace their URLs with your real profiles). Your navigation is not changed. Anything that already exists, matched by slug, is skipped, so running it twice is safe. Photos are downloaded from Unsplash into the Media Library.</p>';
+    echo '<h2>Starter content</h2><p style="max-width:900px">Creates and <strong>publishes immediately</strong> the three pillars, 4 projects, 3 reports, 6 blog posts and an About page, with the text and photos from the design mock-ups. <strong>The sample text is public until you replace it.</strong> Starter drafts from an earlier run are published too. If the hero slideshow is empty, it is filled with your Background photo plus starter photos. Adds LinkedIn, Facebook and Instagram rows to Site Settings if there are no social links yet (replace their URLs with your real profiles). Your navigation is not changed. Anything that already exists, matched by slug, is skipped, so running it twice is safe. Photos are downloaded from Unsplash into the Media Library.</p>';
     echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
     wp_nonce_field('yusea_cm_seed');
     echo '<input type="hidden" name="action" value="yusea_cm_seed">';
@@ -879,6 +926,34 @@ function yusea_cm_seed() {
         $create('post', $p);
     }
     $create('page', $data['about']);
+
+    // Hero slideshow, only if empty: the current Background photo first, then
+    // three starter photos, so four photos crossfade straight away.
+    $front = (int) get_option('page_on_front');
+    if (!$front) {
+        $log[] = 'No front page set (Settings → Reading), so the hero slideshow was not filled.';
+    } elseif (get_field('field_yusea_hero_backgrounds', $front, false)) {
+        $log[] = 'Hero slideshow already has photos — left as is.';
+    } else {
+        $slides     = [];
+        $background = get_post_meta($front, 'hero_background', true);
+        if (is_numeric($background) && (int) $background > 0) {
+            $slides[] = (int) $background;
+        }
+        foreach (['photo-1583417319070-4a69db38a482', 'photo-1557750255-c76072a7aad1', 'photo-1528127269322-539801943592', 'photo-1509030450996-dd1a26dda07a'] as $photo) {
+            if (count($slides) >= 4) {
+                break;
+            }
+            $att = $image($photo);
+            if ($att && !in_array($att, $slides, true)) {
+                $slides[] = $att;
+            }
+        }
+        if ($slides) {
+            update_field('field_yusea_hero_backgrounds', $slides, $front);
+            $log[] = 'Hero slideshow filled with ' . count($slides) . ' photos (Home page → Hero → Slideshow).';
+        }
+    }
 
     // Social rows only if there are none, so real links are never overwritten.
     $social = yusea_cm_social_field();

@@ -1,16 +1,17 @@
-import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
+import { HeroSlideshow } from "./HeroSlideshow";
 import type { Homepage } from "@/lib/cms/types";
 
 /**
- * #homepage-hero — full-bleed photo spanning the whole viewport width, with
- * the white header bar sitting directly above it (spec §5).
+ * #homepage-hero — full-bleed photos spanning the whole viewport width, with
+ * the white header bar sitting directly above. Several photos crossfade
+ * (HeroSlideshow); one photo just sits there.
  *
  * Until an ACF hero image exists, this degrades to a dark gradient ground
  * rather than a broken image.
  */
 export function HeroSection({ hero }: { hero: Homepage["hero"] }) {
-  const hasImage = Boolean(hero.background.url);
+  const hasImage = hero.slides.length > 0;
 
   return (
     <section
@@ -19,14 +20,7 @@ export function HeroSection({ hero }: { hero: Homepage["hero"] }) {
     >
       {hasImage ? (
         <>
-          <Image
-            src={hero.background.url}
-            alt={hero.background.alt}
-            fill
-            preload
-            sizes="100vw"
-            className="object-cover"
-          />
+          <HeroSlideshow slides={hero.slides} />
           {/* Keeps headline contrast above AA regardless of the photo:
               heaviest behind the left-aligned copy, lighter to the right so
               the city stays visible. */}

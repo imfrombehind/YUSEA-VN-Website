@@ -16,6 +16,42 @@
                 "height": 1260
               }
             }
+          },
+          "backgrounds": {
+            "nodes": [
+              {
+                "sourceUrl": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=2000&q=80&auto=format&fit=crop",
+                "altText": "A Vietnamese city skyline at dusk, with high-rise towers under dramatic clouds",
+                "mediaDetails": {
+                  "width": 2000,
+                  "height": 1260
+                }
+              },
+              {
+                "sourceUrl": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=2000&q=80&auto=format&fit=crop",
+                "altText": "Ho Chi Minh City skyline at sunset",
+                "mediaDetails": {
+                  "width": 2000,
+                  "height": 1260
+                }
+              },
+              {
+                "sourceUrl": "https://images.unsplash.com/photo-1557750255-c76072a7aad1?w=2000&q=80&auto=format&fit=crop",
+                "altText": "Motorbikes and pedestrians sharing a busy Vietnamese city street",
+                "mediaDetails": {
+                  "width": 2000,
+                  "height": 1260
+                }
+              },
+              {
+                "sourceUrl": "https://images.unsplash.com/photo-1528127269322-539801943592?w=2000&q=80&auto=format&fit=crop",
+                "altText": "Limestone karsts rising from the water of Ha Long Bay",
+                "mediaDetails": {
+                  "width": 2000,
+                  "height": 1260
+                }
+              }
+            ]
           }
         },
         "statsBand": {
@@ -41,6 +77,7 @@
           ]
         },
         "ourFocus": {
+          "eyebrow": "What we work on",
           "heading": "Our Focus",
           "ctaLabel": "Discover all our initiatives",
           "ctaHref": "/work",

@@ -233,7 +233,11 @@ export type Homepage = {
     headline: string;
     subheadline: string;
     cta: CTA;
-    background: Media;
+    /**
+     * The slideshow photos (ACF gallery `backgrounds`), or just the single
+     * `background` image when the gallery is empty. Empty if neither is set.
+     */
+    slides: Media[];
   };
   /** §5 #homepage-section-1 */
   statsBand: {
@@ -245,6 +249,7 @@ export type Homepage = {
   };
   /** Our Focus — copy from ACF, the cards from the `pillar` taxonomy. */
   ourFocus: {
+    eyebrow: string;
     heading: string;
     /** "Discover all our initiatives" → /work */
     cta: CTA;

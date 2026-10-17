@@ -139,6 +139,10 @@ notice lists what was added. The plugin:
   adds: existing fields and content are never changed. If a group is stored
   in local JSON rather than the database, the notice says so and those
   fields must be added by hand.
+- v1.4.0 brings the Homepage group in line with the current homepage: adds
+  the hero slideshow gallery and the Our Focus eyebrow, removes the old
+  `missionGrid`, `projects`, `latestPosts` and `partners` sections (saved
+  values stay in the database), and turns `statsBand.intro` into a WYSIWYG.
 - Gives every label field default wording (the mock copy), so pages have
   text before editors fill anything in.
 - Creates the **Work**, **Projects** and **Publications** pages (`/work`,
@@ -188,9 +192,9 @@ Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 
 | Group | Fields |
 |---|---|
-| `hero` | `headline`, `subheadline`, `ctaLabel`, `ctaHref`, `background` (image) |
-| `statsBand` | `eyebrow`, `heading`, `intro` (WYSIWYG), `stats[]` { `value`, `description`, `source` } |
-| `ourFocus` | `heading`, `ctaLabel`, `ctaHref` (`/work`), `linkLabel` ("Explore more") |
+| `hero` | `headline`, `subheadline`, `ctaLabel`, `ctaHref`, `background` (image), `backgrounds` (gallery — the slideshow; replaces `background` when it has photos) |
+| `statsBand` | `eyebrow`, `heading`, `intro` (WYSIWYG; plain text also works — "•"/"-" lines become a list), `stats[]` { `value`, `description`, `source` } |
+| `ourFocus` | `eyebrow`, `heading`, `ctaLabel`, `ctaHref` (`/work`), `linkLabel` ("Explore more") |
 
 **Options page** (GraphQL type name `SiteSettings`) → group `siteSettingsFields`
 
@@ -350,7 +354,7 @@ in `globals.css` — every component reads from the tokens.
 
 | Section | Ground | Notes |
 |---|---|---|
-| Hero | Full-bleed photo, dark gradient overlay | `sun` CTA |
+| Hero | Full-bleed photos crossfading every 6s (`HeroSlideshow`, no controls by choice; still under reduced motion), dark gradient overlay | `sun` CTA |
 | Impact (`#homepage-impact`) | white | 5/7 headline/body split; stats divided by `border-l-2 border-slate-300` |
 | Our Focus (`#homepage-focus`) | `slate-50` | Outlined `blue-600` pill CTA; three borderless pillar cards |
 | Footer | `tint-gray`, four-colour stripe on top | — |
