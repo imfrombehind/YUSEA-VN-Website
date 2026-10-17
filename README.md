@@ -251,7 +251,7 @@ sections, each heading doubling as its side-nav label:
 
 | Section | Source |
 |---|---|
-| Who we are | `indexPageFields`: `eyebrow`, `heading` (the H1 and nav label, e.g. "Who we are"), `intro` (bold lead); then the featured image and the page body |
+| Who we are | `indexPageFields`: `eyebrow`, `heading` (the H1 and nav label, e.g. "Who we are"), `intro` (bold lead); then the page body. The featured image is not shown, only used as the social share image |
 | `mission` | `heading`, `points[]` { `text` } — three work best, shown numbered |
 | `focus` | `heading`, `intro`, `linkLabel`; the cards are the first three pillars, as on the homepage |
 | `board` | `heading`, `intro`, `members[]` { `photo` (image, square, shown round), `name`, `role` } |

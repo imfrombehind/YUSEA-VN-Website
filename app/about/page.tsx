@@ -55,7 +55,7 @@ function AboutSection({
 
 /**
  * /about: a side nav, then four sections — Who we are (the WP page's Page
- * content box, featured image and body), Mission, Our focus (the homepage's
+ * content box and body), Mission, Our focus (the homepage's
  * three pillars) and Board of directors. Empty sections are skipped, and
  * leave the nav with them.
  */
@@ -91,21 +91,9 @@ export default async function AboutPage() {
               {page.header.heading}
             </h1>
 
-            {page.image ? (
-              <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-2xl bg-slate-100 lg:mt-12">
-                <Image
-                  src={page.image.url}
-                  alt={page.image.alt}
-                  fill
-                  preload
-                  sizes="(max-width: 1024px) 100vw, 800px"
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
 
             {page.header.intro ? (
-              <p className="mt-10 text-xl leading-relaxed font-semibold text-ink lg:text-2xl lg:leading-relaxed">
+              <p className="mt-8 text-xl leading-relaxed font-semibold text-ink lg:text-2xl lg:leading-relaxed">
                 {page.header.intro}
               </p>
             ) : null}

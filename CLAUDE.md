@@ -73,10 +73,11 @@ that have bitten this repo:
 - Publications = WP posts (`kind: "blog"`) + the `report` CPT
   (`kind: "report"`), merged newest first by `getPublications()`.
 - The homepage is exactly `HeroSection`, `ImpactSection`, `OurFocusSection`.
-- `/about` is a side nav plus Who we are (Page content box, featured image,
-  body), Mission, Our focus (first three pillars, via `PillarCards`) and
-  Board of directors, from `aboutPageFields` via `getAboutPage()`. Each
-  section heading is also its nav label; empty sections are hidden.
+- `/about` is a side nav plus Who we are (Page content box and body; the
+  featured image is only the share image, not shown), Mission, Our focus
+  (first three pillars, via `PillarCards`) and Board of directors, from
+  `aboutPageFields` via `getAboutPage()`. Each section heading is also its
+  nav label; empty sections are hidden.
 - `/work`, `/work/projects`, `/work/publications` and `/about` take their
   eyebrow, heading and intro from the WP page's **Page content** box
   (`indexPageFields`; `getIndexPage()`). Site Settings is for site-wide
