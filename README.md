@@ -169,6 +169,8 @@ notice lists what was added. The plugin:
   pillars) on one screen, in site order, each with title, text and a photo
   slot that shows a placeholder until a photo is chosen. Saving purges
   `pillars`, which refreshes the homepage and /about.
+  v1.7.3 stops Create starter content from adding sample projects, reports
+  and posts.
   v1.7.2 lets the About intro run to several paragraphs (one per line).
   v1.7.1 adds an **Edit the focus cards** button to the Our Focus boxes on
   the Home and About pages, linking to that screen.
@@ -180,10 +182,11 @@ notice lists what was added. The plugin:
 - Adds **Tools → YUSEA Setup**: a status checklist (frontend URL, plugins,
   front page, pages, pillars, social links) and a **Create starter content**
   button. It creates and **publishes immediately** the three pillars (photos
-  from Unsplash) and the mock site's 4 projects, 3 reports, 6 posts and About
-  page, keeping the mock dates — **the sample text is public until replaced**,
-  including the "This is mock content." lines and "PLACEHOLDER" metric
-  sources. Starter drafts from an earlier run get published. Empty About
+  from Unsplash) and the About page — **the sample text is public until
+  replaced**, including the "This is mock content." lines. Since v1.7.3 it
+  creates no projects, reports or posts (the samples were deleted from the
+  live site); the mocks still have them for local development. Starter
+  drafts from an earlier run get published. Empty About
   sections (mission points, board members) are filled with
   sample content, including **placeholder board members**; filled ones are
   kept. It adds LinkedIn/Facebook/Instagram rows only if there are no social

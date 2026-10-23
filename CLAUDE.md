@@ -93,8 +93,9 @@ that have bitten this repo:
   deployed site's page refreshes.
 - `wordpress/yusea-content-model.php` is the whole WordPress side: types,
   fields, index pages, editor layouts, frontend View links, and Tools →
-  YUSEA Setup (status + starter content). Its starter data is generated from
-  the mocks; regenerate it if the mocks change meaningfully.
+  YUSEA Setup (status + starter content). Its starter data (pillars, About,
+  social rows) is generated from the mocks; it deliberately has no projects,
+  reports or posts, so don't regenerate those from the mocks.
 
 ## Design
 
