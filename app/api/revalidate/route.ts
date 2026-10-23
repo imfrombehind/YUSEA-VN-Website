@@ -27,6 +27,15 @@ const PURGE_TAGS = [
   "pages",
 ] as const;
 
+/**
+ * Expire purged data outright, so the next visit rebuilds the page with
+ * fresh content. "max" would serve the old page once more while it rebuilds
+ * in the background, which editors see as their change appearing and then
+ * vanishing on refresh (WP sends one purge for the body and another for the
+ * meta boxes, so a page can be caught half-saved in between).
+ */
+const EXPIRE_NOW = { expire: 0 };
+
 function safeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
   let mismatch = 0;
@@ -71,7 +80,7 @@ export async function POST(request: NextRequest) {
 
   // With no explicit target, purge everything.
   if (tags.length === 0 && paths.length === 0) {
-    PURGE_TAGS.forEach((tag) => revalidateTag(tag, "max"));
+    PURGE_TAGS.forEach((tag) => revalidateTag(tag, EXPIRE_NOW));
     revalidatePath("/");
     return NextResponse.json({
       revalidated: true,
@@ -80,9 +89,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  // "max" expires the entry immediately; Next 16 requires an explicit
-  // cacheLife profile as the second argument.
-  tags.forEach((tag) => revalidateTag(tag, "max"));
+  tags.forEach((tag) => revalidateTag(tag, EXPIRE_NOW));
   paths.forEach((path) => revalidatePath(path));
 
   return NextResponse.json({ revalidated: true, tags, paths, now: Date.now() });

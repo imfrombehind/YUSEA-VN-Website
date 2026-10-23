@@ -32,7 +32,8 @@ that have bitten this repo:
 - Reading `searchParams` makes a route dynamic. The cms fetches underneath
   stay cached (`force-cache` + tags in `lib/cms/client.ts`).
 - `next/image` uses `preload`, not `priority`. `revalidateTag` needs a second
-  argument (`"max"`).
+  argument. The webhook uses `{ expire: 0 }`, not `"max"`: `"max"` serves the
+  old page once more after a purge, so edits seem to revert on refresh.
 
 ## Rules
 
