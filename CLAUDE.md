@@ -31,6 +31,9 @@ that have bitten this repo:
   callback (`.find(p => p.slug === (await searchParams).x)` won't compile).
 - Reading `searchParams` makes a route dynamic. The cms fetches underneath
   stay cached (`force-cache` + tags in `lib/cms/client.ts`).
+- Fonts are self-hosted (`app/fonts.css`, `public/fonts/`). Don't go back
+  to `next/font/google`: Turbopack failed the Vercel build ("next/font/google
+  queries have exactly one entry") on an uncached deploy.
 - `next/image` uses `preload`, not `priority`. `revalidateTag` needs a second
   argument. The webhook uses `{ expire: 0 }`, not `"max"`: `"max"` serves the
   old page once more after a purge, so edits seem to revert on refresh.

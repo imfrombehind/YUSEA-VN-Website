@@ -36,6 +36,7 @@ app/
   work/publications/       All publications index (?type=, ?pillar=),
                            reports/[slug] and blog/[slug] templates
   globals.css              Design tokens (this IS the Tailwind config)
+  fonts.css                @font-face for the self-hosted fonts in public/fonts
   api/revalidate/route.ts  On-demand ISR purge, called by a WP webhook
 components/
   layout/                  Header (CSS hover dropdowns), MobileNav, Footer, Logo, SocialIcons
@@ -405,9 +406,12 @@ section ground comes back, keep it no darker than the 100–200 strength, or
 its `-700` eyebrow text drops below AA. `text-faint` fails AA as text; it is
 no longer used for text.
 
-**Type:** Archivo (display) + Barlow (body), both with `vietnamese` subsets
-loaded. The reference site uses Ambit, a commercial TypeMates face; Archivo is
-the closest open substitute. Swap in `app/layout.tsx` if YUSEA licenses Ambit.
+**Type:** Archivo (display) + Barlow (body), self-hosted: the woff2 files
+(Latin, Latin Extended, Vietnamese) are in `public/fonts/` and declared in
+`app/fonts.css`, from Fontsource. Not `next/font/google`: on Vercel it
+sometimes fails the build when Google serves font URLs with a query string.
+The reference site uses Ambit, a commercial TypeMates face; Archivo is the
+closest open substitute. Swap it in `app/fonts.css` if YUSEA licenses Ambit.
 
 ## Rebuild v2 (October 2026)
 

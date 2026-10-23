@@ -1,29 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Barlow } from "next/font/google";
+import { preload } from "react-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { getSiteSettings } from "@/lib/cms";
 import { siteUrl } from "@/lib/seo";
+import "./fonts.css";
 import "./globals.css";
 
 /**
  * The reference site uses Ambit (a commercial TypeMates face) for display
  * type. Archivo is the closest open substitute: same grotesque skeleton,
- * holds up at large uppercase sizes. Swap here if YUSEA licenses Ambit.
+ * holds up at large uppercase sizes. Swap it in app/fonts.css if YUSEA
+ * licenses Ambit. Both fonts are self-hosted from public/fonts; these two
+ * files are used on every page, so they are preloaded.
  */
-const archivo = Archivo({
-  subsets: ["latin", "vietnamese"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-archivo",
-  display: "swap",
-});
-
-const barlow = Barlow({
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-barlow",
-  display: "swap",
-});
+const PRELOAD_FONTS = [
+  "/fonts/archivo-latin-800-normal.woff2",
+  "/fonts/barlow-latin-400-normal.woff2",
+];
 
 /**
  * Site-wide defaults; title, description, share image and favicon all come
@@ -51,9 +45,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const settings = await getSiteSettings();
+  PRELOAD_FONTS.forEach((href) =>
+    preload(href, { as: "font", type: "font/woff2", crossOrigin: "anonymous" }),
+  );
 
   return (
-    <html lang="en" className={`${archivo.variable} ${barlow.variable}`}>
+    <html lang="en">
       <body className="min-h-dvh antialiased">
         <a
           href="#main"

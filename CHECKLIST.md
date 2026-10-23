@@ -55,7 +55,7 @@ relative to the repo root.
 
 ## P1 — Performance
 
-- [ ] Fonts: Archivo is variable — drop its `weight` list to get one file. Check whether Barlow 600/700 are used.
+- [ ] Fonts (self-hosted, `app/fonts.css`): check whether Barlow 600/700 are used; drop unused weights and their files in `public/fonts/`.
 - [ ] Images: add `images.formats: ['image/avif', 'image/webp']`; watch the Vercel image-optimisation quota.
 - [ ] Turn on Vercel Speed Insights; run Lighthouse on the preview deployment.
 
