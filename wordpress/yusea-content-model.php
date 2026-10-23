@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.7.1
+ * Version:     1.7.2
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.7.1';
+const YUSEA_CM_VERSION = '1.7.2';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -568,8 +568,8 @@ add_action('acf/init', function () {
                 'instructions' => 'The page heading. Empty: the page title is used.',
             ]),
             yusea_cm_field('index_intro', 'intro', 'Intro', 'textarea', [
-                'instructions' => 'One or two sentences under the heading.',
-                'rows'         => 3,
+                'instructions' => 'Text under the heading. On the About page, each line (press Enter) is its own paragraph; the Work pages show one short paragraph.',
+                'rows'         => 6,
             ]),
         ],
     ], $on_pages));
@@ -1858,7 +1858,7 @@ function yusea_cm_starter_data() {
             'header' => [
                 'eyebrow' => 'About YUSEA',
                 'heading' => 'Who we are',
-                'intro' => 'YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.',
+                'intro' => "YUSEA works alongside provinces, cities and communities to shape urban growth that is equitable, low-carbon and locally led.\nWe are planners, researchers and organisers under 40, connecting practice in Viet Nam with international knowledge and networks.",
             ],
             'sections' => [
                 'mission' => [

@@ -169,6 +169,7 @@ notice lists what was added. The plugin:
   pillars) on one screen, in site order, each with title, text and a photo
   slot that shows a placeholder until a photo is chosen. Saving purges
   `pillars`, which refreshes the homepage and /about.
+  v1.7.2 lets the About intro run to several paragraphs (one per line).
   v1.7.1 adds an **Edit the focus cards** button to the Our Focus boxes on
   the Home and About pages, linking to that screen.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
@@ -260,7 +261,7 @@ sections, each heading doubling as its side-nav label:
 
 | Section | Source |
 |---|---|
-| Who we are | `indexPageFields`: `eyebrow`, `heading` (the H1 and nav label, e.g. "Who we are"), `intro` (the lead paragraph, larger text); then the page body. The featured image is not shown, only used as the social share image |
+| Who we are | `indexPageFields`: `eyebrow`, `heading` (the H1 and nav label, e.g. "Who we are"), `intro` (larger lead text; each line is a paragraph); then the page body. The featured image is not shown, only used as the social share image |
 | `mission` | `heading`, `points[]` { `text` } — three work best, shown numbered |
 | `focus` | `heading`, `intro`, `linkLabel`; the cards are the first three pillars, as on the homepage |
 | `board` | `heading`, `intro`, `members[]` { `photo` (image, square, shown round), `name`, `role` } |

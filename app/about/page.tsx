@@ -17,10 +17,18 @@ export async function generateMetadata() {
   const { page } = about;
   return pageMetadata({
     title: page.title,
-    description: page.excerpt || page.header.intro,
+    description: page.excerpt || paragraphs(page.header.intro)[0],
     path: "/about",
     image: page.image,
   });
+}
+
+/** The Intro box is plain text: each line is a paragraph, blank lines ignored. */
+function paragraphs(text: string): string[] {
+  return text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
 }
 
 /** Clears the sticky header when a side-nav link jumps to a section. */
@@ -63,6 +71,7 @@ export default async function AboutPage() {
   const about = await getAboutPage();
   if (!about) notFound();
   const { page, mission, focus, board } = about;
+  const intro = paragraphs(page.header.intro);
 
   const nav: AboutNavItem[] = [
     { id: "who-we-are", label: page.header.heading },
@@ -92,10 +101,14 @@ export default async function AboutPage() {
             </h1>
 
 
-            {page.header.intro ? (
-              <p className="mt-8 text-xl leading-relaxed text-ink lg:text-2xl lg:leading-relaxed">
-                {page.header.intro}
-              </p>
+            {intro.length ? (
+              <div className="mt-8 space-y-6">
+                {intro.map((paragraph, i) => (
+                  <p key={i} className="text-xl leading-relaxed text-ink lg:text-2xl lg:leading-relaxed">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             ) : null}
 
             {page.content ? (
