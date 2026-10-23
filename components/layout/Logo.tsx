@@ -10,8 +10,8 @@ type LogoProps = Pick<SiteSettings, "siteName" | "logo"> & {
 
 /** The footer ("lg") stays a step larger than the header ("md") at every breakpoint. */
 const SIZES = {
-  md: { text: "text-3xl lg:text-4xl", image: "h-10 lg:h-12" },
-  lg: { text: "text-5xl lg:text-6xl", image: "h-14 lg:h-16" },
+  md: { text: "text-[2.8125rem] lg:text-[3.375rem]", image: "h-15 lg:h-18" },
+  lg: { text: "text-7xl lg:text-[5.625rem]", image: "h-21 lg:h-24" },
 };
 
 /**
