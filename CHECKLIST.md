@@ -34,7 +34,7 @@ relative to the repo root.
   - [x] `text-faint` (3.78:1 on white) is no longer used for text; stat sources now use `text-muted`.
   - [ ] Coral focus ring is 2.55:1 on `tint-blue` (needs 3:1). Suggest `ink` or `blue-700`.
 - [ ] **Sanitize post HTML.** The single templates ([Prose](components/work/Prose.tsx)) render WordPress HTML raw; a compromised editor account could run scripts on the site. Run `sanitize-html` in the mapper.
-- [ ] **Vercel environment variables:** `SITE_URL`, `REVALIDATE_SECRET`, `WORDPRESS_GRAPHQL_ENDPOINT`, `WORDPRESS_USE_MOCKS` (and `WORDPRESS_AUTH_TOKEN` if previews are needed).
+- [ ] **Vercel environment variables:** `SITE_URL` (exactly the address the site is served at, e.g. `https://www.yuseavietnam.com`; an address that redirects breaks Facebook/Messenger link previews), `REVALIDATE_SECRET`, `WORDPRESS_GRAPHQL_ENDPOINT`, `WORDPRESS_USE_MOCKS` (and `WORDPRESS_AUTH_TOKEN` if previews are needed).
 - [ ] **Brand assets:** real favicon, Apple touch icon, 1200×630 share image. Add a fallback `app/icon.png` so an empty CMS field doesn't mean no favicon.
 
 ## P1 — SEO

@@ -3,7 +3,7 @@ import { preload } from "react-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { getSiteSettings } from "@/lib/cms";
-import { siteUrl } from "@/lib/seo";
+import { defaultShareImage, shareImages, siteUrl } from "@/lib/seo";
 import "./fonts.css";
 import "./globals.css";
 
@@ -25,13 +25,21 @@ const PRELOAD_FONTS = [
  * via pageMetadata() in lib/seo.ts.
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const { siteName, seo, favicon } = await getSiteSettings();
+  const settings = await getSiteSettings();
+  const { siteName, seo, favicon } = settings;
+  // Pages replace this with pageMetadata(); it covers the rest (e.g. 404s).
+  const images = shareImages(defaultShareImage(settings));
   return {
     metadataBase: new URL(siteUrl()),
     title: { default: seo.title, template: `%s | ${siteName}` },
     description: seo.description,
     applicationName: siteName,
     icons: favicon ? { icon: favicon.url, apple: favicon.url } : undefined,
+    openGraph: { siteName, title: seo.title, description: seo.description, images },
+    twitter: {
+      card: images ? "summary_large_image" : "summary",
+      images: images?.map((i) => i.url),
+    },
   };
 }
 

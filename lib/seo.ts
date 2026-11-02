@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getSiteSettings, type Media } from "@/lib/cms";
+import { getSiteSettings, type Media, type SiteSettings } from "@/lib/cms";
 
 /**
  * The public origin, used for canonical URLs, Open Graph, robots.txt and the
@@ -22,6 +22,21 @@ export function isIndexable(): boolean {
   return process.env.VERCEL_ENV
     ? process.env.VERCEL_ENV === "production"
     : process.env.NODE_ENV === "production";
+}
+
+/**
+ * The share image for pages without their own: Site Settings' SEO image,
+ * else the logo, so a shared link always gets a thumbnail.
+ */
+export function defaultShareImage({ seo, logo }: Pick<SiteSettings, "seo" | "logo">): Media | undefined {
+  return seo.image ?? logo;
+}
+
+/** An image as Open Graph `images`, or undefined. */
+export function shareImages(image: Media | undefined) {
+  return image
+    ? [{ url: image.url, alt: image.alt, width: image.width, height: image.height }]
+    : undefined;
 }
 
 type PageMetadata = {
@@ -49,20 +64,11 @@ export async function pageMetadata({
   type = "website",
   publishedTime,
 }: PageMetadata): Promise<Metadata> {
-  const { siteName, seo } = await getSiteSettings();
+  const settings = await getSiteSettings();
+  const { siteName, seo } = settings;
   const shareTitle = title ? `${title} | ${siteName}` : seo.title;
   const shareDescription = description || seo.description;
-  const shareImage = image ?? seo.image;
-  const images = shareImage
-    ? [
-        {
-          url: shareImage.url,
-          alt: shareImage.alt,
-          width: shareImage.width,
-          height: shareImage.height,
-        },
-      ]
-    : undefined;
+  const images = shareImages(image ?? defaultShareImage(settings));
 
   return {
     ...(title ? { title } : {}),

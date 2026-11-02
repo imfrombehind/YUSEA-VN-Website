@@ -385,6 +385,15 @@ tagged `og:type article` with a publish date).
 **Site URL.** `siteUrl()` reads `SITE_URL`, then falls back to Vercel's
 production domain, then `http://localhost:3000`. Previews therefore point
 canonicals at production, which is what search engines should see.
+Set `SITE_URL` to the exact address the site is served at
+(`https://www.yuseavietnam.com`). Vercel's fallback is the bare domain,
+which redirects to `www`; Facebook and Messenger follow `og:url` and can
+drop the preview over that redirect.
+
+**Share image.** A page's own image (project cover, featured image), else
+the Site Settings SEO image, else the logo (`defaultShareImage()`), so a
+shared link always gets a thumbnail. The layout sets the same default for
+pages without `pageMetadata()`, such as 404s.
 
 **robots.txt / sitemap.xml.** `app/robots.ts` disallows everything unless
 `VERCEL_ENV` is `production` (off Vercel: a production build). The sitemap
