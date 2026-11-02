@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Frontend Revalidation
  * Description: Tells the Next.js frontend to refresh its cached pages whenever content is saved, published, or trashed.
- * Version:     1.2.0
+ * Version:     1.2.1
  *
  * Requires two constants in wp-config.php:
  *   define('YUSEA_FRONTEND_URL', 'https://your-nextjs-site.example');
@@ -65,7 +65,7 @@ function yusea_revalidate(array $tags) {
     $response = wp_remote_post(rtrim(YUSEA_FRONTEND_URL, '/') . '/api/revalidate', [
         'headers' => [
             'Content-Type'        => 'application/json',
-            'x-revalidate-secret' => YUSEA_REVALIDATE_SECRET,
+            'x-revalidate-secret' => trim(YUSEA_REVALIDATE_SECRET),
         ],
         'body'    => wp_json_encode($tags ? ['tags' => array_values($tags)] : new stdClass()),
         'timeout' => 5,
@@ -90,6 +90,7 @@ add_action('admin_menu', function () {
 function yusea_revalidate_page() {
     $configured = defined('YUSEA_FRONTEND_URL') && defined('YUSEA_REVALIDATE_SECRET');
     $last       = get_option('yusea_revalidate_last');
+    $secret     = $configured ? trim(YUSEA_REVALIDATE_SECRET) : '';
 
     echo '<div class="wrap"><h1>Refresh website</h1>';
     echo '<p style="max-width:760px">Saving a post, project, report, page or pillar tells the website to refresh it. If a change does not show up, refresh the whole site here.</p>';
@@ -98,6 +99,13 @@ function yusea_revalidate_page() {
         echo '<div class="notice notice-error inline"><p><strong>Not set up.</strong> Add <code>YUSEA_FRONTEND_URL</code> and <code>YUSEA_REVALIDATE_SECRET</code> to wp-config.php (see the plugin file).</p></div>';
     } else {
         printf('<p>Website: <code>%s</code></p>', esc_html(YUSEA_FRONTEND_URL));
+        // Enough to compare with the value in Vercel without showing it.
+        printf(
+            '<p>Secret: %d characters, starts <code>%s</code>, ends <code>%s</code></p>',
+            strlen($secret),
+            esc_html(substr($secret, 0, 4)),
+            esc_html(substr($secret, -4))
+        );
     }
 
     if (is_array($last)) {

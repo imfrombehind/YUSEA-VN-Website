@@ -46,7 +46,9 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 export async function POST(request: NextRequest) {
-  const expected = process.env.REVALIDATE_SECRET;
+  // Trimmed on both sides: a space or newline pasted into Vercel or
+  // wp-config.php is invisible and would otherwise fail every refresh.
+  const expected = process.env.REVALIDATE_SECRET?.trim();
 
   if (!expected) {
     return NextResponse.json(
@@ -66,7 +68,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Header is the tidier option for WP; body is kept for convenience.
-  const provided = request.headers.get("x-revalidate-secret") ?? body.secret ?? "";
+  const provided = (request.headers.get("x-revalidate-secret") ?? body.secret ?? "").trim();
 
   if (!safeEqual(provided, expected)) {
     return NextResponse.json(
