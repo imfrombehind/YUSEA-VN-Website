@@ -55,8 +55,6 @@ export type Project = {
   longitude: number;
   city: string;
   province: string;
-  /** ACF: impact metrics. */
-  metrics: Stat[];
   heroImage?: Media;
   pillars: Term[];
   status: "active" | "completed" | "planned";
@@ -273,8 +271,6 @@ export type SiteSettings = {
     emptyText: string;
     kind: Record<Publication["kind"], string>;
     status: Record<Project["status"], string>;
-    /** Single project: heading over the metrics column. */
-    metricsHeading: string;
     /** Single project: heading over the body, e.g. "Overview". */
     overviewHeading: string;
     /** Single project: accessible name of the back-to-projects button. */

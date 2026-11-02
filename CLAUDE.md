@@ -84,7 +84,7 @@ that have bitten this repo:
   `aboutPageFields` via `getAboutPage()`. Each section heading is also its
   nav label; empty sections are hidden.
 - A single project (`/work/projects/[slug]`) is a full-width cover photo
-  (`heroImage`) with the title, then Overview (the post body + metrics),
+  (`heroImage`) with the title, then Overview (the post body),
   then `PartnershipSection` (the `projectFields.partnership` group). The
   Overview heading and back-button label are Site Settings `work` labels.
 - `/work`, `/work/projects`, `/work/publications` and `/about` take their

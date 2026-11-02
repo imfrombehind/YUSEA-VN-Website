@@ -45,7 +45,6 @@
           "statusActiveLabel": "Active",
           "statusCompletedLabel": "Completed",
           "statusPlannedLabel": "Planned",
-          "metricsHeading": "Impact",
           "overviewHeading": "Overview",
           "backToProjectsLabel": "Back to projects",
           "downloadReportLabel": "Download the full report"

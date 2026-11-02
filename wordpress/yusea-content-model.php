@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.8.0';
+const YUSEA_CM_VERSION = '1.8.1';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -160,7 +160,10 @@ add_action('acf/init', function () {
                 'instructions'  => 'Full width behind the title on the project page (landscape, at least 2000px wide; the bottom is darkened for the title), and 3:2 on cards.',
                 'return_format' => 'array',
             ]),
-            yusea_cm_field('project_metrics', 'metrics', 'Impact metrics', 'repeater', [
+            // No longer on the site. Kept until the frontend that stopped
+            // querying it is deployed; drop it in the next plugin version.
+            yusea_cm_field('project_metrics', 'metrics', 'Impact metrics (not shown on the site)', 'repeater', [
+                'instructions' => 'No longer shown on the project page.',
                 'layout'       => 'table',
                 'button_label' => 'Add metric',
                 'sub_fields'   => [
@@ -291,7 +294,6 @@ function yusea_cm_additions() {
                         yusea_cm_label('work_status_active', 'statusActiveLabel', 'Label: active project', 'Active'),
                         yusea_cm_label('work_status_completed', 'statusCompletedLabel', 'Label: completed project', 'Completed'),
                         yusea_cm_label('work_status_planned', 'statusPlannedLabel', 'Label: planned project', 'Planned'),
-                        yusea_cm_label('work_metrics_heading', 'metricsHeading', 'Project page: metrics heading', 'Impact'),
                         yusea_cm_label('work_download_report', 'downloadReportLabel', 'Report page: download button', 'Download the full report'),
                     ],
                 ]),
@@ -764,6 +766,7 @@ function yusea_cm_obsolete_fields() {
             'work.publicationsEyebrow', 'work.publicationsHeading', 'work.publicationsIntro',
             'work.projectsSectionHeading', 'work.publicationsSectionHeading',
             'work.viewAllProjectsLabel', 'work.viewAllPublicationsLabel',
+            'work.metricsHeading',
         ],
         'homepageFields' => ['hero.pauseLabel', 'hero.playLabel'],
     ];

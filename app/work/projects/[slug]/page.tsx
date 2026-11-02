@@ -32,8 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /**
  * Single project: a full-width cover photo with the title over it, then
- * Overview (the post body, with the impact metrics beside it), then the
- * partnership section.
+ * Overview (the post body), then the partnership section.
  */
 export default async function ProjectPage({ params }: Props) {
   const [project, { work }] = await Promise.all([
@@ -90,39 +89,14 @@ export default async function ProjectPage({ params }: Props) {
 
       <section aria-labelledby={work.overviewHeading ? "overview" : undefined} className="bg-paper-soft py-section lg:py-section-lg">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-8">
-              {work.overviewHeading ? (
-                <h2 id="overview" className="text-4xl text-ink sm:text-5xl">
-                  {work.overviewHeading}
-                </h2>
-              ) : null}
-              <Prose html={project.content} className={work.overviewHeading ? "mt-8" : ""} />
-              <PillarTags pillars={project.pillars} className="mt-10" />
-            </div>
-
-            {project.metrics.length > 0 ? (
-              <aside className="lg:col-span-4 lg:pt-4">
-                {work.metricsHeading ? (
-                  <h2 className="text-sm font-semibold tracking-[0.12em] text-muted uppercase">
-                    {work.metricsHeading}
-                  </h2>
-                ) : null}
-                <dl className="mt-6 space-y-10">
-                  {project.metrics.map((metric) => (
-                    <div key={metric.description} className="border-l-2 border-slate-300 pl-6">
-                      <dt className="font-display text-5xl leading-none font-extrabold tracking-tight text-ink">
-                        {metric.value}
-                      </dt>
-                      <dd className="mt-3 text-lg leading-snug text-muted">{metric.description}</dd>
-                      {metric.source ? (
-                        <dd className="mt-2 text-sm text-muted">{metric.source}</dd>
-                      ) : null}
-                    </div>
-                  ))}
-                </dl>
-              </aside>
+          <div className="max-w-4xl">
+            {work.overviewHeading ? (
+              <h2 id="overview" className="text-4xl text-ink sm:text-5xl">
+                {work.overviewHeading}
+              </h2>
             ) : null}
+            <Prose html={project.content} className={work.overviewHeading ? "mt-8" : ""} />
+            <PillarTags pillars={project.pillars} className="mt-10" />
           </div>
         </div>
       </section>

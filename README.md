@@ -179,6 +179,11 @@ notice lists what was added. The plugin:
   `overviewHeading` / `backToProjectsLabel` labels in the Site Settings
   `work` group (added on the first admin load, with default wording).
   Upload it **before** deploying the frontend that queries them.
+  v1.8.1: the project page no longer shows impact metrics. The Site
+  Settings `work.metricsHeading` label is listed under **Remove old
+  fields** (remove it after this frontend is deployed). `projectFields.metrics`
+  is defined in the plugin code, so it stays, labelled "not shown on the
+  site", until the next plugin version drops it.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
 - Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in
@@ -244,7 +249,7 @@ group `work` with:
 | `filterLabel`, `filterAllLabel`, `emptyText` | Filter chip rows, empty lists |
 | `kindBlogLabel`, `kindReportLabel` | Publication cards and the type filter |
 | `statusActiveLabel`, `statusCompletedLabel`, `statusPlannedLabel` | Project cards |
-| `metricsHeading`, `overviewHeading`, `backToProjectsLabel` (screen readers) | Single project |
+| `overviewHeading`, `backToProjectsLabel` (screen readers) | Single project |
 | `downloadReportLabel` | Single report |
 
 A nav row with `categories` or `quickLinks` gets a hover dropdown in the
@@ -253,19 +258,18 @@ column (e.g. Projects: "By focus", Publications: "By type"); on mobile the
 links are listed under the item.
 
 **`Project` CPT** → group `projectFields`: `latitude`, `longitude`, `city`,
-`province`, `status`, `metrics[]` { `value`, `description`, `source` },
+`province`, `status`, `metrics[]` (no longer shown; to be removed),
 `heroImage` (image, "Cover photo"), `timeframe` (text, e.g. "2024 – 2027"),
 `partnership` (group) { `heading`, `intro` (textarea, one paragraph per
 line), `partners[]` { `logo` (image), `name`, `href` (url, optional) } }.
 
 The project page is a full-width cover photo with the title, then status ·
 timeframe · location over it and a round back button to `/work/projects`;
-then **Overview** (`overviewHeading`, the post body, pillar tags, and the
-metrics beside it); then the partnership section (e.g. "Implementing agency"), each partner
-as a round logo (none if no logo is set) with its name (linked if `href`
-is set). With no heading and no named partners it is hidden. `timeframe`
-and `partnership`
-are only queried by the single project, not the cards.
+then **Overview** (`overviewHeading`, the post body and pillar tags); then
+the partnership section (e.g. "Implementing agency"), each partner as a
+round logo (none if no logo is set) with its name (linked if `href` is
+set). With no heading and no named partners it is hidden. `timeframe` and
+`partnership` are only queried by the single project, not the cards.
 
 **`Report` CPT** → group `reportFields`: `file` (file, usually the PDF). The
 body is the report summary; empty `file` hides the download button.

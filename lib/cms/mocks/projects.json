@@ -13,13 +13,6 @@
             "city": "Can Tho",
             "province": "Can Tho",
             "status": "active",
-            "metrics": [
-              {
-                "value": "12",
-                "description": "wards covered by the adaptation plan",
-                "source": "PLACEHOLDER"
-              }
-            ],
             "heroImage": {
               "node": {
                 "sourceUrl": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=1600&q=80&auto=format&fit=crop",
@@ -78,13 +71,6 @@
             "city": "Da Nang",
             "province": "Da Nang",
             "status": "active",
-            "metrics": [
-              {
-                "value": "31km",
-                "description": "of coastline assessed",
-                "source": "PLACEHOLDER"
-              }
-            ],
             "heroImage": {
               "node": {
                 "sourceUrl": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1600&q=80&auto=format&fit=crop",
@@ -147,13 +133,6 @@
             "city": "Ha Noi",
             "province": "Ha Noi",
             "status": "completed",
-            "metrics": [
-              {
-                "value": "4",
-                "description": "pilot districts",
-                "source": "PLACEHOLDER"
-              }
-            ],
             "heroImage": {
               "node": {
                 "sourceUrl": "https://images.unsplash.com/photo-1555921015-5532091f6026?w=1600&q=80&auto=format&fit=crop",
@@ -213,13 +192,6 @@
             "city": "Ho Chi Minh City",
             "province": "Ho Chi Minh City",
             "status": "planned",
-            "metrics": [
-              {
-                "value": "14",
-                "description": "stations with access plans",
-                "source": "PLACEHOLDER"
-              }
-            ],
             "heroImage": {
               "node": {
                 "sourceUrl": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1600&q=80&auto=format&fit=crop",
