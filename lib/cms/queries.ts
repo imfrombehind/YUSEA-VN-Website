@@ -8,7 +8,8 @@
  *
  * ACF field groups (WPGraphQL for ACF exposes them by "GraphQL Field Name"):
  *   Page "/"      -> homepageFields     { hero statsBand ourFocus }
- *   Project CPT   -> projectFields      { latitude longitude city province status metrics heroImage }
+ *   Project CPT   -> projectFields      { latitude longitude city province status metrics heroImage
+ *                                         timeframe partnerships }  (the last two on the single project only)
  *   Report CPT    -> reportFields       { file }
  *   Pillar term   -> pillarFields       { image }
  *   Pages         -> indexPageFields    { eyebrow heading intro }   (Work, Projects, Publications, About)
@@ -206,6 +207,22 @@ export const PROJECT_BY_SLUG_QUERY = /* GraphQL */ `
     project(id: $slug, idType: SLUG) {
       ...ProjectCardFields
       content
+      projectFields {
+        timeframe
+        partnerships {
+          heading
+          intro
+          partners {
+            name
+            href
+            logo {
+              node {
+                ...MediaFields
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -391,6 +408,8 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
           statusCompletedLabel
           statusPlannedLabel
           metricsHeading
+          overviewHeading
+          backToProjectsLabel
           downloadReportLabel
         }
         navigation {

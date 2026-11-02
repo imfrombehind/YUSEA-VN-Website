@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.7.3';
+const YUSEA_CM_VERSION = '1.8.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -153,8 +153,11 @@ add_action('acf/init', function () {
             yusea_cm_field('project_province', 'province', 'Province'),
             yusea_cm_field('project_latitude', 'latitude', 'Latitude', 'number', ['step' => 'any']),
             yusea_cm_field('project_longitude', 'longitude', 'Longitude', 'number', ['step' => 'any']),
-            yusea_cm_field('project_hero_image', 'heroImage', 'Hero image', 'image', [
-                'instructions'  => 'Shown 16:9 on the project page and 3:2 on cards.',
+            yusea_cm_field('project_timeframe', 'timeframe', 'Timeframe', 'text', [
+                'instructions' => 'Shown under the title on the cover photo, e.g. 2024 – 2027.',
+            ]),
+            yusea_cm_field('project_hero_image', 'heroImage', 'Cover photo', 'image', [
+                'instructions'  => 'Full width behind the title on the project page (landscape, at least 2000px wide; the bottom is darkened for the title), and 3:2 on cards.',
                 'return_format' => 'array',
             ]),
             yusea_cm_field('project_metrics', 'metrics', 'Impact metrics', 'repeater', [
@@ -164,6 +167,32 @@ add_action('acf/init', function () {
                     yusea_cm_field('project_metric_value', 'value', 'Value', 'text', ['instructions' => 'e.g. 31km']),
                     yusea_cm_field('project_metric_description', 'description', 'Description'),
                     yusea_cm_field('project_metric_source', 'source', 'Source'),
+                ],
+            ]),
+            yusea_cm_field('project_partnerships', 'partnerships', 'Partnerships', 'repeater', [
+                'instructions' => 'One section each below the Overview, e.g. "Implementing agency", then "Funding partners".',
+                'layout'       => 'block',
+                'button_label' => 'Add partnership section',
+                'sub_fields'   => [
+                    yusea_cm_field('project_partnership_heading', 'heading', 'Heading', 'text', ['instructions' => 'e.g. Implementing agency']),
+                    yusea_cm_field('project_partnership_intro', 'intro', 'Intro', 'textarea', [
+                        'instructions' => 'Optional. Each line is a paragraph.',
+                        'rows'         => 3,
+                        'new_lines'    => '',
+                    ]),
+                    yusea_cm_field('project_partners', 'partners', 'Partners', 'repeater', [
+                        'layout'       => 'table',
+                        'button_label' => 'Add partner',
+                        'sub_fields'   => [
+                            yusea_cm_field('project_partner_logo', 'logo', 'Logo', 'image', [
+                                'instructions'  => 'Shown in a circle; a square logo on white works best.',
+                                'return_format' => 'array',
+                                'preview_size'  => 'thumbnail',
+                            ]),
+                            yusea_cm_field('project_partner_name', 'name', 'Name'),
+                            yusea_cm_field('project_partner_href', 'href', 'Website', 'url', ['instructions' => 'Optional.']),
+                        ],
+                    ]),
                 ],
             ]),
         ],
@@ -268,7 +297,7 @@ function yusea_cm_additions() {
                     ],
                 ]),
             ],
-            // Sub-fields to add inside an existing repeater, keyed by its GraphQL name.
+            // Sub-fields to add inside an existing repeater or group, keyed by its GraphQL name.
             'inside' => [
                 'navigation' => [
                     // Per-item column headings, e.g. Projects: "By focus", Publications: "By type".
@@ -276,6 +305,10 @@ function yusea_cm_additions() {
                     yusea_cm_label('nav_quick_links_heading', 'quickLinksHeading', 'Dropdown heading: quick links', 'Quick links'),
                     yusea_cm_link_rows('nav_categories', 'categories', 'Dropdown: categories'),
                     yusea_cm_link_rows('nav_quick_links', 'quickLinks', 'Dropdown: quick links'),
+                ],
+                'work' => [
+                    yusea_cm_label('work_overview_heading', 'overviewHeading', 'Project page: overview heading', 'Overview'),
+                    yusea_cm_label('work_back_to_projects', 'backToProjectsLabel', 'Project page: back button (screen readers)', 'Back to projects'),
                 ],
                 'social' => [
                     yusea_cm_field('social_icon', 'icon', 'Icon', 'image', [

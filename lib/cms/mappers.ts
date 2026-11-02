@@ -14,6 +14,7 @@ import type {
   Media,
   NavItem,
   PageDetail,
+  Partnership,
   Pillar,
   Post,
   PostDetail,
@@ -246,9 +247,37 @@ export function mapProjects(data: any): Project[] {
   return (data?.projects?.nodes ?? []).map(mapProject);
 }
 
+/**
+ * Partnership rows. Partners without a name are dropped, and so is a
+ * block with neither a heading nor any partners.
+ */
+function mapPartnerships(rows: any): Partnership[] {
+  return (rows ?? [])
+    .map(
+      (r: any): Partnership => ({
+        heading: r?.heading ?? "",
+        intro: r?.intro ? textToHtml(r.intro) : "",
+        partners: (r?.partners ?? [])
+          .filter((p: any) => p?.name)
+          .map((p: any) => ({
+            name: p.name,
+            logo: mapMedia(p.logo?.node),
+            href: p.href || undefined,
+          })),
+      }),
+    )
+    .filter((p: Partnership) => p.heading || p.partners.length > 0);
+}
+
 export function mapProjectDetail(data: any): ProjectDetail | null {
   if (!data?.project) return null;
-  return { ...mapProject(data.project), content: data.project.content ?? "" };
+  const p = data.project.projectFields ?? {};
+  return {
+    ...mapProject(data.project),
+    content: data.project.content ?? "",
+    timeframe: p.timeframe ?? "",
+    partnerships: mapPartnerships(p.partnerships),
+  };
 }
 
 function mapPost(n: any): Post {
@@ -412,6 +441,8 @@ function mapWorkCopy(w: any): SiteSettings["work"] {
       planned: w?.statusPlannedLabel ?? "",
     },
     metricsHeading: w?.metricsHeading ?? "",
+    overviewHeading: w?.overviewHeading ?? "",
+    backToProjects: w?.backToProjectsLabel ?? "",
     downloadReport: w?.downloadReportLabel ?? "",
   };
 }

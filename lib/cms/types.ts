@@ -62,9 +62,32 @@ export type Project = {
   status: "active" | "completed" | "planned";
 };
 
-/** A single project with its body. `content` is WordPress-rendered HTML. */
+/** An organisation on a project, e.g. the implementing agency. */
+export type Partner = {
+  name: string;
+  /** Shown inside a circle, so square-ish logos on white work best. */
+  logo?: Media;
+  /** Optional link to the partner's site. */
+  href?: string;
+};
+
+/** One partnership block on a project page, e.g. "Implementing agency". */
+export type Partnership = {
+  heading: string;
+  /** HTML: a textarea, one paragraph per line. */
+  intro: string;
+  partners: Partner[];
+};
+
+/**
+ * A single project with its body. `content` is WordPress-rendered HTML,
+ * shown as the Overview section.
+ */
 export type ProjectDetail = Project & {
   content: string;
+  /** Free text under the title, e.g. "2024 – 2027". */
+  timeframe: string;
+  partnerships: Partnership[];
 };
 
 /** `Events` CPT — upcoming initiatives and gatherings. */
@@ -251,6 +274,10 @@ export type SiteSettings = {
     status: Record<Project["status"], string>;
     /** Single project: heading over the metrics column. */
     metricsHeading: string;
+    /** Single project: heading over the body, e.g. "Overview". */
+    overviewHeading: string;
+    /** Single project: accessible name of the back-to-projects button. */
+    backToProjects: string;
     /** Single report: the file download button. */
     downloadReport: string;
   };

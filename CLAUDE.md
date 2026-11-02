@@ -83,6 +83,10 @@ that have bitten this repo:
   (first three pillars, via `PillarCards`) and Board of directors, from
   `aboutPageFields` via `getAboutPage()`. Each section heading is also its
   nav label; empty sections are hidden.
+- A single project (`/work/projects/[slug]`) is a full-width cover photo
+  (`heroImage`) with the title, then Overview (the post body + metrics),
+  then one `PartnershipSection` per `projectFields.partnerships` row. The
+  Overview heading and back-button label are Site Settings `work` labels.
 - `/work`, `/work/projects`, `/work/publications` and `/about` take their
   eyebrow, heading and intro from the WP page's **Page content** box
   (`indexPageFields`; `getIndexPage()`). Site Settings is for site-wide

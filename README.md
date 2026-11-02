@@ -174,6 +174,11 @@ notice lists what was added. The plugin:
   v1.7.2 lets the About intro run to several paragraphs (one per line).
   v1.7.1 adds an **Edit the focus cards** button to the Our Focus boxes on
   the Home and About pages, linking to that screen.
+- v1.8.0 adds the project page fields: `timeframe` and `partnerships` on
+  Project Fields (registered in code, nothing to migrate), and the
+  `overviewHeading` / `backToProjectsLabel` labels in the Site Settings
+  `work` group (added on the first admin load, with default wording).
+  Upload it **before** deploying the frontend that queries them.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
 - Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in
@@ -239,7 +244,7 @@ group `work` with:
 | `filterLabel`, `filterAllLabel`, `emptyText` | Filter chip rows, empty lists |
 | `kindBlogLabel`, `kindReportLabel` | Publication cards and the type filter |
 | `statusActiveLabel`, `statusCompletedLabel`, `statusPlannedLabel` | Project cards |
-| `metricsHeading` | Single project |
+| `metricsHeading`, `overviewHeading`, `backToProjectsLabel` (screen readers) | Single project |
 | `downloadReportLabel` | Single report |
 
 A nav row with `categories` or `quickLinks` gets a hover dropdown in the
@@ -249,7 +254,17 @@ links are listed under the item.
 
 **`Project` CPT** → group `projectFields`: `latitude`, `longitude`, `city`,
 `province`, `status`, `metrics[]` { `value`, `description`, `source` },
-`heroImage` (image). The body is the post content.
+`heroImage` (image, "Cover photo"), `timeframe` (text, e.g. "2024 – 2027"),
+`partnerships[]` { `heading`, `intro` (textarea, one paragraph per line),
+`partners[]` { `logo` (image), `name`, `href` (url, optional) } }.
+
+The project page is a full-width cover photo with the title, then status ·
+timeframe · location over it and a round back button to `/work/projects`;
+then **Overview** (`overviewHeading`, the post body, pillar tags, and the
+metrics beside it); then one section per `partnerships` row, each partner
+as a round logo with its name (linked if `href` is set). A row with no
+heading and no named partners is hidden. `timeframe` and `partnerships`
+are only queried by the single project, not the cards.
 
 **`Report` CPT** → group `reportFields`: `file` (file, usually the PDF). The
 body is the report summary; empty `file` hides the download button.
@@ -457,6 +472,11 @@ What changed when the site moved to the structure in
   `getAboutPage()`) fetches the page and the pillars, tagged `pages`,
   `page:/about` and `pillars`. The Our Focus cards are a shared
   `PillarCards` component.
+- **Project page** (plugin v1.8.0). Rebuilt as a full-width cover photo
+  with the title over it, an Overview section and partnership sections
+  (`PartnershipSection`), modelled on event and UrbanShift project pages.
+  New ACF: `projectFields.timeframe`, `projectFields.partnerships`, and
+  the `work` labels `overviewHeading` and `backToProjectsLabel`.
 
 ## Things to know
 

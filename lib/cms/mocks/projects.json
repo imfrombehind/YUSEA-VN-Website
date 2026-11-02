@@ -29,7 +29,55 @@
                   "height": 1067
                 }
               }
-            }
+            },
+            "timeframe": "2024 – 2027",
+            "partnerships": [
+              {
+                "heading": "Implementing agency",
+                "intro": "This is mock content. The project in Can Tho is implemented by YUSEA in partnership with the provincial People's Committee.",
+                "partners": [
+                  {
+                    "name": "YUSEA",
+                    "href": "",
+                    "logo": {
+                      "node": {
+                        "sourceUrl": "https://placehold.co/400x400/ffffff/232429/png?text=YUSEA",
+                        "altText": "YUSEA logo",
+                        "mediaDetails": {
+                          "width": 400,
+                          "height": 400
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name": "Can Tho People's Committee",
+                    "href": "",
+                    "logo": null
+                  }
+                ]
+              },
+              {
+                "heading": "Funding partners",
+                "intro": "",
+                "partners": [
+                  {
+                    "name": "Placeholder Foundation",
+                    "href": "https://example.org",
+                    "logo": {
+                      "node": {
+                        "sourceUrl": "https://placehold.co/400x400/ffffff/232429/png?text=Partner",
+                        "altText": "Partner logo",
+                        "mediaDetails": {
+                          "width": 400,
+                          "height": 400
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "pillars": {
             "nodes": [
@@ -68,7 +116,55 @@
                   "height": 1067
                 }
               }
-            }
+            },
+            "timeframe": "2025 – 2028",
+            "partnerships": [
+              {
+                "heading": "Implementing agency",
+                "intro": "This is mock content. The project in Da Nang is implemented by YUSEA in partnership with the provincial People's Committee.",
+                "partners": [
+                  {
+                    "name": "YUSEA",
+                    "href": "",
+                    "logo": {
+                      "node": {
+                        "sourceUrl": "https://placehold.co/400x400/ffffff/232429/png?text=YUSEA",
+                        "altText": "YUSEA logo",
+                        "mediaDetails": {
+                          "width": 400,
+                          "height": 400
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name": "Da Nang People's Committee",
+                    "href": "",
+                    "logo": null
+                  }
+                ]
+              },
+              {
+                "heading": "Funding partners",
+                "intro": "",
+                "partners": [
+                  {
+                    "name": "Placeholder Foundation",
+                    "href": "https://example.org",
+                    "logo": {
+                      "node": {
+                        "sourceUrl": "https://placehold.co/400x400/ffffff/232429/png?text=Partner",
+                        "altText": "Partner logo",
+                        "mediaDetails": {
+                          "width": 400,
+                          "height": 400
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "pillars": {
             "nodes": [
@@ -111,7 +207,55 @@
                   "height": 1067
                 }
               }
-            }
+            },
+            "timeframe": "2021 – 2024",
+            "partnerships": [
+              {
+                "heading": "Implementing agency",
+                "intro": "This is mock content. The project in Ha Noi is implemented by YUSEA in partnership with the provincial People's Committee.",
+                "partners": [
+                  {
+                    "name": "YUSEA",
+                    "href": "",
+                    "logo": {
+                      "node": {
+                        "sourceUrl": "https://placehold.co/400x400/ffffff/232429/png?text=YUSEA",
+                        "altText": "YUSEA logo",
+                        "mediaDetails": {
+                          "width": 400,
+                          "height": 400
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name": "Ha Noi People's Committee",
+                    "href": "",
+                    "logo": null
+                  }
+                ]
+              },
+              {
+                "heading": "Funding partners",
+                "intro": "",
+                "partners": [
+                  {
+                    "name": "Placeholder Foundation",
+                    "href": "https://example.org",
+                    "logo": {
+                      "node": {
+                        "sourceUrl": "https://placehold.co/400x400/ffffff/232429/png?text=Partner",
+                        "altText": "Partner logo",
+                        "mediaDetails": {
+                          "width": 400,
+                          "height": 400
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "pillars": {
             "nodes": [
@@ -151,7 +295,55 @@
                   "height": 1067
                 }
               }
-            }
+            },
+            "timeframe": "2026 – 2030",
+            "partnerships": [
+              {
+                "heading": "Implementing agency",
+                "intro": "This is mock content. The project in Ho Chi Minh City is implemented by YUSEA in partnership with the provincial People's Committee.",
+                "partners": [
+                  {
+                    "name": "YUSEA",
+                    "href": "",
+                    "logo": {
+                      "node": {
+                        "sourceUrl": "https://placehold.co/400x400/ffffff/232429/png?text=YUSEA",
+                        "altText": "YUSEA logo",
+                        "mediaDetails": {
+                          "width": 400,
+                          "height": 400
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name": "Ho Chi Minh City People's Committee",
+                    "href": "",
+                    "logo": null
+                  }
+                ]
+              },
+              {
+                "heading": "Funding partners",
+                "intro": "",
+                "partners": [
+                  {
+                    "name": "Placeholder Foundation",
+                    "href": "https://example.org",
+                    "logo": {
+                      "node": {
+                        "sourceUrl": "https://placehold.co/400x400/ffffff/232429/png?text=Partner",
+                        "altText": "Partner logo",
+                        "mediaDetails": {
+                          "width": 400,
+                          "height": 400
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "pillars": {
             "nodes": [
