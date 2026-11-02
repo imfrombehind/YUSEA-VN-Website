@@ -360,6 +360,12 @@ define('YUSEA_FRONTEND_URL', 'https://your-nextjs-site.example');
 define('YUSEA_REVALIDATE_SECRET', '<same value as REVALIDATE_SECRET>');
 ```
 
+Since v1.2.0 the plugin waits for the answer (non-blocking requests over
+HTTPS were being dropped before they were sent, so saves never reached the
+site) and keeps it: **Tools → Refresh website** shows whether it is set up,
+the frontend's answer to the last refresh (401 = secrets differ), and a
+button that purges every tag.
+
 The webhook can only reach a deployed frontend, not `localhost`. In local dev,
 hard-refresh (Cmd+Shift+R) to bypass the cache instead.
 
