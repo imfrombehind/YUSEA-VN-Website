@@ -194,6 +194,9 @@ notice lists what was added. The plugin:
   values stay `active` / `completed` / `planned`) and switches the status
   and Overview labels in Site Settings to Vietnamese, unless they were
   already edited away from the English defaults.
+  v1.9.2 makes the registration schedule and fact values (and fact small
+  print) textareas, so a value can run to two lines, e.g. two prices.
+  Saved text is kept; GraphQL still returns a string.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
 - Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in

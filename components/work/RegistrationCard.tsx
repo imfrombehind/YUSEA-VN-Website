@@ -62,7 +62,11 @@ export function RegistrationCard({
               </time>
             </p>
           ) : null}
-          {note ? <p className="mt-4 text-sm leading-relaxed text-muted">{note}</p> : null}
+          {note ? (
+            <p className={`text-sm leading-relaxed text-muted ${hasButton || deadline ? "mt-4" : ""}`}>
+              {note}
+            </p>
+          ) : null}
         </div>
       ) : null}
     </aside>
@@ -73,14 +77,15 @@ function Rows({ rows, className = "" }: { rows: RegistrationRow[]; className?: s
   if (rows.length === 0) return null;
 
   return (
-    <dl className={`space-y-4 ${className}`}>
+    <dl className={`space-y-5 ${className}`}>
       {rows.map((row, i) => (
         <div key={i}>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-            <dt className="text-sm text-muted">{row.label}</dt>
-            <dd className="font-display font-semibold text-ink">{row.value}</dd>
-          </div>
-          {row.note ? <dd className="mt-1 text-sm leading-snug text-muted">{row.note}</dd> : null}
+          {row.label ? <dt className="text-sm text-muted">{row.label}</dt> : null}
+          {/* A value can run to several lines, e.g. two prices. */}
+          <dd className="mt-0.5 font-display leading-snug font-semibold whitespace-pre-line text-ink">
+            {row.value}
+          </dd>
+          {row.note ? <dd className="mt-1.5 text-sm leading-snug text-muted">{row.note}</dd> : null}
         </div>
       ))}
     </dl>
