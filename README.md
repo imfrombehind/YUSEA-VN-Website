@@ -196,6 +196,8 @@ notice lists what was added. The plugin:
   already edited away from the English defaults.
   v1.9.2 makes the registration schedule and fact values (and fact small
   print) textareas, so a value can run to two lines, e.g. two prices.
+  v1.9.3: each line of a fact's small print and of the note is its own
+  paragraph on the site.
   Saved text is kept; GraphQL still returns a string.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.9.2
+ * Version:     1.9.3
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.9.2';
+const YUSEA_CM_VERSION = '1.9.3';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -186,7 +186,7 @@ add_action('acf/init', function () {
                         'sub_fields'   => [
                             yusea_cm_field('project_registration_fact_label', 'label', 'Label', 'text', ['instructions' => 'e.g. Phí tham gia']),
                             yusea_cm_field('project_registration_fact_value', 'value', 'Value', 'textarea', ['instructions' => 'e.g. 100.000 VNĐ/tour. Press Enter for a second line, e.g. a second price.', 'rows' => 2, 'new_lines' => '']),
-                            yusea_cm_field('project_registration_fact_note', 'note', 'Small print', 'textarea', ['instructions' => 'Optional.', 'rows' => 2, 'new_lines' => '']),
+                            yusea_cm_field('project_registration_fact_note', 'note', 'Small print', 'textarea', ['instructions' => 'Optional. Each line is a paragraph.', 'rows' => 3, 'new_lines' => '']),
                         ],
                     ]),
                     yusea_cm_field('project_registration_cta_label', 'ctaLabel', 'Button label', 'text', ['instructions' => 'e.g. Đăng ký ngay']),
