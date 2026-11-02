@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.9.0
+ * Version:     1.9.1
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.9.0';
+const YUSEA_CM_VERSION = '1.9.1';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -144,7 +144,8 @@ add_action('acf/init', function () {
             yusea_cm_field('project_status', 'status', 'Status', 'radio', [
                 // Radio, not Select: WPGraphQL for ACF v2 returns a list for
                 // Select fields, and the frontend expects a single string.
-                'choices'       => ['active' => 'Active', 'completed' => 'Completed', 'planned' => 'Planned'],
+                // The values are what the frontend reads; only the labels are Vietnamese.
+                'choices'       => ['active' => 'Đang diễn ra', 'completed' => 'Đã hoàn thành', 'planned' => 'Đang lên kế hoạch'],
                 'default_value' => 'active',
                 'layout'        => 'horizontal',
                 'return_format' => 'value',
@@ -322,9 +323,9 @@ function yusea_cm_additions() {
                         yusea_cm_label('work_empty', 'emptyText', 'Empty list text', 'Nothing published here yet.'),
                         yusea_cm_label('work_kind_blog', 'kindBlogLabel', 'Label: blog post', 'Blog'),
                         yusea_cm_label('work_kind_report', 'kindReportLabel', 'Label: report', 'Report'),
-                        yusea_cm_label('work_status_active', 'statusActiveLabel', 'Label: active project', 'Active'),
-                        yusea_cm_label('work_status_completed', 'statusCompletedLabel', 'Label: completed project', 'Completed'),
-                        yusea_cm_label('work_status_planned', 'statusPlannedLabel', 'Label: planned project', 'Planned'),
+                        yusea_cm_label('work_status_active', 'statusActiveLabel', 'Label: active project', 'Đang diễn ra'),
+                        yusea_cm_label('work_status_completed', 'statusCompletedLabel', 'Label: completed project', 'Đã hoàn thành'),
+                        yusea_cm_label('work_status_planned', 'statusPlannedLabel', 'Label: planned project', 'Đang lên kế hoạch'),
                         yusea_cm_label('work_download_report', 'downloadReportLabel', 'Report page: download button', 'Download the full report'),
                     ],
                 ]),
@@ -339,7 +340,7 @@ function yusea_cm_additions() {
                     yusea_cm_link_rows('nav_quick_links', 'quickLinks', 'Dropdown: quick links'),
                 ],
                 'work' => [
-                    yusea_cm_label('work_overview_heading', 'overviewHeading', 'Project page: overview heading', 'Overview'),
+                    yusea_cm_label('work_overview_heading', 'overviewHeading', 'Project page: overview heading', 'Tổng quan'),
                     yusea_cm_label('work_back_to_projects', 'backToProjectsLabel', 'Project page: back button (screen readers)', 'Back to projects'),
                     yusea_cm_label('work_registration_deadline', 'registrationDeadlineLabel', 'Registration card: before the deadline date', 'Hạn đăng ký'),
                     yusea_cm_label('work_registration_closed', 'registrationClosedLabel', 'Registration card: after the deadline', 'Đã đóng đăng ký'),
@@ -502,8 +503,43 @@ function yusea_cm_migrate() {
         }
     }
 
+    $log = array_merge($log, yusea_cm_translate_project_labels());
     $log = array_merge($log, yusea_cm_ensure_pages());
     return array_merge($log, yusea_cm_copy_page_copy_from_settings());
+}
+
+/**
+ * Project status and Overview labels in Vietnamese. Only replaces a label
+ * still on its old English default (or empty), so edited wording is kept.
+ */
+function yusea_cm_translate_project_labels() {
+    $group = yusea_cm_settings_group();
+    if (!$group) {
+        return [];
+    }
+    $post_id = yusea_cm_options_post_id($group);
+    $work    = get_field('work', $post_id);
+    if (!is_array($work)) {
+        return [];
+    }
+    $wanted = [
+        'statusActiveLabel'    => ['Active', 'Đang diễn ra'],
+        'statusCompletedLabel' => ['Completed', 'Đã hoàn thành'],
+        'statusPlannedLabel'   => ['Planned', 'Đang lên kế hoạch'],
+        'overviewHeading'      => ['Overview', 'Tổng quan'],
+    ];
+    $log = [];
+    foreach ($wanted as $name => [$old, $new]) {
+        $current = $work[$name] ?? '';
+        if ($current === '' || $current === $old) {
+            $work[$name] = $new;
+            $log[]       = "Site Settings work.$name set to \"$new\".";
+        }
+    }
+    if ($log) {
+        update_field('work', $work, $post_id);
+    }
+    return $log;
 }
 
 /**

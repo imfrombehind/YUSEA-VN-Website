@@ -190,6 +190,10 @@ notice lists what was added. The plugin:
   Project Fields, and the `registrationDeadlineLabel` /
   `registrationClosedLabel` labels to the Site Settings `work` group.
   Upload it **before** deploying the frontend that queries them.
+  v1.9.1 puts the project status radio labels in Vietnamese (the stored
+  values stay `active` / `completed` / `planned`) and switches the status
+  and Overview labels in Site Settings to Vietnamese, unless they were
+  already edited away from the English defaults.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
 - Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in
