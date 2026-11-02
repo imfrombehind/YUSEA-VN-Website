@@ -16,6 +16,8 @@ import type {
   PageDetail,
   Partnership,
   Pillar,
+  Registration,
+  RegistrationRow,
   Post,
   PostDetail,
   Project,
@@ -263,6 +265,52 @@ function mapPartnership(g: any): Partnership | undefined {
   return partnership.heading || partnership.partners.length > 0 ? partnership : undefined;
 }
 
+/** Rows without a label or value are dropped. */
+function mapRegistrationRows(rows: any): RegistrationRow[] {
+  return (rows ?? [])
+    .filter((r: any) => r?.label || r?.value)
+    .map((r: any) => ({ label: r.label ?? "", value: r.value ?? "", note: r.note ?? "" }));
+}
+
+/**
+ * An ACF date as "YYYY-MM-DD". Accepts the stored "20261112", ISO
+ * "2026-11-12…" and "12/11/2026", since WPGraphQL for ACF has returned
+ * date pickers in different shapes across versions.
+ */
+export function mapDate(value: unknown): string {
+  const text = String(value ?? "").trim();
+  const ymd = text.match(/^(\d{4})-?(\d{2})-?(\d{2})/);
+  if (ymd) return `${ymd[1]}-${ymd[2]}-${ymd[3]}`;
+  const dmy = text.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+  return dmy ? `${dmy[3]}-${dmy[2]}-${dmy[1]}` : "";
+}
+
+/** The registration group, or undefined if it has nothing to show. */
+function mapRegistration(g: any): Registration | undefined {
+  const registration: Registration = {
+    heading: g?.heading ?? "",
+    schedule: mapRegistrationRows(g?.schedule),
+    facts: mapRegistrationRows(g?.facts),
+    cta: { label: g?.ctaLabel ?? "", href: g?.ctaHref ?? "" },
+    deadline: mapDate(g?.deadline),
+    note: g?.note ?? "",
+  };
+  const empty =
+    !registration.heading &&
+    registration.schedule.length === 0 &&
+    registration.facts.length === 0 &&
+    !registration.cta.href;
+  return empty ? undefined : registration;
+}
+
+/** "#KeCho #YUSEAVietnam", or one per line, → ["KeCho", "YUSEAVietnam"]. */
+function mapHashtags(text: unknown): string[] {
+  return String(text ?? "")
+    .split(/[\s,]+/)
+    .map((tag) => tag.replace(/^#+/, ""))
+    .filter(Boolean);
+}
+
 export function mapProjectDetail(data: any): ProjectDetail | null {
   if (!data?.project) return null;
   const p = data.project.projectFields ?? {};
@@ -271,6 +319,9 @@ export function mapProjectDetail(data: any): ProjectDetail | null {
     content: data.project.content ?? "",
     timeframe: p.timeframe ?? "",
     partnership: mapPartnership(p.partnership),
+    registration: mapRegistration(p.registration),
+    tagline: p.tagline ?? "",
+    hashtags: mapHashtags(p.hashtags),
   };
 }
 
@@ -436,6 +487,8 @@ function mapWorkCopy(w: any): SiteSettings["work"] {
     },
     overviewHeading: w?.overviewHeading ?? "",
     backToProjects: w?.backToProjectsLabel ?? "",
+    registrationDeadline: w?.registrationDeadlineLabel ?? "",
+    registrationClosed: w?.registrationClosedLabel ?? "",
     downloadReport: w?.downloadReportLabel ?? "",
   };
 }

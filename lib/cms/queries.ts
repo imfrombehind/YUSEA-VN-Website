@@ -9,7 +9,7 @@
  * ACF field groups (WPGraphQL for ACF exposes them by "GraphQL Field Name"):
  *   Page "/"      -> homepageFields     { hero statsBand ourFocus }
  *   Project CPT   -> projectFields      { city province status heroImage
- *                                         timeframe partnership }  (the last two on the single project only)
+ *                                         timeframe partnership registration tagline hashtags }  (the last two on the single project only)
  *   Report CPT    -> reportFields       { file }
  *   Pillar term   -> pillarFields       { image }
  *   Pages         -> indexPageFields    { eyebrow heading intro }   (Work, Projects, Publications, About)
@@ -202,6 +202,24 @@ export const PROJECT_BY_SLUG_QUERY = /* GraphQL */ `
       content
       projectFields {
         timeframe
+        tagline
+        hashtags
+        registration {
+          heading
+          schedule {
+            label
+            value
+          }
+          facts {
+            label
+            value
+            note
+          }
+          ctaLabel
+          ctaHref
+          deadline
+          note
+        }
         partnership {
           heading
           intro
@@ -402,6 +420,8 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
           statusPlannedLabel
           overviewHeading
           backToProjectsLabel
+          registrationDeadlineLabel
+          registrationClosedLabel
           downloadReportLabel
         }
         navigation {

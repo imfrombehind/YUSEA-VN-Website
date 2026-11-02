@@ -75,6 +75,30 @@ export type Partnership = {
   partners: Partner[];
 };
 
+/** One row in a registration card: a schedule date or a key fact. */
+export type RegistrationRow = {
+  label: string;
+  value: string;
+  /** Small print under the row, e.g. what the fee covers. */
+  note: string;
+};
+
+/**
+ * The registration card beside a project's Overview, for projects people
+ * sign up to (tours, workshops). The button also shows on the cover.
+ */
+export type Registration = {
+  heading: string;
+  schedule: RegistrationRow[];
+  facts: RegistrationRow[];
+  /** Empty label or link means no button. */
+  cta: CTA;
+  /** "YYYY-MM-DD", or "" for no deadline. The button closes after this day. */
+  deadline: string;
+  /** Small print under the button, e.g. who gets priority. */
+  note: string;
+};
+
 /**
  * A single project with its body. `content` is WordPress-rendered HTML,
  * shown as the Overview section.
@@ -85,6 +109,12 @@ export type ProjectDetail = Project & {
   timeframe: string;
   /** Undefined when the section is empty, which hides it. */
   partnership?: Partnership;
+  /** Undefined when the card is empty, which hides it. */
+  registration?: Registration;
+  /** Larger closing line under the Overview body. */
+  tagline: string;
+  /** Without the "#", e.g. ["KeCho", "YUSEAVietnam"]. */
+  hashtags: string[];
 };
 
 /** `Events` CPT — upcoming initiatives and gatherings. */
@@ -273,6 +303,10 @@ export type SiteSettings = {
     overviewHeading: string;
     /** Single project: accessible name of the back-to-projects button. */
     backToProjects: string;
+    /** Registration card: before the deadline date, e.g. "Hạn đăng ký". */
+    registrationDeadline: string;
+    /** Registration card: replaces the button after the deadline. */
+    registrationClosed: string;
     /** Single report: the file download button. */
     downloadReport: string;
   };

@@ -186,6 +186,10 @@ notice lists what was added. The plugin:
   They are defined in code, so they leave the GraphQL schema as soon as
   it is uploaded: upload it only **after** a frontend that no longer
   queries them is live. Saved values stay in the database.
+- v1.9.0 adds `tagline`, `hashtags` and the `registration` group to
+  Project Fields, and the `registrationDeadlineLabel` /
+  `registrationClosedLabel` labels to the Site Settings `work` group.
+  Upload it **before** deploying the frontend that queries them.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
 - Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in
@@ -252,6 +256,7 @@ group `work` with:
 | `kindBlogLabel`, `kindReportLabel` | Publication cards and the type filter |
 | `statusActiveLabel`, `statusCompletedLabel`, `statusPlannedLabel` | Project cards |
 | `overviewHeading`, `backToProjectsLabel` (screen readers) | Single project |
+| `registrationDeadlineLabel`, `registrationClosedLabel` | Single project: registration card |
 | `downloadReportLabel` | Single report |
 
 A nav row with `categories` or `quickLinks` gets a hover dropdown in the
@@ -262,11 +267,22 @@ links are listed under the item.
 **`Project` CPT** → group `projectFields`: `city`, `province`, `status`,
 `heroImage` (image, "Cover photo"), `timeframe` (text, e.g. "2024 – 2027"),
 `partnership` (group) { `heading`, `intro` (textarea, one paragraph per
-line), `partners[]` { `logo` (image), `name`, `href` (url, optional) } }.
+line), `partners[]` { `logo` (image), `name`, `href` (url, optional) } },
+`tagline` (textarea), `hashtags` (text, space-separated, "#" optional),
+`registration` (group) { `heading`, `schedule[]` { `label`, `value` },
+`facts[]` { `label`, `value`, `note` }, `ctaLabel`, `ctaHref` (url),
+`deadline` (date picker), `note` (textarea) }.
 
 The project page is a full-width cover photo with the title, then status ·
 timeframe · location over it and a round back button to `/work/projects`;
-then **Overview** (`overviewHeading`, the post body and pillar tags); then
+then **Overview** (`overviewHeading`, the post body, `tagline`, `hashtags`
+in `blue-700`, each linking to its Facebook hashtag feed, and pillar tags)
+with the **registration card** beside it (sticky on desktop, below on
+mobile). The card's button, when set, also shows on the cover. After the
+`deadline` day ends in Ha Noi time (UTC+7) the button is replaced by
+`registrationClosedLabel`, within an hour (the page revalidates hourly).
+The card is hidden when heading, schedule, facts and link are all empty;
+then
 the partnership section (e.g. "Implementing agency"), each partner as a
 round logo (none if no logo is set) with its name (linked if `href` is
 set). With no heading and no named partners it is hidden. `timeframe` and

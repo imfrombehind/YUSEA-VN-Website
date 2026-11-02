@@ -47,6 +47,8 @@
           "statusPlannedLabel": "Planned",
           "overviewHeading": "Overview",
           "backToProjectsLabel": "Back to projects",
+          "registrationDeadlineLabel": "Registration closes",
+          "registrationClosedLabel": "Registration closed",
           "downloadReportLabel": "Download the full report"
         },
         "navigation": [

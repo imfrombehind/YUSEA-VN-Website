@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.8.2
+ * Version:     1.9.0
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.8.2';
+const YUSEA_CM_VERSION = '1.9.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -157,6 +157,51 @@ add_action('acf/init', function () {
             yusea_cm_field('project_hero_image', 'heroImage', 'Cover photo', 'image', [
                 'instructions'  => 'Full width behind the title on the project page (landscape, at least 2000px wide; the bottom is darkened for the title), and 3:2 on cards.',
                 'return_format' => 'array',
+            ]),
+            yusea_cm_field('project_tagline', 'tagline', 'Tagline', 'textarea', [
+                'instructions' => 'Optional closing line under the Overview, in larger type.',
+                'rows'         => 2,
+                'new_lines'    => '',
+            ]),
+            yusea_cm_field('project_hashtags', 'hashtags', 'Hashtags', 'text', [
+                'instructions' => 'Optional, separated by spaces, e.g. #KeCho #YUSEAVietnam. Shown in blue under the Overview, each linking to Facebook.',
+            ]),
+            yusea_cm_field('project_registration', 'registration', 'Registration', 'group', [
+                'instructions' => 'For projects people sign up to. A card beside the Overview, and the button on the cover photo too. Leave it all empty to hide it.',
+                'layout'       => 'block',
+                'sub_fields'   => [
+                    yusea_cm_field('project_registration_heading', 'heading', 'Heading', 'text', ['instructions' => 'e.g. Đăng ký']),
+                    yusea_cm_field('project_registration_schedule', 'schedule', 'Schedule', 'repeater', [
+                        'layout'       => 'table',
+                        'button_label' => 'Add date',
+                        'sub_fields'   => [
+                            yusea_cm_field('project_registration_schedule_label', 'label', 'Activity', 'text', ['instructions' => 'e.g. Tour 1']),
+                            yusea_cm_field('project_registration_schedule_value', 'value', 'Date', 'text', ['instructions' => 'e.g. 14/11 và 15/11/2026']),
+                        ],
+                    ]),
+                    yusea_cm_field('project_registration_facts', 'facts', 'Key facts', 'repeater', [
+                        'layout'       => 'table',
+                        'button_label' => 'Add fact',
+                        'sub_fields'   => [
+                            yusea_cm_field('project_registration_fact_label', 'label', 'Label', 'text', ['instructions' => 'e.g. Phí tham gia']),
+                            yusea_cm_field('project_registration_fact_value', 'value', 'Value', 'text', ['instructions' => 'e.g. 100.000 VNĐ/tour']),
+                            yusea_cm_field('project_registration_fact_note', 'note', 'Small print', 'text', ['instructions' => 'Optional.']),
+                        ],
+                    ]),
+                    yusea_cm_field('project_registration_cta_label', 'ctaLabel', 'Button label', 'text', ['instructions' => 'e.g. Đăng ký ngay']),
+                    yusea_cm_field('project_registration_cta_href', 'ctaHref', 'Button link', 'url', ['instructions' => 'The registration form. Empty hides the button.']),
+                    yusea_cm_field('project_registration_deadline', 'deadline', 'Deadline', 'date_picker', [
+                        'instructions'   => 'Optional. After this day (Ha Noi time) the button is replaced by the "registration closed" label from Site Settings.',
+                        'display_format' => 'd/m/Y',
+                        'return_format'  => 'Ymd',
+                        'first_day'      => 1,
+                    ]),
+                    yusea_cm_field('project_registration_note', 'note', 'Note', 'textarea', [
+                        'instructions' => 'Optional small print under the button, e.g. who gets priority.',
+                        'rows'         => 2,
+                        'new_lines'    => '',
+                    ]),
+                ],
             ]),
             yusea_cm_field('project_partnership', 'partnership', 'Partnership', 'group', [
                 'instructions' => 'The section below the Overview. Leave the heading and partners empty to hide it.',
@@ -296,6 +341,8 @@ function yusea_cm_additions() {
                 'work' => [
                     yusea_cm_label('work_overview_heading', 'overviewHeading', 'Project page: overview heading', 'Overview'),
                     yusea_cm_label('work_back_to_projects', 'backToProjectsLabel', 'Project page: back button (screen readers)', 'Back to projects'),
+                    yusea_cm_label('work_registration_deadline', 'registrationDeadlineLabel', 'Registration card: before the deadline date', 'Hạn đăng ký'),
+                    yusea_cm_label('work_registration_closed', 'registrationClosedLabel', 'Registration card: after the deadline', 'Đã đóng đăng ký'),
                 ],
                 'social' => [
                     yusea_cm_field('social_icon', 'icon', 'Icon', 'image', [

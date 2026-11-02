@@ -2,14 +2,22 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ButtonLink } from "@/components/ui/Button";
+import { Hashtags } from "@/components/work/Hashtags";
 import { PartnershipSection } from "@/components/work/PartnershipSection";
 import { PillarTags } from "@/components/work/PillarTags";
 import { Prose } from "@/components/work/Prose";
+import { RegistrationCard } from "@/components/work/RegistrationCard";
 import { getProjectBySlug, getProjects, getSiteSettings } from "@/lib/cms";
+import { isPastDay } from "@/lib/format";
 import { PROJECTS_PATH, projectHref } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
 
-/** /api/revalidate can purge "projects" or just "project:<slug>". */
+/**
+ * /api/revalidate can purge "projects" or just "project:<slug>". The hourly
+ * revalidation also closes the register button within an hour of its
+ * deadline passing.
+ */
 export const revalidate = 3600;
 
 type Props = { params: Promise<{ slug: string }> };
@@ -32,7 +40,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /**
  * Single project: a full-width cover photo with the title over it, then
- * Overview (the post body), then the partnership section.
+ * Overview (the post body, tagline and hashtags) with the registration
+ * card beside it, then the partnership section.
  */
 export default async function ProjectPage({ params }: Props) {
   const [project, { work }] = await Promise.all([
@@ -45,6 +54,13 @@ export default async function ProjectPage({ params }: Props) {
     .filter((part, i, all) => part && all.indexOf(part) === i)
     .join(", ");
   const meta = [work.status[project.status], project.timeframe, location].filter(Boolean);
+
+  const { registration } = project;
+  const registrationClosed = Boolean(registration?.deadline && isPastDay(registration.deadline));
+  const registerCta =
+    registration && !registrationClosed && registration.cta.label && registration.cta.href
+      ? registration.cta
+      : undefined;
 
   return (
     <article>
@@ -83,20 +99,51 @@ export default async function ProjectPage({ params }: Props) {
             {meta.length > 0 ? (
               <p className="mt-6 text-lg font-medium text-white/90">{meta.join(" · ")}</p>
             ) : null}
+            {registerCta ? (
+              <ButtonLink
+                href={registerCta.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8"
+              >
+                {registerCta.label}
+              </ButtonLink>
+            ) : null}
           </div>
         </div>
       </header>
 
       <section aria-labelledby={work.overviewHeading ? "overview" : undefined} className="bg-paper-soft py-section lg:py-section-lg">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="max-w-4xl">
-            {work.overviewHeading ? (
-              <h2 id="overview" className="text-4xl text-ink sm:text-5xl">
-                {work.overviewHeading}
-              </h2>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <div className={registration ? "lg:col-span-8" : "max-w-4xl lg:col-span-12"}>
+              {work.overviewHeading ? (
+                <h2 id="overview" className="text-4xl text-ink sm:text-5xl">
+                  {work.overviewHeading}
+                </h2>
+              ) : null}
+              <Prose html={project.content} className={work.overviewHeading ? "mt-8" : ""} />
+              {project.tagline ? (
+                <p className="mt-12 font-display text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                  {project.tagline}
+                </p>
+              ) : null}
+              <Hashtags tags={project.hashtags} className={project.tagline ? "mt-4" : "mt-10"} />
+              <PillarTags pillars={project.pillars} className="mt-10" />
+            </div>
+
+            {registration ? (
+              <div className="lg:col-span-4">
+                {/* Clears the sticky site header. */}
+                <RegistrationCard
+                  registration={registration}
+                  closed={registrationClosed}
+                  deadlineLabel={work.registrationDeadline}
+                  closedLabel={work.registrationClosed}
+                  className="lg:sticky lg:top-32"
+                />
+              </div>
             ) : null}
-            <Prose html={project.content} className={work.overviewHeading ? "mt-8" : ""} />
-            <PillarTags pillars={project.pillars} className="mt-10" />
           </div>
         </div>
       </section>

@@ -46,6 +46,17 @@
                   "logo": null
                 }
               ]
+            },
+            "tagline": "",
+            "hashtags": "",
+            "registration": {
+              "heading": "",
+              "schedule": [],
+              "facts": [],
+              "ctaLabel": "",
+              "ctaHref": "",
+              "deadline": "",
+              "note": ""
             }
           },
           "pillars": {
@@ -102,6 +113,17 @@
                   "logo": null
                 }
               ]
+            },
+            "tagline": "",
+            "hashtags": "",
+            "registration": {
+              "heading": "",
+              "schedule": [],
+              "facts": [],
+              "ctaLabel": "",
+              "ctaHref": "",
+              "deadline": "",
+              "note": ""
             }
           },
           "pillars": {
@@ -162,6 +184,46 @@
                   "logo": null
                 }
               ]
+            },
+            "tagline": "This is mock content. Walk the markets, read the city again, and design what comes next.",
+            "hashtags": "#KeCho #YUSEAVietnam #LeHoiThietKeSangTaoHaNoi2026",
+            "registration": {
+              "heading": "Register",
+              "schedule": [
+                {
+                  "label": "Tour 1",
+                  "value": "14 & 15/11/2026"
+                },
+                {
+                  "label": "Tour 2",
+                  "value": "21 & 22/11/2026"
+                },
+                {
+                  "label": "Closing workshop",
+                  "value": "28/11/2026"
+                }
+              ],
+              "facts": [
+                {
+                  "label": "Duration",
+                  "value": "3–4 hours per tour",
+                  "note": ""
+                },
+                {
+                  "label": "Group size",
+                  "value": "20 people per tour",
+                  "note": ""
+                },
+                {
+                  "label": "Fee",
+                  "value": "100,000 VND per tour",
+                  "note": "Covers entry tickets, drinks and running costs. Not for profit."
+                }
+              ],
+              "ctaLabel": "Register now",
+              "ctaHref": "https://example.org/register",
+              "deadline": "20261112",
+              "note": "This is mock content. Places are limited; priority for people aged 18–40."
             }
           },
           "pillars": {
@@ -219,6 +281,17 @@
                   "logo": null
                 }
               ]
+            },
+            "tagline": "",
+            "hashtags": "",
+            "registration": {
+              "heading": "",
+              "schedule": [],
+              "facts": [],
+              "ctaLabel": "",
+              "ctaHref": "",
+              "deadline": "",
+              "note": ""
             }
           },
           "pillars": {
