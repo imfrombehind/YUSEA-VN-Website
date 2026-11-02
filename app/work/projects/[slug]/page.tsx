@@ -8,6 +8,7 @@ import { PartnershipSection } from "@/components/work/PartnershipSection";
 import { PillarTags } from "@/components/work/PillarTags";
 import { Prose } from "@/components/work/Prose";
 import { RegistrationCard } from "@/components/work/RegistrationCard";
+import { VOLUNTEER_ANCHOR, VolunteerSection } from "@/components/work/VolunteerSection";
 import { getProjectBySlug, getProjects, getSiteSettings } from "@/lib/cms";
 import { isPastDay } from "@/lib/format";
 import { PROJECTS_PATH, projectHref } from "@/lib/routes";
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 /**
  * Single project: a full-width cover photo with the title over it, then
  * Overview (the post body, tagline and hashtags) with the registration
- * card beside it, then the partnership section.
+ * card beside it, then the call for volunteers, then the partnership.
  */
 export default async function ProjectPage({ params }: Props) {
   const [project, { work }] = await Promise.all([
@@ -61,6 +62,10 @@ export default async function ProjectPage({ params }: Props) {
     registration && !registrationClosed && registration.cta.label && registration.cta.href
       ? registration.cta
       : undefined;
+  // The cover's volunteer button jumps to the section, so people read the
+  // roles before reaching the form.
+  const volunteerLabel =
+    project.volunteer?.cta.label && project.volunteer.cta.href ? project.volunteer.cta.label : "";
 
   return (
     <article>
@@ -99,15 +104,19 @@ export default async function ProjectPage({ params }: Props) {
             {meta.length > 0 ? (
               <p className="mt-6 text-lg font-medium text-white/90">{meta.join(" · ")}</p>
             ) : null}
-            {registerCta ? (
-              <ButtonLink
-                href={registerCta.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8"
-              >
-                {registerCta.label}
-              </ButtonLink>
+            {registerCta || volunteerLabel ? (
+              <div className="mt-8 flex flex-wrap gap-3">
+                {registerCta ? (
+                  <ButtonLink href={registerCta.href} target="_blank" rel="noopener noreferrer">
+                    {registerCta.label}
+                  </ButtonLink>
+                ) : null}
+                {volunteerLabel ? (
+                  <ButtonLink href={`#${VOLUNTEER_ANCHOR}`} variant="light" arrow="down">
+                    {volunteerLabel}
+                  </ButtonLink>
+                ) : null}
+              </div>
             ) : null}
           </div>
         </div>
@@ -147,6 +156,8 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {project.volunteer ? <VolunteerSection volunteer={project.volunteer} /> : null}
 
       {project.partnership ? <PartnershipSection partnership={project.partnership} /> : null}
     </article>

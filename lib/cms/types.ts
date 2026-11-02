@@ -99,6 +99,31 @@ export type Registration = {
   note: string;
 };
 
+/** A volunteer role in a project's call for volunteers. */
+export type VolunteerRole = {
+  title: string;
+  description: string;
+};
+
+/**
+ * A call for volunteers on a project page: intro, roles (the JD),
+ * benefits and a register button. The cover links down to it.
+ */
+export type VolunteerCall = {
+  heading: string;
+  /** HTML: one paragraph per line. */
+  intro: string;
+  rolesHeading: string;
+  roles: VolunteerRole[];
+  benefitsHeading: string;
+  /** One per line in WordPress. */
+  benefits: string[];
+  /** HTML: one paragraph per line, above the button. */
+  closing: string;
+  /** Empty label or link means no button, here or on the cover. */
+  cta: CTA;
+};
+
 /**
  * A single project with its body. `content` is WordPress-rendered HTML,
  * shown as the Overview section.
@@ -111,6 +136,8 @@ export type ProjectDetail = Project & {
   partnership?: Partnership;
   /** Undefined when the card is empty, which hides it. */
   registration?: Registration;
+  /** Undefined when the section is empty, which hides it. */
+  volunteer?: VolunteerCall;
   /** Larger closing line under the Overview body. */
   tagline: string;
   /** Without the "#", e.g. ["KeCho", "YUSEAVietnam"]. */

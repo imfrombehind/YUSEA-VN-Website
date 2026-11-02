@@ -198,6 +198,8 @@ notice lists what was added. The plugin:
   print) textareas, so a value can run to two lines, e.g. two prices.
   v1.9.3: each line of a fact's small print and of the note is its own
   paragraph on the site.
+- v1.10.0 adds the `volunteer` group (Call for volunteers) to Project
+  Fields. Upload it **before** deploying the frontend that queries it.
   Saved text is kept; GraphQL still returns a string.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
@@ -280,7 +282,10 @@ line), `partners[]` { `logo` (image), `name`, `href` (url, optional) } },
 `tagline` (textarea), `hashtags` (text, space-separated, "#" optional),
 `registration` (group) { `heading`, `schedule[]` { `label`, `value` },
 `facts[]` { `label`, `value`, `note` }, `ctaLabel`, `ctaHref` (url),
-`deadline` (date picker), `note` (textarea) }.
+`deadline` (date picker), `note` (textarea) },
+`volunteer` (group) { `heading`, `intro`, `rolesHeading`, `roles[]`
+{ `title`, `description` }, `benefitsHeading`, `benefits` (textarea, one
+per line), `closing`, `ctaLabel`, `ctaHref` (url) }.
 
 The project page is a full-width cover photo with the title, then status ·
 timeframe · location over it and a round back button to `/work/projects`;
@@ -290,7 +295,11 @@ with the **registration card** beside it (sticky on desktop, below on
 mobile). The card's button, when set, also shows on the cover. After the
 `deadline` day ends in Ha Noi time (UTC+7) the button is replaced by
 `registrationClosedLabel`, within an hour (the page revalidates hourly).
-The card is hidden when heading, schedule, facts and link are all empty;
+The card is hidden when heading, schedule, facts and link are all empty.
+Then the **call for volunteers** (`VolunteerSection`, anchor `#volunteer`):
+roles as cards beside a benefits checklist, then the closing text and its
+button. Its button label also shows on the cover as a second, outlined
+button that jumps down to the section. Hidden with no heading and no roles;
 then
 the partnership section (e.g. "Implementing agency"), each partner as a
 round logo (none if no logo is set) with its name (linked if `href` is

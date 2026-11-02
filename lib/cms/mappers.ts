@@ -18,6 +18,7 @@ import type {
   Pillar,
   Registration,
   RegistrationRow,
+  VolunteerCall,
   Post,
   PostDetail,
   Project,
@@ -303,6 +304,26 @@ function mapRegistration(g: any): Registration | undefined {
   return empty ? undefined : registration;
 }
 
+/** The volunteer group, or undefined if it has no heading and no roles. */
+function mapVolunteer(g: any): VolunteerCall | undefined {
+  const volunteer: VolunteerCall = {
+    heading: g?.heading ?? "",
+    intro: g?.intro ? textToHtml(g.intro) : "",
+    rolesHeading: g?.rolesHeading ?? "",
+    roles: (g?.roles ?? [])
+      .filter((r: any) => r?.title)
+      .map((r: any) => ({ title: r.title, description: r.description ?? "" })),
+    benefitsHeading: g?.benefitsHeading ?? "",
+    benefits: String(g?.benefits ?? "")
+      .split(/\r?\n/)
+      .map((line) => line.replace(/^(?:•\s*|[-*]\s+)/, "").trim())
+      .filter(Boolean),
+    closing: g?.closing ? textToHtml(g.closing) : "",
+    cta: { label: g?.ctaLabel ?? "", href: g?.ctaHref ?? "" },
+  };
+  return volunteer.heading || volunteer.roles.length > 0 ? volunteer : undefined;
+}
+
 /** "#KeCho #YUSEAVietnam", or one per line, → ["KeCho", "YUSEAVietnam"]. */
 function mapHashtags(text: unknown): string[] {
   return String(text ?? "")
@@ -320,6 +341,7 @@ export function mapProjectDetail(data: any): ProjectDetail | null {
     timeframe: p.timeframe ?? "",
     partnership: mapPartnership(p.partnership),
     registration: mapRegistration(p.registration),
+    volunteer: mapVolunteer(p.volunteer),
     tagline: p.tagline ?? "",
     hashtags: mapHashtags(p.hashtags),
   };

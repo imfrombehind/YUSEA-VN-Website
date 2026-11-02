@@ -87,7 +87,8 @@ that have bitten this repo:
   (`heroImage`) with the title, then Overview (the post body, tagline,
   hashtags) beside a sticky `RegistrationCard` (`projectFields.registration`;
   its button also shows on the cover and closes after `deadline`), then
-  `PartnershipSection` (the `projectFields.partnership` group). The
+  `VolunteerSection` (`projectFields.volunteer`; a second cover button jumps
+  to `#volunteer`), then `PartnershipSection` (the `projectFields.partnership` group). The
   Overview heading and back-button label are Site Settings `work` labels.
 - `/work`, `/work/projects`, `/work/publications` and `/about` take their
   eyebrow, heading and intro from the WP page's **Page content** box

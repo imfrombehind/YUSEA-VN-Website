@@ -1,24 +1,29 @@
 import Link from "next/link";
 import type { ComponentProps } from "react";
 
-type Variant = "coral" | "ink" | "outline" | "sun";
+type Variant = "coral" | "ink" | "outline" | "sun" | "light";
 
 const VARIANTS: Record<Variant, string> = {
   coral: "bg-coral text-white hover:bg-coral-600",
   ink: "bg-ink text-white hover:bg-muted",
   sun: "bg-sun text-ink hover:bg-sun-600",
   outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-50",
+  /** Secondary button on a dark photo, e.g. the project cover. */
+  light: "border-2 border-white/80 text-white hover:bg-white/10",
 };
 
 type ButtonLinkProps = {
   href: string;
   variant?: Variant;
+  /** "down" for a link further down the same page. */
+  arrow?: "right" | "down";
 } & Omit<ComponentProps<typeof Link>, "href">;
 
 /** Pill-shaped, sentence-case CTA. `outline` is the Our Focus button. */
 export function ButtonLink({
   href,
   variant = "coral",
+  arrow = "right",
   className = "",
   children,
   ...rest
@@ -33,7 +38,7 @@ export function ButtonLink({
       {...rest}
     >
       {children}
-      <span aria-hidden="true">&rarr;</span>
+      <span aria-hidden="true">{arrow === "down" ? "\u2193" : "\u2192"}</span>
     </Link>
   );
 }

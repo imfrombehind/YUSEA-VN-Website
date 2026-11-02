@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.9.3
+ * Version:     1.10.0
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.9.3';
+const YUSEA_CM_VERSION = '1.10.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -202,6 +202,40 @@ add_action('acf/init', function () {
                         'rows'         => 3,
                         'new_lines'    => '',
                     ]),
+                ],
+            ]),
+            yusea_cm_field('project_volunteer', 'volunteer', 'Call for volunteers', 'group', [
+                'instructions' => 'A section below the Overview with the roles, benefits and a register button. The button also shows on the cover photo and jumps down to this section. Leave the heading and roles empty to hide it.',
+                'layout'       => 'block',
+                'sub_fields'   => [
+                    yusea_cm_field('project_volunteer_heading', 'heading', 'Heading', 'text', ['instructions' => 'e.g. Tình nguyện viên đồng hành cùng Kẻ Chợ']),
+                    yusea_cm_field('project_volunteer_intro', 'intro', 'Intro', 'textarea', [
+                        'instructions' => 'Optional. Each line is a paragraph.',
+                        'rows'         => 3,
+                        'new_lines'    => '',
+                    ]),
+                    yusea_cm_field('project_volunteer_roles_heading', 'rolesHeading', 'Roles heading', 'text', ['instructions' => 'e.g. Các vị trí tuyển dụng']),
+                    yusea_cm_field('project_volunteer_roles', 'roles', 'Roles', 'repeater', [
+                        'layout'       => 'table',
+                        'button_label' => 'Add role',
+                        'sub_fields'   => [
+                            yusea_cm_field('project_volunteer_role_title', 'title', 'Role', 'text', ['instructions' => 'e.g. Media']),
+                            yusea_cm_field('project_volunteer_role_description', 'description', 'What they do', 'textarea', ['rows' => 2, 'new_lines' => '']),
+                        ],
+                    ]),
+                    yusea_cm_field('project_volunteer_benefits_heading', 'benefitsHeading', 'Benefits heading', 'text', ['instructions' => 'e.g. Quyền lợi tình nguyện viên']),
+                    yusea_cm_field('project_volunteer_benefits', 'benefits', 'Benefits', 'textarea', [
+                        'instructions' => 'One per line. Shown as a checklist.',
+                        'rows'         => 5,
+                        'new_lines'    => '',
+                    ]),
+                    yusea_cm_field('project_volunteer_closing', 'closing', 'Closing text', 'textarea', [
+                        'instructions' => 'Optional, above the button. Each line is a paragraph.',
+                        'rows'         => 2,
+                        'new_lines'    => '',
+                    ]),
+                    yusea_cm_field('project_volunteer_cta_label', 'ctaLabel', 'Button label', 'text', ['instructions' => 'e.g. Đăng ký tình nguyện viên. Also the cover button.']),
+                    yusea_cm_field('project_volunteer_cta_href', 'ctaHref', 'Button link', 'url', ['instructions' => 'The volunteer form. Empty hides both buttons.']),
                 ],
             ]),
             yusea_cm_field('project_partnership', 'partnership', 'Partnership', 'group', [
