@@ -200,6 +200,9 @@ notice lists what was added. The plugin:
   paragraph on the site.
 - v1.10.0 adds the `volunteer` group (Call for volunteers) to Project
   Fields. Upload it **before** deploying the frontend that queries it.
+  v1.10.1: Create starter content adds pillars only when there are none.
+  It used to re-add any starter pillar whose slug was missing, bringing
+  back pillars editors had renamed or deleted.
   Saved text is kept; GraphQL still returns a string.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").

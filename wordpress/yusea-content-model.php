@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.10.0
+ * Version:     1.10.1
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.10.0';
+const YUSEA_CM_VERSION = '1.10.1';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -1114,7 +1114,7 @@ function yusea_cm_setup_page() {
     }
     echo '</tbody></table>';
 
-    echo '<h2>Starter content</h2><p style="max-width:900px">Creates and <strong>publishes immediately</strong> the three pillars and an About page, with the text and photos from the design mock-ups. It creates no projects, reports or blog posts: add your own. <strong>The sample text is public until you replace it.</strong> Starter drafts from an earlier run are published too. If the hero slideshow is empty, it is filled with your Background photo plus starter photos. Empty About page sections (mission points, board members) get sample content, including placeholder board members; anything already filled in is kept. Adds LinkedIn, Facebook and Instagram rows to Site Settings if there are no social links yet (replace their URLs with your real profiles). Your navigation is not changed. Anything that already exists, matched by slug, is skipped, so running it twice is safe. Photos are downloaded from Unsplash into the Media Library.</p>';
+    echo '<h2>Starter content</h2><p style="max-width:900px">Creates and <strong>publishes immediately</strong> the three pillars (only if there are no pillars yet) and an About page, with the text and photos from the design mock-ups. It creates no projects, reports or blog posts: add your own. <strong>The sample text is public until you replace it.</strong> Starter drafts from an earlier run are published too. If the hero slideshow is empty, it is filled with your Background photo plus starter photos. Empty About page sections (mission points, board members) get sample content, including placeholder board members; anything already filled in is kept. Adds LinkedIn, Facebook and Instagram rows to Site Settings if there are no social links yet (replace their URLs with your real profiles). Your navigation is not changed. Anything that already exists, matched by slug, is skipped, so running it twice is safe. Photos are downloaded from Unsplash into the Media Library.</p>';
     echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
     wp_nonce_field('yusea_cm_seed');
     echo '<input type="hidden" name="action" value="yusea_cm_seed">';
@@ -1202,8 +1202,14 @@ function yusea_cm_seed() {
         return $images[$photo] = (int) $id;
     };
 
-    // Pillars: published, since they are structure rather than content.
-    foreach ($data['pillars'] as $p) {
+    // Pillars: published, since they are structure rather than content. Only
+    // on a site with none: editors rename and delete the starter pillars, and
+    // matching by slug would bring the deleted ones back on every run.
+    $has_pillars = (int) wp_count_terms(['taxonomy' => 'pillar', 'hide_empty' => false]) > 0;
+    if ($has_pillars) {
+        $log[] = 'Pillars already exist — none added.';
+    }
+    foreach ($has_pillars ? [] : $data['pillars'] as $p) {
         if (term_exists($p['slug'], 'pillar')) {
             $log[] = "Pillar \"{$p['name']}\" already exists — left as is.";
             continue;
