@@ -3,21 +3,15 @@ import { Prose } from "./Prose";
 import type { Partner, Partnership } from "@/lib/cms/types";
 
 /**
- * One partnership block on a project page ("Implementing agency",
- * "Funding partners"): heading, short intro, then each partner as a
+ * The partnership section on a project page (e.g. "Implementing
+ * agency"): heading, short intro, then each partner as a
  * round logo (if it has one) with its name beside it.
  */
-export function PartnershipSection({
-  partnership,
-  className = "",
-}: {
-  partnership: Partnership;
-  className?: string;
-}) {
+export function PartnershipSection({ partnership }: { partnership: Partnership }) {
   const { heading, intro, partners } = partnership;
 
   return (
-    <section className={`bg-paper py-16 lg:py-24 ${className}`}>
+    <section className="bg-paper py-16 lg:py-24">
 
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         {heading ? <h2 className="text-3xl text-ink sm:text-4xl">{heading}</h2> : null}

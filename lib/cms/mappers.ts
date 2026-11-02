@@ -248,25 +248,22 @@ export function mapProjects(data: any): Project[] {
 }
 
 /**
- * Partnership rows. Partners without a name are dropped, and so is a
- * block with neither a heading nor any partners.
+ * The partnership group, or undefined if it has neither a heading nor any
+ * partners. Partners without a name are dropped.
  */
-function mapPartnerships(rows: any): Partnership[] {
-  return (rows ?? [])
-    .map(
-      (r: any): Partnership => ({
-        heading: r?.heading ?? "",
-        intro: r?.intro ? textToHtml(r.intro) : "",
-        partners: (r?.partners ?? [])
-          .filter((p: any) => p?.name)
-          .map((p: any) => ({
-            name: p.name,
-            logo: mapMedia(p.logo?.node),
-            href: p.href || undefined,
-          })),
-      }),
-    )
-    .filter((p: Partnership) => p.heading || p.partners.length > 0);
+function mapPartnership(g: any): Partnership | undefined {
+  const partnership: Partnership = {
+    heading: g?.heading ?? "",
+    intro: g?.intro ? textToHtml(g.intro) : "",
+    partners: (g?.partners ?? [])
+      .filter((p: any) => p?.name)
+      .map((p: any) => ({
+        name: p.name,
+        logo: mapMedia(p.logo?.node),
+        href: p.href || undefined,
+      })),
+  };
+  return partnership.heading || partnership.partners.length > 0 ? partnership : undefined;
 }
 
 export function mapProjectDetail(data: any): ProjectDetail | null {
@@ -276,7 +273,7 @@ export function mapProjectDetail(data: any): ProjectDetail | null {
     ...mapProject(data.project),
     content: data.project.content ?? "",
     timeframe: p.timeframe ?? "",
-    partnerships: mapPartnerships(p.partnerships),
+    partnership: mapPartnership(p.partnership),
   };
 }
 

@@ -71,7 +71,7 @@ export type Partner = {
   href?: string;
 };
 
-/** One partnership block on a project page, e.g. "Implementing agency". */
+/** The partnership section on a project page, e.g. "Implementing agency". */
 export type Partnership = {
   heading: string;
   /** HTML: a textarea, one paragraph per line. */
@@ -87,7 +87,8 @@ export type ProjectDetail = Project & {
   content: string;
   /** Free text under the title, e.g. "2024 – 2027". */
   timeframe: string;
-  partnerships: Partnership[];
+  /** Undefined when the section is empty, which hides it. */
+  partnership?: Partnership;
 };
 
 /** `Events` CPT — upcoming initiatives and gatherings. */

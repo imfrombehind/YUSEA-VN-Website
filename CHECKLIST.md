@@ -23,7 +23,7 @@ relative to the repo root.
 
 ## P0 — must fix before launch
 
-- [ ] **Install and activate `wordpress/yusea-content-model.php`** (`npm run wp:zip`), and re-upload `yusea-revalidate.php` (v1.1.0, adds report and pillar purges). This creates the `project`/`report` post types, the `pillar` taxonomy and every v2 field. v1.8.0 (project timeframe, partnerships, Overview label) must be live and `npm run check:cms` must pass before deploying the new project page.
+- [ ] **Install and activate `wordpress/yusea-content-model.php`** (`npm run wp:zip`), and re-upload `yusea-revalidate.php` (v1.1.0, adds report and pillar purges). This creates the `project`/`report` post types, the `pillar` taxonomy and every v2 field. v1.8.0 (project timeframe, partnership, Overview label) must be live and `npm run check:cms` must pass before deploying the new project page.
 - [ ] **`npm run check:cms` passes** against the live CMS. WPGraphQL rejects a whole query if any field is missing, which fails the Vercel build.
 - [ ] In **Tools → YUSEA Setup**, everything is ticked. **Create starter content** publishes sample pillars and About immediately (no projects, reports or posts since v1.7.3) — replace every "This is mock content." line and Unsplash photo before launch, including the placeholder **board of directors** on About (names, roles, photos) and its mission points.
 - [ ] Add nav dropdown links per row, and real social profile URLs, in Site Settings.

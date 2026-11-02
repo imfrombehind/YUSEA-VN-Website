@@ -169,10 +169,9 @@ add_action('acf/init', function () {
                     yusea_cm_field('project_metric_source', 'source', 'Source'),
                 ],
             ]),
-            yusea_cm_field('project_partnerships', 'partnerships', 'Partnerships', 'repeater', [
-                'instructions' => 'One section each below the Overview, e.g. "Implementing agency", then "Funding partners".',
+            yusea_cm_field('project_partnership', 'partnership', 'Partnership', 'group', [
+                'instructions' => 'The section below the Overview. Leave the heading and partners empty to hide it.',
                 'layout'       => 'block',
-                'button_label' => 'Add partnership section',
                 'sub_fields'   => [
                     yusea_cm_field('project_partnership_heading', 'heading', 'Heading', 'text', ['instructions' => 'e.g. Implementing agency']),
                     yusea_cm_field('project_partnership_intro', 'intro', 'Intro', 'textarea', [

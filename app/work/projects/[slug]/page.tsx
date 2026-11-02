@@ -32,8 +32,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /**
  * Single project: a full-width cover photo with the title over it, then
- * Overview (the post body, with the impact metrics beside it), then one
- * section per partnership block.
+ * Overview (the post body, with the impact metrics beside it), then the
+ * partnership section.
  */
 export default async function ProjectPage({ params }: Props) {
   const [project, { work }] = await Promise.all([
@@ -127,13 +127,7 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       </section>
 
-      {project.partnerships.map((partnership, i) => (
-        <PartnershipSection
-          key={i}
-          partnership={partnership}
-          className={i > 0 ? "border-t border-slate-200" : ""}
-        />
-      ))}
+      {project.partnership ? <PartnershipSection partnership={project.partnership} /> : null}
     </article>
   );
 }
