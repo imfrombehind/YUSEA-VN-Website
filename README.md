@@ -262,7 +262,8 @@ The project page is a full-width cover photo with the title, then status ·
 timeframe · location over it and a round back button to `/work/projects`;
 then **Overview** (`overviewHeading`, the post body, pillar tags, and the
 metrics beside it); then one section per `partnerships` row, each partner
-as a round logo with its name (linked if `href` is set). A row with no
+as a round logo (none if no logo is set) with its name (linked if `href`
+is set). A row with no
 heading and no named partners is hidden. `timeframe` and `partnerships`
 are only queried by the single project, not the cards.
 
