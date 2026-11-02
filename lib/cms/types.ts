@@ -51,8 +51,6 @@ export type Project = {
   title: string;
   excerpt: string;
   /** ACF: geographic coordinates. */
-  latitude: number;
-  longitude: number;
   city: string;
   province: string;
   heroImage?: Media;

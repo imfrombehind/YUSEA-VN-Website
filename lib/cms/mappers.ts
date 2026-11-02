@@ -232,8 +232,6 @@ function mapProject(n: any): Project {
     slug: n.slug,
     title: decodeEntities(n.title ?? ""),
     excerpt: plainText(n.excerpt),
-    latitude: Number(p.latitude),
-    longitude: Number(p.longitude),
     city: p.city ?? "",
     province: p.province ?? "",
     heroImage: mapMedia(p.heroImage?.node),

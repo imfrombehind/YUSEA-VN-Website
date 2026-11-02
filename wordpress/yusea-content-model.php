@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.8.1
+ * Version:     1.8.2
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.8.1';
+const YUSEA_CM_VERSION = '1.8.2';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -151,26 +151,12 @@ add_action('acf/init', function () {
             ]),
             yusea_cm_field('project_city', 'city', 'City'),
             yusea_cm_field('project_province', 'province', 'Province'),
-            yusea_cm_field('project_latitude', 'latitude', 'Latitude', 'number', ['step' => 'any']),
-            yusea_cm_field('project_longitude', 'longitude', 'Longitude', 'number', ['step' => 'any']),
             yusea_cm_field('project_timeframe', 'timeframe', 'Timeframe', 'text', [
                 'instructions' => 'Shown under the title on the cover photo, e.g. 2024 – 2027.',
             ]),
             yusea_cm_field('project_hero_image', 'heroImage', 'Cover photo', 'image', [
                 'instructions'  => 'Full width behind the title on the project page (landscape, at least 2000px wide; the bottom is darkened for the title), and 3:2 on cards.',
                 'return_format' => 'array',
-            ]),
-            // No longer on the site. Kept until the frontend that stopped
-            // querying it is deployed; drop it in the next plugin version.
-            yusea_cm_field('project_metrics', 'metrics', 'Impact metrics (not shown on the site)', 'repeater', [
-                'instructions' => 'No longer shown on the project page.',
-                'layout'       => 'table',
-                'button_label' => 'Add metric',
-                'sub_fields'   => [
-                    yusea_cm_field('project_metric_value', 'value', 'Value', 'text', ['instructions' => 'e.g. 31km']),
-                    yusea_cm_field('project_metric_description', 'description', 'Description'),
-                    yusea_cm_field('project_metric_source', 'source', 'Source'),
-                ],
             ]),
             yusea_cm_field('project_partnership', 'partnership', 'Partnership', 'group', [
                 'instructions' => 'The section below the Overview. Leave the heading and partners empty to hide it.',

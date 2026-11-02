@@ -8,7 +8,7 @@
  *
  * ACF field groups (WPGraphQL for ACF exposes them by "GraphQL Field Name"):
  *   Page "/"      -> homepageFields     { hero statsBand ourFocus }
- *   Project CPT   -> projectFields      { latitude longitude city province status heroImage
+ *   Project CPT   -> projectFields      { city province status heroImage
  *                                         timeframe partnership }  (the last two on the single project only)
  *   Report CPT    -> reportFields       { file }
  *   Pillar term   -> pillarFields       { image }
@@ -86,8 +86,6 @@ const PROJECT_CARD_FRAGMENT = /* GraphQL */ `
     title
     excerpt
     projectFields {
-      latitude
-      longitude
       city
       province
       status

@@ -181,9 +181,11 @@ notice lists what was added. The plugin:
   Upload it **before** deploying the frontend that queries them.
   v1.8.1: the project page no longer shows impact metrics. The Site
   Settings `work.metricsHeading` label is listed under **Remove old
-  fields** (remove it after this frontend is deployed). `projectFields.metrics`
-  is defined in the plugin code, so it stays, labelled "not shown on the
-  site", until the next plugin version drops it.
+  fields** (remove it after this frontend is deployed).
+  v1.8.2 drops `latitude`, `longitude` and `metrics` from Project Fields.
+  They are defined in code, so they leave the GraphQL schema as soon as
+  it is uploaded: upload it only **after** a frontend that no longer
+  queries them is live. Saved values stay in the database.
 - Opens new Projects, Reports and Posts with a **block layout** (e.g.
   "The challenge / What we are doing / Results so far").
 - Points **View** links at the Next.js site (needs `YUSEA_FRONTEND_URL` in
@@ -257,8 +259,7 @@ header, with that row's `categoriesHeading` / `quickLinksHeading` over each
 column (e.g. Projects: "By focus", Publications: "By type"); on mobile the
 links are listed under the item.
 
-**`Project` CPT** → group `projectFields`: `latitude`, `longitude`, `city`,
-`province`, `status`, `metrics[]` (no longer shown; to be removed),
+**`Project` CPT** → group `projectFields`: `city`, `province`, `status`,
 `heroImage` (image, "Cover photo"), `timeframe` (text, e.g. "2024 – 2027"),
 `partnership` (group) { `heading`, `intro` (textarea, one paragraph per
 line), `partners[]` { `logo` (image), `name`, `href` (url, optional) } }.
