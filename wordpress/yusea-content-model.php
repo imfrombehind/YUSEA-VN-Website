@@ -198,8 +198,8 @@ add_action('acf/init', function () {
                         'first_day'      => 1,
                     ]),
                     yusea_cm_field('project_registration_note', 'note', 'Note', 'textarea', [
-                        'instructions' => 'Optional small print under the button, e.g. who gets priority.',
-                        'rows'         => 2,
+                        'instructions' => 'Optional small print under the button, e.g. who gets priority. Each line is a paragraph.',
+                        'rows'         => 3,
                         'new_lines'    => '',
                     ]),
                 ],

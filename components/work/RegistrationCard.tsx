@@ -63,9 +63,12 @@ export function RegistrationCard({
             </p>
           ) : null}
           {note ? (
-            <p className={`text-sm leading-relaxed text-muted ${hasButton || deadline ? "mt-4" : ""}`}>
-              {note}
-            </p>
+            // Each line the editor typed is its own paragraph.
+            <div className={`space-y-2 text-sm leading-relaxed text-muted ${hasButton || deadline ? "mt-4" : ""}`}>
+              {note.split(/\r?\n/).filter((line) => line.trim()).map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
           ) : null}
         </div>
       ) : null}
@@ -85,7 +88,9 @@ function Rows({ rows, className = "" }: { rows: RegistrationRow[]; className?: s
           <dd className="mt-0.5 font-display leading-snug font-semibold whitespace-pre-line text-ink">
             {row.value}
           </dd>
-          {row.note ? <dd className="mt-1.5 text-sm leading-snug text-muted">{row.note}</dd> : null}
+          {row.note ? (
+            <dd className="mt-1.5 text-sm leading-snug whitespace-pre-line text-muted">{row.note}</dd>
+          ) : null}
         </div>
       ))}
     </dl>

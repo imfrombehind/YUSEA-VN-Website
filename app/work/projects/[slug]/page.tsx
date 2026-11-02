@@ -124,7 +124,7 @@ export default async function ProjectPage({ params }: Props) {
               ) : null}
               <Prose html={project.content} className={work.overviewHeading ? "mt-8" : ""} />
               {project.tagline ? (
-                <p className="mt-12 font-display text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                <p className="mt-12 font-display text-2xl leading-snug font-bold whitespace-pre-line text-ink sm:text-3xl">
                   {project.tagline}
                 </p>
               ) : null}

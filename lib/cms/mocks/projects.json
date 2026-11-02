@@ -216,14 +216,14 @@
                 },
                 {
                   "label": "Fee",
-                  "value": "100,000 VND per tour",
+                  "value": "100,000 VND per tour\n200,000 VND for both tours",
                   "note": "Covers entry tickets, drinks and running costs. Not for profit."
                 }
               ],
               "ctaLabel": "Register now",
               "ctaHref": "https://example.org/register",
               "deadline": "20261112",
-              "note": "This is mock content. Places are limited; priority for people aged 18–40."
+              "note": "This is mock content. Priority for people who sign up for both tours.\nPlaces are limited."
             }
           },
           "pillars": {
