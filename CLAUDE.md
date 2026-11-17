@@ -82,7 +82,7 @@ that have bitten this repo:
   (`kind: "report"`), merged newest first by `getPublications()`.
 - The homepage is exactly `HeroSection`, `ImpactSection`, `SpotlightSection`.
   The hero is a blue headline panel (CTA = `hero.cta`, "Find out more" →
-  /about) beside a slideshow of active projects (falls back to the ACF hero
+  /about) at 2/5 width beside a 3/5 slideshow of active projects (falls back to the ACF hero
   photos). Slides are shown whole (covers are often text posters), over a
   blurred copy of the same photo, with the caption in a band below. `ImpactSection` ("How we drive impact", `homepageFields.impactTabs`)
   tabs between `FocusPanel` (ourFocus, first) and `ContextPanel` (statsBand).

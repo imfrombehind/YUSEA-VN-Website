@@ -4,7 +4,7 @@ import type { CTA, Homepage } from "@/lib/cms/types";
 
 /**
  * #homepage-hero — a split: the headline on a solid sun-yellow panel at
- * left, a slideshow at right. The slides are the active projects (photo,
+ * left (2/5), a slideshow at right (3/5, wide enough for 3:2 covers). The slides are the active projects (photo,
  * status, location, link); with none, the ACF hero photos stand in,
  * uncaptioned.
  *
@@ -27,14 +27,14 @@ export function HeroSection({
     projectSlides.length > 0 ? projectSlides : hero.slides.map((image) => ({ image }));
 
   return (
-    <section id="homepage-hero" className="grid bg-sun lg:grid-cols-2">
+    <section id="homepage-hero" className="grid bg-sun lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
       <div className="flex flex-col justify-between gap-14 px-6 py-14 text-ink sm:py-16 lg:min-h-[clamp(560px,80vh,780px)] lg:px-10 lg:pt-16 lg:pb-14">
         <div>
-          <h1 className="max-w-[15ch] font-display text-[clamp(2.75rem,5vw,5.25rem)] leading-[1.04] font-normal tracking-[-0.035em]">
+          <h1 className="max-w-[15ch] font-display text-[clamp(2.75rem,5vw,5.25rem)] lg:text-[clamp(2.5rem,3.6vw,4.25rem)] leading-[1.04] font-normal tracking-[-0.035em]">
             {hero.headline}
           </h1>
           {hero.subheadline ? (
-            <p className="mt-8 max-w-xl font-display text-xl leading-snug font-light tracking-tight sm:text-2xl">
+            <p className="mt-8 max-w-xl font-display text-xl leading-snug font-light tracking-tight sm:text-2xl lg:text-xl 2xl:text-2xl">
               {hero.subheadline}
             </p>
           ) : null}
@@ -52,7 +52,7 @@ export function HeroSection({
 
       <div className="relative isolate aspect-square overflow-hidden bg-ink sm:aspect-[4/3] lg:aspect-auto">
         {slides.length > 0 ? (
-          <HeroSlideshow slides={slides} sizes="(max-width: 1024px) 100vw, 50vw" />
+          <HeroSlideshow slides={slides} sizes="(max-width: 1024px) 100vw, 60vw" />
         ) : (
           <div
             aria-hidden="true"
