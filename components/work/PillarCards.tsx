@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowLink } from "@/components/ui/ArrowLink";
+import Link from "next/link";
 import { pillarHref } from "@/lib/routes";
 import type { Pillar } from "@/lib/cms/types";
 
@@ -27,13 +27,11 @@ function PhotoPlaceholder() {
  */
 export function PillarCards({
   pillars,
-  linkLabel,
   sizes = "(max-width: 768px) 100vw, 33vw",
   tone = "bold",
   className = "",
 }: {
   pillars: Pillar[];
-  linkLabel: string;
   sizes?: string;
   /** "light": the homepage's thin grotesque titles. */
   tone?: "bold" | "light";
@@ -42,7 +40,7 @@ export function PillarCards({
   return (
     <ul className={`grid gap-12 md:grid-cols-3 md:gap-8 ${className}`}>
       {pillars.map((pillar) => (
-        <li key={pillar.slug} className="flex flex-col">
+        <li key={pillar.slug} className="group relative flex flex-col">
           <div className="relative aspect-[3/2] overflow-hidden rounded-2xl bg-slate-100">
             {pillar.image ? (
               <Image
@@ -50,7 +48,7 @@ export function PillarCards({
                 alt={pillar.image.alt}
                 fill
                 sizes={sizes}
-                className="object-cover"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
             ) : (
               <PhotoPlaceholder />
@@ -65,16 +63,17 @@ export function PillarCards({
                   : "text-xl font-bold text-ink lg:text-2xl"
               }
             >
-              {pillar.name}
+              {/* The name links to /work?pillar=<slug>; its hit area stretches
+                  over the whole card, photo included. */}
+              <Link
+                href={pillarHref(pillar.slug)}
+                className="after:absolute after:inset-0 group-hover:underline group-hover:underline-offset-4"
+              >
+                {pillar.name}
+              </Link>
             </h3>
             {pillar.description ? (
               <p className="mt-3 leading-relaxed text-muted">{pillar.description}</p>
-            ) : null}
-            {linkLabel ? (
-              <ArrowLink href={pillarHref(pillar.slug)} className="mt-auto pt-6 text-ink">
-                {linkLabel}
-                <span className="sr-only">: {pillar.name}</span>
-              </ArrowLink>
             ) : null}
           </div>
         </li>

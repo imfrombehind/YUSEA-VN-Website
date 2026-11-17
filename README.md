@@ -259,7 +259,7 @@ Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 |---|---|
 | `hero` | `headline`, `subheadline`, `ctaLabel`, `ctaHref`, `background` (image), `backgrounds` (gallery — the slideshow; replaces `background` when it has photos) |
 | `statsBand` | `eyebrow`, `heading`, `intro` (WYSIWYG; plain text also works — "•"/"-" lines become a list), `stats[]` { `value`, `description`, `source` } |
-| `ourFocus` | `eyebrow`, `heading`, `ctaLabel`, `ctaHref` (`/work`), `linkLabel` ("Explore more") |
+| `ourFocus` | `eyebrow`, `heading`, `ctaLabel`, `ctaHref` (`/work`), `lead`, `intro`; `linkLabel` ("Explore more") is no longer shown (the whole card links) |
 
 **Options page** (GraphQL type name `SiteSettings`) → group `siteSettingsFields`
 
@@ -333,7 +333,7 @@ sections, each heading doubling as its side-nav label:
 |---|---|
 | Who we are | `indexPageFields`: `eyebrow`, `heading` (the H1 and nav label, e.g. "Who we are"), `intro` (larger lead text; each line is a paragraph); then the page body. The featured image is not shown, only used as the social share image |
 | `mission` | `heading`, `points[]` { `text` } — three work best, shown numbered |
-| `focus` | `heading`, `intro`, `linkLabel`; the cards are the first three pillars, as on the homepage |
+| `focus` | `heading`, `intro`, `linkLabel` (no longer shown; the whole card links); the cards are the first three pillars, as on the homepage |
 | `board` | `heading`, `intro`, `members[]` { `photo` (image, square, shown round), `name`, `role` } |
 
 A section with no points, pillars or members is hidden, along with its nav

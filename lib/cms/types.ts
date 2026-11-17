@@ -56,6 +56,8 @@ export type Project = {
   heroImage?: Media;
   pillars: Term[];
   status: "active" | "completed" | "planned";
+  /** Free text under the title, e.g. "2024 – 2027". */
+  timeframe: string;
   /** Publish date, for the homepage Spotlight. */
   date: string;
 };
@@ -132,8 +134,6 @@ export type VolunteerCall = {
  */
 export type ProjectDetail = Project & {
   content: string;
-  /** Free text under the title, e.g. "2024 – 2027". */
-  timeframe: string;
   /** Undefined when the section is empty, which hides it. */
   partnership?: Partnership;
   /** Undefined when the card is empty, which hides it. */

@@ -140,7 +140,6 @@ export default async function AboutPage() {
             <AboutSection id="our-focus" heading={focus.heading} intro={focus.intro}>
               <PillarCards
                 pillars={focus.pillars}
-                linkLabel={focus.linkLabel}
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 260px"
                 className="md:gap-6"
               />

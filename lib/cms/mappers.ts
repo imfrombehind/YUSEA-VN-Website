@@ -254,6 +254,8 @@ function mapProject(n: any): Project {
     heroImage: mapMedia(p.heroImage?.node),
     pillars: mapTerms(n.pillars),
     status: p.status ?? "active",
+    /** Free text, e.g. "2024 – 2027". */
+    timeframe: p.timeframe ?? "",
     date: n.date ?? "",
   };
 }
@@ -353,7 +355,6 @@ export function mapProjectDetail(data: any): ProjectDetail | null {
   return {
     ...mapProject(data.project),
     content: data.project.content ?? "",
-    timeframe: p.timeframe ?? "",
     partnership: mapPartnership(p.partnership),
     registration: mapRegistration(p.registration),
     volunteer: mapVolunteer(p.volunteer),

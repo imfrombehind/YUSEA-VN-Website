@@ -9,7 +9,10 @@ import type { Homepage, Media, SiteSettings, SpotlightItem } from "@/lib/cms/typ
 type Entry = {
   key: string;
   label: string;
-  date: string;
+  /** Pillar names, e.g. ["Urban mobility", "Climate resilience"]. */
+  pillars: string[];
+  /** A project's timeframe, else the ISO publish date. */
+  period: { text: string } | { date: string };
   title: string;
   href: string;
   image?: Media;
@@ -24,7 +27,8 @@ function toEntry(
   return {
     key: `${item.kind}:${item.id}`,
     label: isProject ? projectLabel : kindLabels[item.kind],
-    date: item.date,
+    pillars: item.pillars.map((p) => p.name),
+    period: isProject && item.timeframe ? { text: item.timeframe } : { date: item.date },
     title: item.title,
     href: isProject ? projectHref(item.slug) : publicationHref(item),
     image: isProject ? item.heroImage : item.image,
@@ -32,8 +36,9 @@ function toEntry(
 }
 
 /**
- * Photo, a grey "Project · 5 October 2026" line, then the title. The title
- * link's hit area stretches over the whole card.
+ * Photo, a meta line (type in ink; pillars and period in grey, spaced
+ * apart rather than dotted), then the title. The title link's hit area
+ * stretches over the whole card.
  */
 function Card({ entry, large }: { entry: Entry; large: boolean }) {
   return (
@@ -51,10 +56,14 @@ function Card({ entry, large }: { entry: Entry; large: boolean }) {
           />
         ) : null}
       </div>
-      <p className="mt-4 font-display text-base tracking-tight text-muted">
-        {entry.label}
-        {entry.label && entry.date ? " · " : null}
-        {entry.date ? <time dateTime={entry.date}>{formatDate(entry.date)}</time> : null}
+      <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1 font-display text-base tracking-tight text-muted">
+        {entry.label ? <span className="text-ink">{entry.label}</span> : null}
+        {entry.pillars.length > 0 ? <span>{entry.pillars.join(", ")}</span> : null}
+        {"text" in entry.period ? (
+          <span>{entry.period.text}</span>
+        ) : entry.period.date ? (
+          <time dateTime={entry.period.date}>{formatDate(entry.period.date)}</time>
+        ) : null}
       </p>
       <h3
         className={`mt-1 font-display leading-snug font-normal tracking-[-0.02em] text-ink ${

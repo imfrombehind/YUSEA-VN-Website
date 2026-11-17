@@ -9,7 +9,7 @@ import type { Homepage } from "@/lib/cms/types";
  * heading and eyebrow aren't shown; they're the tab label's fallbacks.
  *
  * Section copy comes from ACF; the cards are the `pillar` taxonomy terms, so
- * each "Explore more" link carries the term slug into /work?pillar=<slug>,
+ * each card links with the term slug into /work?pillar=<slug>,
  * which filters projects and publications to that pillar.
  */
 export function FocusPanel({ data }: { data: Homepage["ourFocus"] }) {
@@ -23,7 +23,6 @@ export function FocusPanel({ data }: { data: Homepage["ourFocus"] }) {
 
       <PillarCards
         pillars={data.pillars}
-        linkLabel={data.linkLabel}
         tone="light"
         className="mt-12 lg:mt-16 lg:gap-10"
       />
