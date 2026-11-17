@@ -486,7 +486,8 @@ grounds — the hero photo is the only dark surface, and only it uses white text
 **CMS HTML** (WYSIWYG fields, post/report/project/page bodies) is styled by
 Tailwind Typography: `prose prose-lg prose-yusea`, where `.prose-yusea` in
 `globals.css` maps it onto the site fonts and tokens (grey list markers).
-WordPress's block CSS isn't loaded, so `.prose-yusea` also lays out Gallery
+Images in CMS HTML are capped at 80% of the screen height (tall posters
+shrink to fit). WordPress's block CSS isn't loaded, so `.prose-yusea` also lays out Gallery
 blocks as a row (the editor's Columns setting → `columns-N`). A Gallery
 set to **Styles → Carousel** (a block style the plugin registers, v1.13.0,
 class `is-style-carousel`) is one swipeable, scroll-snapping row of photos

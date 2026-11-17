@@ -155,6 +155,13 @@
     max-width: 100%;
     overflow-x: auto;
   }
+  /* A photo never runs taller than the screen: tall posters shrink to fit
+     (keeping their shape), wide photos still fill the column. */
+  .prose.prose-yusea :where(img):not(:where(.wp-block-gallery img)) {
+    width: auto;
+    height: auto;
+    max-height: 80svh;
+  }
   /* Gallery block: WordPress's block CSS isn't loaded here, so lay the
      images out in a row. "Columns" in the editor sets columns-N; the
      default fills a row of up to three. */
