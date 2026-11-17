@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.11.2
+ * Version:     1.11.3
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.11.2';
+const YUSEA_CM_VERSION = '1.11.3';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -372,6 +372,17 @@ function yusea_cm_additions() {
         ],
         'siteSettingsFields' => [
             'fields' => [
+                yusea_cm_field('annual_report', 'annualReport', 'Annual report', 'group', [
+                    'layout'       => 'block',
+                    'instructions' => 'Linked under "Find out more" on the homepage and under "All publications" in the footer. Leave the file empty to hide the link.',
+                    'sub_fields'   => [
+                        yusea_cm_label('annual_report_label', 'label', 'Link label', 'Annual report 2024–2025'),
+                        yusea_cm_field('annual_report_file', 'file', 'File (PDF)', 'file', [
+                            'return_format' => 'array',
+                            'mime_types'    => 'pdf',
+                        ]),
+                    ],
+                ]),
                 yusea_cm_field('work', 'work', 'Labels: projects & publications', 'group', [
                     'layout'     => 'block',
                     'sub_fields' => [

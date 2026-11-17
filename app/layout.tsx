@@ -71,6 +71,8 @@ export default async function RootLayout({
       links: [
         { label: work.sections.viewAllProjects, href: PROJECTS_PATH },
         { label: work.sections.viewAllPublications, href: PUBLICATIONS_PATH },
+        // The annual report PDF; hidden until a file is uploaded.
+        ...(settings.annualReport.href ? [settings.annualReport] : []),
       ],
     },
   ];

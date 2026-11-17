@@ -310,6 +310,11 @@ export type SiteSettings = {
     menuOpen: string;
     menuClose: string;
   };
+  /**
+   * The annual report PDF, linked from the homepage hero and the footer.
+   * No file (empty href) or no label means no link.
+   */
+  annualReport: CTA;
   footer: {
     /** `{year}` is replaced with the current year. */
     copyright: string;

@@ -141,7 +141,9 @@ that have bitten this repo:
 - The footer is dark (`bg-ink`) with two columns built in `app/layout.tsx`:
   About (the About page sections, via `aboutSections()` in `lib/routes.ts`)
   and the /work page (its heading links to /work, then its "All projects"
-  and "All publications" labels). Logo, copyright, address and social
+  and "All publications" labels, then the Site Settings `annualReport`
+  PDF, which also sits under the hero's "Find out more"; no file hides
+  both). Logo, copyright, address and social
   icons are centred below. Site Settings `footerLinks` is no longer shown.
 - The footer logo must always be bigger than the header logo. Both sizes are
   in the `SIZES` map in `components/layout/Logo.tsx`; change them together.

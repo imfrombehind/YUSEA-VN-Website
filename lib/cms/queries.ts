@@ -439,6 +439,14 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
         menuCloseLabel
         footerCopyright
         footerAddress
+        annualReport {
+          label
+          file {
+            node {
+              mediaItemUrl
+            }
+          }
+        }
         work {
           filterLabel
           filterAllLabel

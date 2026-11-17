@@ -40,7 +40,11 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSection hero={homepage.hero} projectSlides={projectSlides} />
+      <HeroSection
+        hero={homepage.hero}
+        projectSlides={projectSlides}
+        annualReport={settings.annualReport}
+      />
       <ImpactSection homepage={homepage} />
       <SpotlightSection
         data={homepage.spotlight}

@@ -36,6 +36,14 @@
         "menuCloseLabel": "Close",
         "footerCopyright": "© {year} YUSEA. All rights reserved.",
         "footerAddress": "Ha Noi, Viet Nam",
+        "annualReport": {
+          "label": "Annual report 2024–2025",
+          "file": {
+            "node": {
+              "mediaItemUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            }
+          }
+        },
         "work": {
           "filterLabel": "Filter by focus",
           "filterAllLabel": "All",

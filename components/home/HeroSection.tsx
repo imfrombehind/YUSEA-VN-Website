@@ -1,6 +1,6 @@
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { HeroSlideshow, type HeroSlide } from "./HeroSlideshow";
-import type { Homepage } from "@/lib/cms/types";
+import type { CTA, Homepage } from "@/lib/cms/types";
 
 /**
  * #homepage-hero — a split: the headline on a solid sun-yellow panel at
@@ -8,16 +8,20 @@ import type { Homepage } from "@/lib/cms/types";
  * status, location, link); with none, the ACF hero photos stand in,
  * uncaptioned.
  *
- * The CTA (ACF hero.cta, "Find out more" → /about) is a quiet text link at
- * the foot of the panel. Sun is too light for white, so the panel's text is
+ * The CTA (ACF hero.cta, "Find out more" → /about) and, under it, the
+ * annual report PDF (Site Settings) are quiet text links at the foot of the
+ * panel. Sun is too light for white, so the panel's text is
  * ink, which passes AA on it.
  */
 export function HeroSection({
   hero,
   projectSlides,
+  annualReport,
 }: {
   hero: Homepage["hero"];
   projectSlides: HeroSlide[];
+  /** Site Settings: the annual report PDF, under the CTA. */
+  annualReport: CTA;
 }) {
   const slides: HeroSlide[] =
     projectSlides.length > 0 ? projectSlides : hero.slides.map((image) => ({ image }));
@@ -36,9 +40,14 @@ export function HeroSection({
           ) : null}
         </div>
 
-        <ArrowLink href={hero.cta.href} className="w-fit">
-          {hero.cta.label}
-        </ArrowLink>
+        <div className="flex flex-col items-start gap-4">
+          <ArrowLink href={hero.cta.href}>{hero.cta.label}</ArrowLink>
+          {annualReport.label && annualReport.href ? (
+            <ArrowLink href={annualReport.href} target="_blank" rel="noopener noreferrer">
+              {annualReport.label}
+            </ArrowLink>
+          ) : null}
+        </div>
       </div>
 
       <div className="relative isolate aspect-[4/3] overflow-hidden bg-ink lg:aspect-auto">

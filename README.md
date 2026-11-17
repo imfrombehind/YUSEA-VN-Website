@@ -268,7 +268,9 @@ Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 `notFoundEyebrow`, `notFoundHeading`, `notFoundBody`, `notFoundCtaLabel`,
 `notFoundCtaHref` (the 404 page), `skipToContentLabel`,
 `menuOpenLabel`, `menuCloseLabel`, `footerCopyright` (`{year}` is replaced),
-`footerAddress`,
+`footerAddress`, `annualReport { label, file }` (the annual report PDF,
+linked under "Find out more" in the homepage hero and under "All
+publications" in the footer; no file hides it),
 `navigation[]` { `label`, `href`, `categoriesHeading`, `quickLinksHeading`, `categories[]` { `label`, `href` }, `quickLinks[]` { `label`, `href` } },
 `footerLinks[]` { `label`, `href` }, `social[]` { `platform`, `href`, `icon` (image, optional) }, and a
 group `work` with:

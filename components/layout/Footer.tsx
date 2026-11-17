@@ -48,6 +48,10 @@ export function Footer({ siteName, logo, footer, social, columns }: FooterProps)
                         <li key={j}>
                           <Link
                             href={link.href}
+                            // Files and other sites (the annual report PDF) open in a new tab.
+                            {...(/^https?:/.test(link.href)
+                              ? { target: "_blank", rel: "noopener noreferrer" }
+                              : {})}
                             className="font-display tracking-tight text-white/75 underline-offset-4 transition-colors hover:text-white hover:underline"
                           >
                             {link.label}

@@ -497,6 +497,10 @@ export function mapSiteSettings(data: any): SiteSettings {
       menuOpen: s.menuOpenLabel ?? "",
       menuClose: s.menuCloseLabel ?? "",
     },
+    annualReport: {
+      label: s.annualReport?.label ?? "",
+      href: s.annualReport?.file?.node?.mediaItemUrl ?? "",
+    },
     footer: {
       copyright: s.footerCopyright ?? "",
       address: s.footerAddress ?? "",
