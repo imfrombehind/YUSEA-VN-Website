@@ -156,7 +156,7 @@
     overflow-x: auto;
   }
   /* A photo never runs taller than the screen: tall posters shrink to fit
-     (keeping their shape, left-aligned), wide photos still fill the column.
+     (keeping their shape, centred), wide photos still fill the column.
      The box stays full width: WordPress images use sizes="auto", which picks
      the file by the drawn width, so `width: auto` loaded the smallest one. */
   .prose.prose-yusea :where(img):not(:where(.wp-block-gallery img)) {
@@ -164,7 +164,7 @@
     height: auto;
     max-height: 80svh;
     object-fit: contain;
-    object-position: left;
+    object-position: center;
   }
   /* Gallery block: WordPress's block CSS isn't loaded here, so lay the
      images out in a row. "Columns" in the editor sets columns-N; the
