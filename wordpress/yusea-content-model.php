@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.12.0
+ * Version:     1.13.0
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.12.0';
+const YUSEA_CM_VERSION = '1.13.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -1030,6 +1030,22 @@ add_action('init', function () {
         }
     }
 }, 30);
+
+// Gallery block → Styles → Carousel: adds `is-style-carousel`, which the
+// site shows as a swipeable row (`.prose-yusea` in app/globals.css). The
+// inline style is only the editor preview.
+add_action('init', function () {
+    if (!function_exists('register_block_style')) {
+        return;
+    }
+    register_block_style('core/gallery', [
+        'name'         => 'carousel',
+        'label'        => 'Carousel',
+        'inline_style' => '.wp-block-gallery.is-style-carousel{flex-wrap:nowrap!important;overflow-x:auto;scroll-snap-type:x mandatory}'
+            . '.wp-block-gallery.is-style-carousel>figure.wp-block-image{flex:0 0 auto!important;width:auto!important;height:20rem;scroll-snap-align:start}'
+            . '.wp-block-gallery.is-style-carousel>figure.wp-block-image img{width:auto!important;height:100%!important}',
+    ]);
+});
 
 /* ------------------------------------------------------------------ *
  * 6. "View" links open the Next.js site

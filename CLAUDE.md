@@ -68,6 +68,8 @@ that have bitten this repo:
   route means adding a redirect there.
 - CMS HTML is rendered with `<Prose>` (`components/work/Prose.tsx`), which
   applies `prose prose-lg prose-yusea`. Don't style WYSIWYG output by hand.
+  WordPress's block CSS isn't loaded, so `.prose-yusea` styles the blocks
+  editors use (Gallery grid, and Gallery → Styles → Carousel, a swipe row).
 
 ## Content model
 

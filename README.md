@@ -487,7 +487,10 @@ grounds — the hero photo is the only dark surface, and only it uses white text
 Tailwind Typography: `prose prose-lg prose-yusea`, where `.prose-yusea` in
 `globals.css` maps it onto the site fonts and tokens (grey list markers).
 WordPress's block CSS isn't loaded, so `.prose-yusea` also lays out Gallery
-blocks as a row (the editor's Columns setting → `columns-N`).
+blocks as a row (the editor's Columns setting → `columns-N`). A Gallery
+set to **Styles → Carousel** (a block style the plugin registers, v1.13.0,
+class `is-style-carousel`) is one swipeable, scroll-snapping row of photos
+at a fixed height instead: CSS only, no arrows or script.
 
 **Contrast rules.** Full-strength `coral` and `sun` fail WCAG AA as small text,
 so accent *text* uses `coral-700` / `blue-700`, and `sun` is never text on a
