@@ -43,7 +43,7 @@ components/
   home/                    HeroSection, ImpactSection, OurFocusSection
   about/                   AboutNav (client: in-page links, arrow on the section in view)
   work/                    ProjectCard, PublicationCard, PillarCards, FilterChips, PillarTags, Prose
-  ui/                      ButtonLink, SectionHeading, Eyebrow (accent bar + label)
+  ui/                      ButtonLink, ArrowLink, SectionHeading, MetaLine (spaced facts, no dots)
 lib/
   cms/
     index.ts               ← the facade. Components import only from here.
@@ -500,6 +500,12 @@ serves font URLs with a query string. It stands in for the Neue Haas style
 grotesque of the reference design (a commercial face); swap it in
 `app/fonts.css` if YUSEA licenses one. `font-display` and `font-body` both
 resolve to it.
+
+**No eyebrows, no dots** (test branch). The eyebrow labels (accent bar +
+uppercase label) are removed site-wide; the `eyebrow` fields (index
+pages, statsBand, ourFocus, 404) are still queried but not shown, and can
+go with the two-step field removal. Meta lines (status, timeframe, city;
+type and date) use `MetaLine`, spaced apart instead of " · ".
 
 ## Rebuild v2 (October 2026)
 

@@ -13,6 +13,7 @@ import { getProjectBySlug, getProjects, getSiteSettings } from "@/lib/cms";
 import { isPastDay } from "@/lib/format";
 import { PROJECTS_PATH, projectHref } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
+import { MetaLine } from "@/components/ui/MetaLine";
 
 /**
  * /api/revalidate can purge "projects" or just "project:<slug>". The hourly
@@ -101,9 +102,7 @@ export default async function ProjectPage({ params }: Props) {
             <h1 className="text-4xl font-extrabold tracking-tight break-words text-white md:text-5xl lg:text-6xl">
               {project.title}
             </h1>
-            {meta.length > 0 ? (
-              <p className="mt-6 text-lg font-medium text-white/90">{meta.join(" · ")}</p>
-            ) : null}
+            <MetaLine items={meta} className="mt-6 text-lg font-medium text-white/90" />
             {registerCta || volunteerLabel ? (
               <div className="mt-8 flex flex-wrap gap-3">
                 {registerCta ? (

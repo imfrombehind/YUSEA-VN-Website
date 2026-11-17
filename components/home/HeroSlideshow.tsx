@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { Media } from "@/lib/cms/types";
+import { MetaLine } from "@/components/ui/MetaLine";
 
 const INTERVAL_MS = 6000;
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
@@ -12,8 +13,8 @@ const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 export type HeroSlide = {
   image: Media;
   title?: string;
-  /** Small line above the title, e.g. "Đang diễn ra · Can Tho". */
-  meta?: string;
+  /** Small facts above the title, e.g. ["Đang diễn ra", "Can Tho"]. */
+  meta?: string[];
   href?: string;
 };
 
@@ -81,7 +82,7 @@ export function HeroSlideshow({
           />
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 lg:p-10">
             <div key={current.image.url} className="max-w-md text-white motion-safe:animate-fade-in">
-              {current.meta ? <p className="font-display text-base text-white/85">{current.meta}</p> : null}
+              {current.meta ? <MetaLine items={current.meta} className="font-display text-base text-white/85" /> : null}
               {current.href ? (
                 <Link
                   href={current.href}

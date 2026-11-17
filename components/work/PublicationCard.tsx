@@ -3,6 +3,7 @@ import Link from "next/link";
 import { formatDate } from "@/lib/format";
 import { publicationHref } from "@/lib/routes";
 import type { Publication, SiteSettings } from "@/lib/cms/types";
+import { MetaLine } from "@/components/ui/MetaLine";
 
 /** Image, kind + date, title, excerpt. Reports and blog posts share it. */
 export function PublicationCard({
@@ -27,15 +28,15 @@ export function PublicationCard({
       </div>
 
       <div className="flex flex-1 flex-col pt-5">
-        <p className="text-sm text-muted">
-          {kindLabels[publication.kind] ? (
-            <span className="font-semibold text-blue-700">
-              {kindLabels[publication.kind]}
-            </span>
-          ) : null}
-          {kindLabels[publication.kind] ? " · " : null}
-          <time dateTime={publication.date}>{formatDate(publication.date)}</time>
-        </p>
+        <MetaLine
+          className="text-sm text-muted"
+          items={[
+            kindLabels[publication.kind] ? (
+              <span className="font-semibold text-ink">{kindLabels[publication.kind]}</span>
+            ) : null,
+            <time key="date" dateTime={publication.date}>{formatDate(publication.date)}</time>,
+          ]}
+        />
         <h3 className="mt-2 text-xl font-bold text-ink">
           {/* The title link's hit area stretches over the whole card. */}
           <Link

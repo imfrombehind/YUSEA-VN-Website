@@ -15,10 +15,8 @@ export default async function NotFound() {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
           as="h1"
-          eyebrow={notFound.eyebrow}
           title={notFound.heading}
           body={notFound.body}
-          accent="coral"
         />
         <div className="mt-10">
           <ButtonLink href={notFound.cta.href} variant="coral">

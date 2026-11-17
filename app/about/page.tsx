@@ -2,7 +2,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { AboutNav, type AboutNavItem } from "@/components/about/AboutNav";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PillarCards } from "@/components/work/PillarCards";
 import { Prose } from "@/components/work/Prose";
 import { getAboutPage } from "@/lib/cms";
@@ -91,11 +90,6 @@ export default async function AboutPage() {
 
         <div className="max-w-4xl">
           <section id="who-we-are" className={SECTION}>
-            {page.header.eyebrow ? (
-              <Eyebrow accent="blue" className="mb-5">
-                {page.header.eyebrow}
-              </Eyebrow>
-            ) : null}
             <h1 className="text-4xl break-words text-ink md:text-5xl lg:text-6xl">
               {page.header.heading}
             </h1>
@@ -126,7 +120,7 @@ export default async function AboutPage() {
                     key={i}
                     className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-4 border-t border-slate-200 py-6 sm:grid-cols-[3.5rem_minmax(0,1fr)] lg:py-8"
                   >
-                    <span aria-hidden="true" className="eyebrow pt-1.5 text-blue-700">
+                    <span aria-hidden="true" className="eyebrow pt-1.5 text-muted">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <p className="text-lg leading-relaxed text-ink lg:text-xl">{point}</p>

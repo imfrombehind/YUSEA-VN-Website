@@ -7,6 +7,7 @@ import { getPostBySlug, getPosts, getSiteSettings } from "@/lib/cms";
 import { formatDate } from "@/lib/format";
 import { publicationHref } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
+import { MetaLine } from "@/components/ui/MetaLine";
 
 /** /api/revalidate can purge "posts" or just "post:<slug>". */
 export const revalidate = 3600;
@@ -40,15 +41,18 @@ export default async function PostPage({ params }: Props) {
   ]);
   if (!post) notFound();
 
-  const eyebrow = post.topic || work.kind.blog;
+  const label = post.topic || work.kind.blog;
 
   return (
     <article className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto max-w-3xl px-6 lg:px-10">
-        <p className="text-sm text-muted">
-          {eyebrow ? <span className="font-semibold text-blue-700">{eyebrow} · </span> : null}
-          <time dateTime={post.date}>{formatDate(post.date)}</time>
-        </p>
+        <MetaLine
+          className="text-sm text-muted"
+          items={[
+            label ? <span className="font-semibold text-ink">{label}</span> : null,
+            <time key="date" dateTime={post.date}>{formatDate(post.date)}</time>,
+          ]}
+        />
         <h1 className="mt-4 text-4xl font-extrabold tracking-tight break-words text-ink sm:text-5xl">
           {post.title}
         </h1>

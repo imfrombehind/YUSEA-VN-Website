@@ -34,7 +34,7 @@ export default async function HomePage() {
     .map((p) => ({
       image: p.heroImage!,
       title: p.title,
-      meta: [statusLabels.active, p.city || p.province].filter(Boolean).join(" · "),
+      meta: [statusLabels.active, p.city || p.province],
       href: projectHref(p.slug),
     }));
 

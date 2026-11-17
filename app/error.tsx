@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { ButtonLink } from "@/components/ui/Button";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 
 /**
  * Runtime error inside a page; the header and footer still render around it.
@@ -27,9 +26,6 @@ export default function Error({
     <section className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="max-w-3xl">
-          <Eyebrow accent="coral" className="mb-5">
-            Error
-          </Eyebrow>
           <h1 className="text-4xl text-ink sm:text-5xl lg:text-6xl">
             Something went wrong
           </h1>

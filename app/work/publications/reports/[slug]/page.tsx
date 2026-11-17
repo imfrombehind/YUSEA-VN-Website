@@ -7,6 +7,7 @@ import { getReportBySlug, getReports, getSiteSettings } from "@/lib/cms";
 import { formatDate } from "@/lib/format";
 import { publicationHref } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
+import { MetaLine } from "@/components/ui/MetaLine";
 
 /** /api/revalidate can purge "reports" or just "report:<slug>". */
 export const revalidate = 3600;
@@ -42,12 +43,13 @@ export default async function ReportPage({ params }: Props) {
   return (
     <article className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto max-w-3xl px-6 lg:px-10">
-        <p className="text-sm text-muted">
-          {work.kind.report ? (
-            <span className="font-semibold text-blue-700">{work.kind.report} · </span>
-          ) : null}
-          <time dateTime={report.date}>{formatDate(report.date)}</time>
-        </p>
+        <MetaLine
+          className="text-sm text-muted"
+          items={[
+            work.kind.report ? <span className="font-semibold text-ink">{work.kind.report}</span> : null,
+            <time key="date" dateTime={report.date}>{formatDate(report.date)}</time>,
+          ]}
+        />
         <h1 className="mt-4 text-4xl font-extrabold tracking-tight break-words text-ink sm:text-5xl">
           {report.title}
         </h1>

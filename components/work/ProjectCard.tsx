@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { projectHref } from "@/lib/routes";
 import type { Project, SiteSettings } from "@/lib/cms/types";
+import { MetaLine } from "@/components/ui/MetaLine";
 
 /** Image, status + location, title, excerpt. Used on /work and /work/projects. */
 export function ProjectCard({
@@ -30,9 +31,7 @@ export function ProjectCard({
       </div>
 
       <div className="flex flex-1 flex-col pt-5">
-        <p className="text-sm text-muted">
-          {[statusLabels[project.status], location].filter(Boolean).join(" · ")}
-        </p>
+        <MetaLine items={[statusLabels[project.status], location]} className="text-sm text-muted" />
         <h3 className="mt-2 text-xl font-bold text-ink">
           {/* The title link's hit area stretches over the whole card. */}
           <Link

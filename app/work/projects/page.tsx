@@ -36,10 +36,8 @@ export default async function ProjectsPage({ searchParams }: Props) {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
           as="h1"
-          eyebrow={copy.eyebrow}
           title={copy.heading}
           body={copy.intro || undefined}
-          accent="blue"
         />
 
         <FilterChips

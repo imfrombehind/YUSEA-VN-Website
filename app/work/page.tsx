@@ -64,10 +64,8 @@ export default async function WorkPage({ searchParams }: Props) {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeading
           as="h1"
-          eyebrow={active ? hub.heading : hub.eyebrow}
           title={active?.name ?? hub.heading}
           body={(active?.description || hub.intro) || undefined}
-          accent="blue"
         />
 
         <FilterChips

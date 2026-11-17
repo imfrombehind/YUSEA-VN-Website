@@ -121,7 +121,11 @@ that have bitten this repo:
   (`ButtonLink`). **No neo-brutalism**: no hard offset shadows, heavy borders
   or stark colour blocking.
 - Uppercase only for small labels: header top-level nav (desktop and mobile),
-  eyebrows, dropdown column headings.
+  dropdown column headings.
+- No eyebrow labels (the blue bar + uppercase label is gone; the `eyebrow`
+  CMS fields are still queried but not shown) and no " · " separators:
+  facts on one line go through `MetaLine` (`components/ui/MetaLine.tsx`),
+  spaced apart.
 - Header dropdowns are CSS only (`group-hover` / `group-focus-within`), with
   no React state. The header is a Server Component; only `MobileNav` is a
   client component.
