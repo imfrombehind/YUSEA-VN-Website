@@ -5,6 +5,7 @@ import { AboutNav, type AboutNavItem } from "@/components/about/AboutNav";
 import { PillarCards } from "@/components/work/PillarCards";
 import { Prose } from "@/components/work/Prose";
 import { getAboutPage } from "@/lib/cms";
+import { aboutSections } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
 
 /** /api/revalidate can purge "pages", "page:/about" or "pillars". */
@@ -76,12 +77,7 @@ export default async function AboutPage() {
   const { page, mission, focus, board } = about;
   const intro = paragraphs(page.header.intro);
 
-  const nav: AboutNavItem[] = [
-    { id: "who-we-are", label: page.header.heading },
-    ...(mission.points.length ? [{ id: "mission", label: mission.heading }] : []),
-    ...(focus.pillars.length ? [{ id: "our-focus", label: focus.heading }] : []),
-    ...(board.members.length ? [{ id: "board", label: board.heading }] : []),
-  ];
+  const nav: AboutNavItem[] = aboutSections(about);
 
   return (
     <article className="bg-paper py-section lg:py-section-lg">

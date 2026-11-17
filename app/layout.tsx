@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { preload } from "react-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { getSiteSettings } from "@/lib/cms";
+import { getAboutPage, getSiteSettings } from "@/lib/cms";
+import { aboutSections } from "@/lib/routes";
 import { defaultShareImage, shareImages, siteUrl } from "@/lib/seo";
 import "./fonts.css";
 import "./globals.css";
@@ -50,7 +51,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const settings = await getSiteSettings();
+  const [settings, about] = await Promise.all([getSiteSettings(), getAboutPage()]);
   PRELOAD_FONTS.forEach((href) =>
     preload(href, { as: "font", type: "font/woff2", crossOrigin: "anonymous" }),
   );
@@ -77,7 +78,9 @@ export default async function RootLayout({
           siteName={settings.siteName}
           logo={settings.logo}
           footer={settings.footer}
+          navigation={settings.navigation}
           footerLinks={settings.footerLinks}
+          aboutLinks={aboutSections(about).map((s) => ({ label: s.label, href: `/about#${s.id}` }))}
           social={settings.social}
         />
       </body>

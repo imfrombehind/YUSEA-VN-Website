@@ -43,6 +43,8 @@ function builtInIcon({ platform, href }: SocialLink): string | undefined {
 
 type SocialIconsProps = {
   items: SocialLink[];
+  /** "light" on a dark ground (the footer): white icons. */
+  tone?: "dark" | "light";
   className?: string;
 };
 
@@ -52,6 +54,7 @@ type SocialIconsProps = {
  */
 export function SocialIcons({
   items,
+  tone = "dark",
   className = "",
 }: SocialIconsProps) {
   return (
@@ -66,7 +69,7 @@ export function SocialIcons({
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-muted transition-colors hover:text-coral"
+              className={`block transition-colors ${tone === "light" ? "text-white/80 hover:text-white" : "text-muted hover:text-coral"}`}
             >
               <span className="sr-only">{item.platform}</span>
               {item.icon ? (
@@ -77,7 +80,7 @@ export function SocialIcons({
                   height={20}
                   // SVG uploads skip the optimiser, which won't process SVG.
                   unoptimized={item.icon.url.toLowerCase().endsWith(".svg")}
-                  className="h-5 w-5 object-contain opacity-80 transition-opacity hover:opacity-100"
+                  className={`h-5 w-5 object-contain opacity-80 transition-opacity hover:opacity-100 ${tone === "light" ? "brightness-0 invert" : ""}`}
                 />
               ) : (
                 <svg

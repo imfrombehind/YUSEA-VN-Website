@@ -1,4 +1,4 @@
-import type { Project, Publication, Term } from "@/lib/cms/types";
+import type { AboutPage, Project, Publication, Term } from "@/lib/cms/types";
 
 /**
  * URL builders for /work, so links to a project or publication are written
@@ -50,4 +50,19 @@ export function byPillar<T extends Project | Publication>(
 ): T[] {
   if (!pillar) return items;
   return items.filter((item) => item.pillars.some((p: Term) => p.slug === pillar));
+}
+
+/**
+ * The /about sections that have content, as in-page anchors: the side nav
+ * and the footer's About column. Each heading doubles as its link label.
+ */
+export function aboutSections(about: AboutPage | null): { id: string; label: string }[] {
+  if (!about) return [];
+  const { page, mission, focus, board } = about;
+  return [
+    { id: "who-we-are", label: page.header.heading },
+    ...(mission.points.length ? [{ id: "mission", label: mission.heading }] : []),
+    ...(focus.pillars.length ? [{ id: "our-focus", label: focus.heading }] : []),
+    ...(board.members.length ? [{ id: "board", label: board.heading }] : []),
+  ].filter((section) => section.label);
 }

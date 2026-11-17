@@ -5,6 +5,8 @@ import type { SiteSettings } from "@/lib/cms/types";
 type LogoProps = Pick<SiteSettings, "siteName" | "logo"> & {
   /** "lg" in the footer, where there's room for a bigger mark. */
   size?: "md" | "lg";
+  /** "light" on a dark ground (the footer): white wordmark, uploaded logo turned white. */
+  tone?: "dark" | "light";
   className?: string;
 };
 
@@ -26,12 +28,13 @@ export function Logo({
   siteName,
   logo,
   size = "md",
+  tone = "dark",
   className = "",
 }: LogoProps) {
   return (
     <Link
       href="/"
-      className={`block font-display ${SIZES[size].text} leading-none font-bold uppercase tracking-[0.1em] text-ink ${className}`}
+      className={`block font-display ${SIZES[size].text} leading-none font-bold uppercase tracking-[0.1em] ${tone === "light" ? "text-white" : "text-ink"} ${className}`}
     >
       {logo ? (
         <Image
@@ -39,7 +42,7 @@ export function Logo({
           alt={logo.alt || siteName}
           width={logo.width ?? 160}
           height={logo.height ?? 32}
-          className={`${SIZES[size].image} w-auto`}
+          className={`${SIZES[size].image} w-auto ${tone === "light" ? "brightness-0 invert" : ""}`}
         />
       ) : (
         <>
