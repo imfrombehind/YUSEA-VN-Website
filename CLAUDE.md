@@ -83,9 +83,10 @@ that have bitten this repo:
 - The homepage is exactly `HeroSection`, `ImpactSection`, `SpotlightSection`.
   The hero is a blue headline panel (CTA = `hero.cta`, "Find out more" →
   /about) at 2/5 width beside a 3/5 slideshow of active projects (falls back to the ACF hero
-  photos). Slides fill a full-width 3:2 box (the
-  project cards' frame; covers are 3:2 text posters) that sets the hero's
-  height, with the caption below on a blurred copy, level with the links. `ImpactSection` ("How we drive impact", `homepageFields.impactTabs`)
+  photos). Slides fill a 3:2 panel (the project
+  cards' frame; covers are 3:2 text posters) that sets the hero's height,
+  with the caption over the photo's foot on a dark gradient, level with the
+  links. `ImpactSection` ("How we drive impact", `homepageFields.impactTabs`)
   tabs between `FocusPanel` (ourFocus, first) and `ContextPanel` (statsBand).
   Spotlight (`homepageFields.spotlight`, `getSpotlight()`) is the newest
   projects and publications merged by date.

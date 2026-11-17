@@ -475,7 +475,7 @@ in `globals.css` — every component reads from the tokens.
 
 | Section | Ground | Notes |
 |---|---|---|
-| Hero | 2/5 sun headline panel, 3/5 slideshow (wide enough for 3:2 covers). Photos crossfading every 6s (`HeroSlideshow`, no controls by choice; still under reduced motion), each in a full-width 3:2 box at the top (the project cards' frame, so 3:2 poster covers show whole), which sets the hero's height; the caption sits below on a blurred, dimmed copy of the photo, level with the panel's two links | `sun` CTA |
+| Hero | 2/5 sun headline panel, 3/5 slideshow (wide enough for 3:2 covers). Photos crossfading every 6s (`HeroSlideshow`, no controls by choice; still under reduced motion), filling a 3:2 panel (the project cards' frame, so 3:2 poster covers show whole) that sets the hero's height; the caption sits over the bottom of the photo on a dark gradient, level with the headline panel's two links | `sun` CTA |
 | Impact (`#homepage-impact`) | white | 5/7 headline/body split; stats divided by `border-l-2 border-slate-300` |
 | Our Focus (`#homepage-focus`) | `slate-50` | Outlined `blue-600` pill CTA; three borderless pillar cards |
 | Footer | `tint-gray`, four-colour stripe on top | — |

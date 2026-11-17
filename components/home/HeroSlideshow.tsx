@@ -25,14 +25,14 @@ function subscribeReducedMotion(onChange: () => void) {
 }
 
 /**
- * Crossfading hero photos, advancing on their own. Each photo fills a
- * full-width 3:2 box at the top of the panel — the project cards' frame, so
- * a cover designed as a 3:2 poster shows whole — and that box sets the
- * panel's height. Below it, a blurred, dimmed copy of the photo is the
- * ground for the caption, which links to the project.
+ * Crossfading hero photos, advancing on their own, each filling the panel
+ * (`object-cover`). The panel is 3:2 — the project cards' frame — so a cover
+ * designed as a 3:2 poster shows whole. A slide with a title gets a caption
+ * over the bottom of the photo, on a dark gradient so it stays legible on
+ * light posters, linking to its project.
  *
  * The first slide is preloaded (it's the LCP image); the rest load lazily
- * behind it. The blurred copies load at a tiny size.
+ * behind it.
  *
  * No pause control, by the client's choice — note WCAG 2.2.2 asks for one
  * on auto-advancing content. With "reduce motion" on, it never advances.
@@ -59,53 +59,38 @@ export function HeroSlideshow({
   }, [animate, slides.length]);
 
   const current = slides[active];
-  const fade = (i: number) =>
-    `transition-opacity duration-1000 ease-in-out ${i === active ? "opacity-100" : "opacity-0"}`;
 
   return (
     <>
-      {/* The ambient fill: each photo blurred to cover the panel, dimmed so
-          the white caption stays legible on light posters. */}
-      <div aria-hidden="true" className="absolute inset-0">
-        {slides.map((slide, i) => (
-          <Image
-            key={slide.image.url}
-            src={slide.image.url}
-            alt=""
-            fill
-            sizes="96px"
-            className={`scale-150 object-cover blur-3xl ${fade(i)}`}
+      {slides.map((slide, i) => (
+        <Image
+          key={slide.image.url}
+          src={slide.image.url}
+          // Only the visible slide is announced.
+          alt={i === active ? slide.image.alt : ""}
+          aria-hidden={i === active ? undefined : true}
+          fill
+          preload={i === 0}
+          sizes={sizes}
+          className={`object-cover transition-opacity duration-1000 ease-in-out ${
+            i === active ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      ))}
+
+      {current?.title ? (
+        <>
+          {/* Keeps the caption legible over any photo, light posters too. */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-0 h-3/5 bg-[linear-gradient(0deg,rgb(0_0_0/0.8)_0%,rgb(0_0_0/0.55)_45%,rgb(0_0_0/0)_100%)]"
           />
-        ))}
-        <div className="absolute inset-0 bg-black/55" />
-      </div>
-
-      <div className="relative flex flex-1 flex-col">
-        {/* 3:2, framed like the project cards (`ProjectCard`), full width and
-            flush with the top: covers fill it edge to edge. */}
-        <div className="relative aspect-[3/2] w-full shrink-0">
-          {slides.map((slide, i) => (
-            <Image
-              key={slide.image.url}
-              src={slide.image.url}
-              // Only the visible slide is announced.
-              alt={i === active ? slide.image.alt : ""}
-              aria-hidden={i === active ? undefined : true}
-              fill
-              preload={i === 0}
-              sizes={sizes}
-              className={`object-cover ${fade(i)}`}
-            />
-          ))}
-        </div>
-
-        {current?.title ? (
-          // Same bottom padding and row heights (28px rows, 16px apart) as
-          // the headline panel's two links, so the lines sit level with them.
-          <div className="mt-auto flex items-end justify-between gap-6 px-6 pt-8 pb-14 sm:pb-16 lg:px-10 lg:pb-14">
+          {/* Same bottom padding and row heights (28px rows, 16px apart) as
+              the headline panel's two links, so the lines sit level with them. */}
+          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 lg:px-10 lg:pb-14">
             <div key={current.image.url} className="flex max-w-md flex-col gap-4 text-white motion-safe:animate-fade-in">
               {current.meta ? (
-                <MetaLine items={current.meta} className="font-display text-base leading-7 text-white/85" />
+                <MetaLine items={current.meta} className="font-display text-base leading-7 text-white/90" />
               ) : null}
               {current.href ? (
                 <Link
@@ -133,8 +118,8 @@ export function HeroSlideshow({
               </div>
             ) : null}
           </div>
-        ) : null}
-      </div>
+        </>
+      ) : null}
     </>
   );
 }

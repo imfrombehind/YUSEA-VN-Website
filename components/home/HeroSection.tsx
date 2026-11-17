@@ -28,13 +28,13 @@ export function HeroSection({
 
   return (
     <section id="homepage-hero" className="grid bg-sun lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-      <div className="flex flex-col justify-between gap-14 px-6 py-14 text-ink sm:py-16 lg:min-h-[clamp(560px,80vh,780px)] lg:px-10 lg:pt-16 lg:pb-14">
+      <div className="flex flex-col justify-between gap-14 px-6 py-14 text-ink sm:py-16 lg:gap-10 lg:px-10 lg:pt-12 lg:pb-14">
         <div>
-          <h1 className="max-w-[15ch] font-display text-[clamp(2.75rem,5vw,5.25rem)] lg:text-[clamp(2.5rem,3.6vw,4.25rem)] leading-[1.04] font-normal tracking-[-0.035em]">
+          <h1 className="max-w-[15ch] font-display text-[clamp(2.75rem,5vw,5.25rem)] lg:text-[clamp(2.25rem,3.3vw,4.25rem)] leading-[1.04] font-normal tracking-[-0.035em]">
             {hero.headline}
           </h1>
           {hero.subheadline ? (
-            <p className="mt-8 max-w-xl font-display text-xl leading-snug font-light tracking-tight sm:text-2xl lg:text-xl 2xl:text-2xl">
+            <p className="mt-8 max-w-xl lg:mt-6 font-display text-xl leading-snug font-light tracking-tight sm:text-2xl lg:text-lg 2xl:text-xl">
               {hero.subheadline}
             </p>
           ) : null}
@@ -50,11 +50,9 @@ export function HeroSection({
         </div>
       </div>
 
-      <div
-        className={`relative isolate flex flex-col overflow-hidden bg-ink ${
-          slides.length > 0 ? "" : "aspect-[4/3] lg:aspect-auto"
-        }`}
-      >
+      {/* 3:2 like the covers; the row grows to fit it, and if the headline
+          panel runs taller the photo stretches to match. */}
+      <div className="relative isolate aspect-[3/2] w-full overflow-hidden bg-ink lg:self-stretch">
         {slides.length > 0 ? (
           <HeroSlideshow slides={slides} sizes="(max-width: 1024px) 100vw, 60vw" />
         ) : (
