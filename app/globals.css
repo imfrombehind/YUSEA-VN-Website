@@ -220,4 +220,18 @@
     height: clamp(16rem, 45vw, 28rem);
     object-fit: cover;
   }
+  /* Phones: one photo at a time, full width, whole (not cropped). */
+  @media (width < 40rem) {
+    .prose.prose-yusea :where(.wp-block-gallery.is-style-carousel) {
+      align-items: flex-start;
+    }
+    .prose.prose-yusea :where(.wp-block-gallery.is-style-carousel > figure) {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+    .prose.prose-yusea :where(.wp-block-gallery.is-style-carousel img) {
+      width: 100%;
+      height: auto;
+    }
+  }
 }
