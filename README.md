@@ -485,7 +485,9 @@ grounds — the hero photo is the only dark surface, and only it uses white text
 
 **CMS HTML** (WYSIWYG fields, post/report/project/page bodies) is styled by
 Tailwind Typography: `prose prose-lg prose-yusea`, where `.prose-yusea` in
-`globals.css` maps it onto the site fonts and tokens (blue list markers).
+`globals.css` maps it onto the site fonts and tokens (grey list markers).
+WordPress's block CSS isn't loaded, so `.prose-yusea` also lays out Gallery
+blocks as a row (the editor's Columns setting → `columns-N`).
 
 **Contrast rules.** Full-strength `coral` and `sun` fail WCAG AA as small text,
 so accent *text* uses `coral-700` / `blue-700`, and `sun` is never text on a

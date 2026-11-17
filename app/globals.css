@@ -155,4 +155,36 @@
     max-width: 100%;
     overflow-x: auto;
   }
+  /* Gallery block: WordPress's block CSS isn't loaded here, so lay the
+     images out in a row. "Columns" in the editor sets columns-N; the
+     default fills a row of up to three. */
+  .prose.prose-yusea :where(.wp-block-gallery) {
+    --gallery-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gallery-gap);
+  }
+  .prose.prose-yusea :where(.wp-block-gallery > figure) {
+    flex: 1 1 calc((100% - 2 * var(--gallery-gap)) / 3);
+    min-width: 0;
+    margin: 0;
+  }
+  .prose.prose-yusea :where(.wp-block-gallery.columns-1 > figure) { flex-basis: 100%; }
+  .prose.prose-yusea :where(.wp-block-gallery.columns-2 > figure) { flex: 0 1 calc((100% - var(--gallery-gap)) / 2); }
+  .prose.prose-yusea :where(.wp-block-gallery.columns-3 > figure) { flex: 0 1 calc((100% - 2 * var(--gallery-gap)) / 3); }
+  .prose.prose-yusea :where(.wp-block-gallery.columns-4 > figure) { flex: 0 1 calc((100% - 3 * var(--gallery-gap)) / 4); }
+  .prose.prose-yusea :where(.wp-block-gallery.columns-5 > figure) { flex: 0 1 calc((100% - 4 * var(--gallery-gap)) / 5); }
+  .prose.prose-yusea :where(.wp-block-gallery.columns-6 > figure) { flex: 0 1 calc((100% - 5 * var(--gallery-gap)) / 6); }
+  .prose.prose-yusea :where(.wp-block-gallery img) {
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+  .prose.prose-yusea :where(.wp-block-gallery.is-cropped > figure) {
+    display: flex;
+  }
+  .prose.prose-yusea :where(.wp-block-gallery.is-cropped img) {
+    height: 100%;
+    object-fit: cover;
+  }
 }
