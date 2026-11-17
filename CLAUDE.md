@@ -84,6 +84,10 @@ that have bitten this repo:
   tabs between `ContextPanel` (statsBand) and `FocusPanel` (ourFocus).
   Spotlight (`homepageFields.spotlight`, `getSpotlight()`) is the newest
   projects and publications merged by date.
+- The homepage (test branch) follows a WEF-like look: a sun-yellow hero
+  panel with ink text, light **Inter Tight** headings (`font-grotesk`,
+  self-hosted in `app/fonts.css`), and quiet chevron text links
+  (`components/ui/ArrowLink.tsx`) instead of pill buttons.
 - `/about` is a side nav plus Who we are (Page content box and body; the
   featured image is only the share image, not shown), Mission, Our focus
   (first three pillars, via `PillarCards`) and Board of directors, from

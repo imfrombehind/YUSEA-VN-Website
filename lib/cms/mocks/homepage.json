@@ -90,8 +90,9 @@
         },
         "spotlight": {
           "heading": "Spotlight",
+          "intro": "The latest projects, reports and stories from across YUSEA",
           "projectLabel": "Project",
-          "ctaLabel": "See all our work",
+          "ctaLabel": "More stories",
           "ctaHref": "/work"
         }
       }

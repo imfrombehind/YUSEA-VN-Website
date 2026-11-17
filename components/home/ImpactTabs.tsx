@@ -46,7 +46,7 @@ export function ImpactTabs({
         role="tablist"
         aria-labelledby={labelledBy}
         onKeyDown={onKeyDown}
-        className="inline-flex max-w-full gap-1 overflow-x-auto rounded-full bg-slate-100 p-1.5"
+        className="inline-flex max-w-full gap-1 overflow-x-auto rounded-full bg-slate-100 p-2"
       >
         {tabs.map((tab, i) => (
           <button
@@ -61,7 +61,7 @@ export function ImpactTabs({
             aria-controls={`${id}-panel-${i}`}
             tabIndex={i === active ? 0 : -1}
             onClick={() => setActive(i)}
-            className={`shrink-0 rounded-full px-5 py-2.5 font-display text-base whitespace-nowrap transition-colors sm:px-7 sm:text-lg ${
+            className={`shrink-0 rounded-full px-5 py-2.5 font-grotesk text-lg tracking-tight whitespace-nowrap transition-colors sm:px-6 sm:text-2xl ${
               i === active ? "bg-ink text-white" : "text-ink hover:bg-slate-200"
             }`}
           >
@@ -77,7 +77,7 @@ export function ImpactTabs({
           id={`${id}-panel-${i}`}
           aria-labelledby={`${id}-tab-${i}`}
           hidden={i !== active}
-          className="mt-12 motion-safe:animate-fade-in lg:mt-16"
+          className="mt-12 motion-safe:animate-fade-in lg:mt-14"
         >
           {tab.panel}
         </div>

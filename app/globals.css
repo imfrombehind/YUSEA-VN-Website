@@ -52,6 +52,8 @@
   /* Typography */
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  /* Homepage: light, tight grotesque headings (font-grotesk). */
+  --font-grotesk: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
 
   /* Editorial rhythm */
   --spacing-section: 6rem;

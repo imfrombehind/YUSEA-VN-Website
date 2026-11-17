@@ -1,14 +1,16 @@
-import Link from "next/link";
+import { ArrowLink } from "@/components/ui/ArrowLink";
 import { HeroSlideshow, type HeroSlide } from "./HeroSlideshow";
 import type { Homepage } from "@/lib/cms/types";
 
 /**
- * #homepage-hero — a split: the headline on a solid blue panel at left, a
- * slideshow at right. The slides are the active projects (photo, status,
- * location, link); with none, the ACF hero photos stand in, uncaptioned.
+ * #homepage-hero — a split: the headline on a solid sun-yellow panel at
+ * left, a slideshow at right. The slides are the active projects (photo,
+ * status, location, link); with none, the ACF hero photos stand in,
+ * uncaptioned.
  *
  * The CTA (ACF hero.cta, "Find out more" → /about) is a quiet text link at
- * the foot of the panel. White on `blue` passes AA at every size used here.
+ * the foot of the panel. Sun is too light for white, so the panel's text is
+ * ink, which passes AA on it.
  */
 export function HeroSection({
   hero,
@@ -21,33 +23,22 @@ export function HeroSection({
     projectSlides.length > 0 ? projectSlides : hero.slides.map((image) => ({ image }));
 
   return (
-    <section id="homepage-hero" className="grid bg-blue lg:grid-cols-2">
-      <div className="flex flex-col justify-between gap-12 px-6 py-14 sm:py-16 lg:min-h-[clamp(560px,78vh,760px)] lg:px-10 lg:py-16">
+    <section id="homepage-hero" className="grid bg-sun lg:grid-cols-2">
+      <div className="flex flex-col justify-between gap-14 px-6 py-14 text-ink sm:py-16 lg:min-h-[clamp(560px,80vh,780px)] lg:px-10 lg:pt-16 lg:pb-14">
         <div>
-          <h1 className="max-w-2xl text-[clamp(2.5rem,4.6vw,4.5rem)] leading-[1.05] font-semibold tracking-tight text-white">
+          <h1 className="max-w-[15ch] font-grotesk text-[clamp(2.75rem,5vw,5.25rem)] leading-[1.04] font-normal tracking-[-0.035em]">
             {hero.headline}
           </h1>
           {hero.subheadline ? (
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-white sm:text-xl">
+            <p className="mt-8 max-w-xl font-grotesk text-xl leading-snug font-light tracking-tight sm:text-2xl">
               {hero.subheadline}
             </p>
           ) : null}
         </div>
 
-        {hero.cta.label ? (
-          <Link
-            href={hero.cta.href}
-            className="group inline-flex w-fit items-center gap-3 font-display text-lg text-white hover:underline sm:text-xl"
-          >
-            {hero.cta.label}
-            <span
-              aria-hidden="true"
-              className="text-2xl leading-none transition-transform group-hover:translate-x-1"
-            >
-              &rsaquo;
-            </span>
-          </Link>
-        ) : null}
+        <ArrowLink href={hero.cta.href} className="w-fit">
+          {hero.cta.label}
+        </ArrowLink>
       </div>
 
       <div className="relative isolate aspect-[4/3] overflow-hidden bg-ink lg:aspect-auto">

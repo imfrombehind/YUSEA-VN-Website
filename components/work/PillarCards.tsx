@@ -29,11 +29,14 @@ export function PillarCards({
   pillars,
   linkLabel,
   sizes = "(max-width: 768px) 100vw, 33vw",
+  tone = "bold",
   className = "",
 }: {
   pillars: Pillar[];
   linkLabel: string;
   sizes?: string;
+  /** "light": the homepage's thin grotesque titles. */
+  tone?: "bold" | "light";
   className?: string;
 }) {
   return (
@@ -55,7 +58,15 @@ export function PillarCards({
           </div>
 
           <div className="flex flex-1 flex-col pt-6">
-            <h3 className="text-xl font-bold text-ink lg:text-2xl">{pillar.name}</h3>
+            <h3
+              className={
+                tone === "light"
+                  ? "font-grotesk text-2xl font-normal tracking-tight text-ink lg:text-[1.75rem]"
+                  : "text-xl font-bold text-ink lg:text-2xl"
+              }
+            >
+              {pillar.name}
+            </h3>
             {pillar.description ? (
               <p className="mt-3 leading-relaxed text-muted">{pillar.description}</p>
             ) : null}

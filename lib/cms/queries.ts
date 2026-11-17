@@ -175,6 +175,7 @@ export const HOMEPAGE_QUERY = /* GraphQL */ `
         }
         spotlight {
           heading
+          intro
           projectLabel
           ctaLabel
           ctaHref

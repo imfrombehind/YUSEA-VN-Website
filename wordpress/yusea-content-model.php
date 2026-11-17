@@ -340,9 +340,10 @@ function yusea_cm_additions() {
                     'instructions' => 'The newest projects and publications, filled in automatically.',
                     'sub_fields'   => [
                         yusea_cm_label('spotlight_heading', 'heading', 'Heading', 'Spotlight'),
+                        yusea_cm_label('spotlight_intro', 'intro', 'Intro', 'The latest projects, reports and stories from across YUSEA'),
                         yusea_cm_label('spotlight_project_label', 'projectLabel', 'Card label: project', 'Project'),
-                        yusea_cm_label('spotlight_cta_label', 'ctaLabel', 'Button label', 'See all our work'),
-                        yusea_cm_label('spotlight_cta_href', 'ctaHref', 'Button link', '/work'),
+                        yusea_cm_label('spotlight_cta_label', 'ctaLabel', 'Link label', 'More stories'),
+                        yusea_cm_label('spotlight_cta_href', 'ctaHref', 'Link', '/work'),
                     ],
                 ]),
             ],

@@ -71,7 +71,7 @@ The hero slideshow is the active projects; `#homepage-impact` tabs between
 The context (`statsBand`) and Our focus (`ourFocus`); Spotlight is the
 newest projects and publications. New ACF (plugin v1.11.0):
 `homepageFields.impactTabs { heading, contextLabel, focusLabel }` and
-`homepageFields.spotlight { heading, projectLabel, ctaLabel, ctaHref }`;
+`homepageFields.spotlight { heading, intro, projectLabel, ctaLabel, ctaHref }`;
 projects now also query core `date`.
 
 **Pillars and the /work filter.** A custom taxonomy `pillar` (the "hashtag"

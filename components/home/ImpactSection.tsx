@@ -25,7 +25,7 @@ export function ImpactSection({ homepage }: { homepage: Homepage }) {
         {impactTabs.heading ? (
           <h2
             id="homepage-impact-heading"
-            className="mb-8 text-4xl font-semibold tracking-tight text-ink md:text-5xl lg:text-6xl"
+            className="mb-8 font-grotesk text-5xl font-normal tracking-[-0.035em] text-ink lg:text-7xl"
           >
             {impactTabs.heading}
           </h2>
