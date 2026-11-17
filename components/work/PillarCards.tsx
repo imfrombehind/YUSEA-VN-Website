@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { ArrowLink } from "@/components/ui/ArrowLink";
 import { pillarHref } from "@/lib/routes";
 import type { Pillar } from "@/lib/cms/types";
 
@@ -71,14 +71,10 @@ export function PillarCards({
               <p className="mt-3 leading-relaxed text-muted">{pillar.description}</p>
             ) : null}
             {linkLabel ? (
-              <Link
-                href={pillarHref(pillar.slug)}
-                className="mt-auto inline-flex items-center gap-1.5 pt-6 font-semibold text-blue-600 hover:text-blue-700"
-              >
+              <ArrowLink href={pillarHref(pillar.slug)} className="mt-auto pt-6 text-ink">
                 {linkLabel}
                 <span className="sr-only">: {pillar.name}</span>
-                <span aria-hidden="true">&rarr;</span>
-              </Link>
+              </ArrowLink>
             ) : null}
           </div>
         </li>
