@@ -31,7 +31,7 @@ function paragraphs(text: string): string[] {
 }
 
 /** Clears the sticky header when a side-nav link jumps to a section. */
-const SECTION = "scroll-mt-28";
+const SECTION = "scroll-mt-24";
 
 /** Hairline-separated block after the first section. */
 function AboutSection({
@@ -87,7 +87,7 @@ export default async function AboutPage() {
     <article className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto grid max-w-[1400px] gap-x-12 px-6 lg:grid-cols-[12rem_minmax(0,1fr)] lg:px-10 xl:grid-cols-[15rem_minmax(0,1fr)] xl:gap-x-16">
         <aside className="hidden lg:block">
-          <div className="sticky top-28 pt-3">
+          <div className="sticky top-24 pt-3">
             <AboutNav label={page.title} items={nav} />
           </div>
         </aside>

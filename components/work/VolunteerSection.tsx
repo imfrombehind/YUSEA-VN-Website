@@ -17,7 +17,7 @@ export function VolunteerSection({ volunteer }: { volunteer: VolunteerCall }) {
     <section
       id={VOLUNTEER_ANCHOR}
       // Clears the sticky site header when the cover button jumps here.
-      className="scroll-mt-28 border-b border-slate-200 bg-paper py-section lg:py-section-lg"
+      className="scroll-mt-24 border-b border-slate-200 bg-paper py-section lg:py-section-lg"
     >
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="max-w-3xl">

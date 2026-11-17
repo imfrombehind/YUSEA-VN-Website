@@ -8,7 +8,11 @@ type LogoProps = Pick<SiteSettings, "siteName" | "logo"> & {
   className?: string;
 };
 
-/** The footer ("lg") stays a step larger than the header ("md") at every breakpoint. */
+/**
+ * The footer ("lg") stays a step larger than the header ("md") at every
+ * breakpoint. The wordmark is set `leading-none`, so the bar around it is
+ * only as tall as the letters plus the header padding.
+ */
 const SIZES = {
   md: { text: "text-[2.8125rem] lg:text-[3.375rem]", image: "h-15 lg:h-18" },
   lg: { text: "text-7xl lg:text-[5.625rem]", image: "h-21 lg:h-24" },
@@ -27,7 +31,7 @@ export function Logo({
   return (
     <Link
       href="/"
-      className={`font-display ${SIZES[size].text} font-bold uppercase tracking-[0.1em] text-ink ${className}`}
+      className={`block font-display ${SIZES[size].text} leading-none font-bold uppercase tracking-[0.1em] text-ink ${className}`}
     >
       {logo ? (
         <Image

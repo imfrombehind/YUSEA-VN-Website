@@ -27,7 +27,7 @@ export function Header({
 }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-paper">
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-6 px-6 py-4 lg:px-10">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-6 px-6 py-3 lg:px-10">
         <Logo siteName={siteName} logo={logo} />
 
         <nav aria-label="Main" className="hidden lg:block">

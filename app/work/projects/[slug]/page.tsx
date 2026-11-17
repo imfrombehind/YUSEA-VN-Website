@@ -148,7 +148,7 @@ export default async function ProjectPage({ params }: Props) {
                   closed={registrationClosed}
                   deadlineLabel={work.registrationDeadline}
                   closedLabel={work.registrationClosed}
-                  className="lg:sticky lg:top-32"
+                  className="lg:sticky lg:top-28"
                 />
               </div>
             ) : null}
