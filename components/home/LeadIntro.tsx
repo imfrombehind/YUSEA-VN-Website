@@ -1,6 +1,6 @@
 /**
  * A homepage intro: a lead sentence in ink, then a grey sentence at the
- * same size. Used by the Our focus tab and Spotlight. Renders nothing
+ * same size, both at the h3 step (level with The context tab's heading). Used by the Our focus tab and Spotlight. Renders nothing
  * when both are empty.
  */
 export function LeadIntro({ lead, intro }: { lead: string; intro: string }) {
@@ -9,12 +9,12 @@ export function LeadIntro({ lead, intro }: { lead: string; intro: string }) {
   return (
     <div className="max-w-5xl font-display">
       {lead ? (
-        <p className="text-3xl leading-tight font-normal tracking-[-0.025em] text-ink md:text-[2.5rem]">
+        <p className="text-h3 text-ink">
           {lead}
         </p>
       ) : null}
       {intro ? (
-        <p className="mt-2 text-3xl leading-tight font-light tracking-[-0.025em] text-muted md:text-[2.5rem]">
+        <p className="mt-1 text-h3 font-light text-muted">
           {intro}
         </p>
       ) : null}

@@ -127,10 +127,19 @@ that have bitten this repo:
 ## Design
 
 - The whole site follows the homepage's WEF-like language: white space,
-  sentence-case headings at **regular weight** (h1–h3 and prose headings
-  are 400, large, tracking about -0.03em; no `font-bold` on headings),
+  sentence-case headings at **regular weight** (400, tight tracking; no
+  `font-bold` on headings),
   grey light lead text under titles, square photos (no rounding except
   portrait and logo circles), hairline `slate-200`/`slate-300` borders.
+- **Heading scale**: `--text-h1` … `--text-h5` in `@theme` (fluid; about
+  72/48/28/22/18px on desktop, 44/32/24/20/18 on phones). The `h1`–`h5`
+  tags take their step in `@layer base`, so headings carry **no size
+  classes**: the tag sets the size. Use `text-h1` … `text-h5` only to give a
+  non-heading the look (`LeadIntro`) or to shift a heading on purpose
+  (footer column heads `text-h4`, smaller Spotlight cards `text-h4`, the
+  hero h1 shrinks on desktop to fit beside the cover). Pick the tag by
+  outline: page title h1, section h2, cards and sub-blocks h3. In `<Prose>`,
+  headings sit one step down (an editor's H2 looks like an h3).
 - Secondary actions are `ArrowLink` (text + chevron). `ButtonLink` pills
   (ink, sun for register, outline, light) are only for a page's main
   action. Filters (`FilterChips`) and homepage tabs share the grey pill

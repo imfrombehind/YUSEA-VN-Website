@@ -43,7 +43,7 @@ export function ProjectCard({
             location,
           ]}
         />
-        <h3 className="mt-1 text-xl leading-snug tracking-[-0.02em] text-ink lg:text-2xl">
+        <h3 className="mt-1 text-ink">
           {/* The title link's hit area stretches over the whole card. */}
           <Link
             href={projectHref(project.slug)}

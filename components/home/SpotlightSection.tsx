@@ -66,9 +66,8 @@ function Card({ entry, large }: { entry: Entry; large: boolean }) {
         ) : null}
       </p>
       <h3
-        className={`mt-1 font-display leading-snug font-normal tracking-[-0.02em] text-ink ${
-          large ? "text-2xl lg:text-[1.75rem]" : "text-xl lg:text-2xl"
-        }`}
+        // The lead entry is a full h3; the rest a step smaller.
+        className={`mt-1 text-ink ${large ? "" : "text-h4"}`}
       >
         <Link
           href={entry.href}
@@ -104,7 +103,7 @@ export function SpotlightSection({
     <section id="homepage-spotlight" className="bg-white pb-section lg:pb-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         {data.heading ? (
-          <h2 className="mb-8 font-display text-5xl font-normal tracking-[-0.035em] text-ink lg:text-7xl">
+          <h2 className="mb-8 text-ink">
             {data.heading}
           </h2>
         ) : null}

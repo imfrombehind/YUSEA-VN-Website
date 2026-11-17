@@ -14,7 +14,7 @@ export function PartnershipSection({ partnership }: { partnership: Partnership }
     <section className="bg-paper py-16 lg:py-24">
 
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-        {heading ? <h2 className="text-4xl text-ink lg:text-5xl">{heading}</h2> : null}
+        {heading ? <h2 className="text-ink">{heading}</h2> : null}
         {intro ? (
           <Prose html={intro} className={`max-w-4xl ${heading ? "mt-4" : ""}`} />
         ) : null}

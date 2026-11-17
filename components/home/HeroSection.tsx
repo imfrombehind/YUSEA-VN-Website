@@ -30,7 +30,7 @@ export function HeroSection({
     <section id="homepage-hero" className="grid bg-sun lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
       <div className="flex flex-col justify-between gap-14 px-6 py-14 text-ink sm:py-16 lg:gap-10 lg:px-10 lg:pt-12 lg:pb-14">
         <div>
-          <h1 className="max-w-[15ch] font-display text-[clamp(2.75rem,5vw,5.25rem)] lg:text-[clamp(2.25rem,3.3vw,4.25rem)] leading-[1.04] font-normal tracking-[-0.035em]">
+          <h1 className="max-w-[15ch] lg:text-[clamp(2.25rem,3.3vw,4.25rem)]">
             {hero.headline}
           </h1>
           {hero.subheadline ? (

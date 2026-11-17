@@ -21,7 +21,7 @@ export function VolunteerSection({ volunteer }: { volunteer: VolunteerCall }) {
     >
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="max-w-3xl">
-          {heading ? <h2 className="text-4xl text-ink lg:text-5xl">{heading}</h2> : null}
+          {heading ? <h2 className="text-ink">{heading}</h2> : null}
           {intro ? <Prose html={intro} className={heading ? "mt-6" : ""} /> : null}
         </div>
 
@@ -29,7 +29,7 @@ export function VolunteerSection({ volunteer }: { volunteer: VolunteerCall }) {
           <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
             {roles.length > 0 ? (
               <div>
-                {rolesHeading ? <h3 className="text-2xl text-ink lg:text-3xl">{rolesHeading}</h3> : null}
+                {rolesHeading ? <h3 className="text-ink">{rolesHeading}</h3> : null}
                 <ul className={`border-b border-slate-200 ${rolesHeading ? "mt-6" : ""}`}>
                   {roles.map((role) => (
                     <li key={role.title} className="border-t border-slate-200 py-6">
@@ -45,7 +45,7 @@ export function VolunteerSection({ volunteer }: { volunteer: VolunteerCall }) {
 
             {benefits.length > 0 ? (
               <div>
-                {benefitsHeading ? <h3 className="text-2xl text-ink lg:text-3xl">{benefitsHeading}</h3> : null}
+                {benefitsHeading ? <h3 className="text-ink">{benefitsHeading}</h3> : null}
                 <ul className={`space-y-4 ${benefitsHeading ? "mt-6" : ""}`}>
                   {benefits.map((benefit) => (
                     <li key={benefit} className="flex gap-4 leading-relaxed text-muted">

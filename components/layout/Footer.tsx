@@ -31,7 +31,7 @@ export function Footer({ siteName, logo, footer, social, columns }: FooterProps)
               {shown.map((column, i) => (
                 <li key={i}>
                   {column.heading.label ? (
-                    <h2 className="text-xl tracking-[-0.02em] text-white">
+                    <h2 className="text-h4 text-white">
                       {column.heading.href ? (
                         <Link href={column.heading.href} className="underline-offset-4 hover:underline">
                           {column.heading.label}

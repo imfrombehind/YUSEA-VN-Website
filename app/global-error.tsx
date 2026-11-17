@@ -30,7 +30,7 @@ export default function GlobalError({
           <span className="bg-sun" />
         </div>
         <main className="mx-auto max-w-3xl px-6 py-section lg:px-10 lg:py-section-lg">
-          <h1 className="text-5xl text-ink lg:text-7xl">Something went wrong</h1>
+          <h1 className="text-ink">Something went wrong</h1>
           <p className="mt-6 text-2xl leading-snug font-light tracking-[-0.02em] text-muted">
             The site could not be loaded. Please try again in a moment.
           </p>

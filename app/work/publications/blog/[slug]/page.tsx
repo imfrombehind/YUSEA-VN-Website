@@ -53,7 +53,7 @@ export default async function PostPage({ params }: Props) {
             <time key="date" dateTime={post.date}>{formatDate(post.date)}</time>,
           ]}
         />
-        <h1 className="mt-4 text-4xl break-words text-ink sm:text-6xl">
+        <h1 className="mt-4 break-words text-ink">
           {post.title}
         </h1>
         <PillarTags pillars={post.pillars} className="mt-8" />

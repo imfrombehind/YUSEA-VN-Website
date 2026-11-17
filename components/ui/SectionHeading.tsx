@@ -11,7 +11,7 @@ type SectionHeadingProps = {
 export function SectionHeading({ title, body, className = "", as: Heading = "h2" }: SectionHeadingProps) {
   return (
     <div className={`max-w-5xl ${className}`}>
-      <Heading className="text-5xl text-ink lg:text-7xl">{title}</Heading>
+      <Heading className="text-ink">{title}</Heading>
 
       {body ? (
         <p className="mt-6 max-w-4xl text-2xl leading-snug font-light tracking-[-0.02em] text-muted md:text-[2rem]">

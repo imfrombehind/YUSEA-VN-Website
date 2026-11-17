@@ -51,7 +51,7 @@ export default async function ReportPage({ params }: Props) {
             <time key="date" dateTime={report.date}>{formatDate(report.date)}</time>,
           ]}
         />
-        <h1 className="mt-4 text-4xl break-words text-ink sm:text-6xl">
+        <h1 className="mt-4 break-words text-ink">
           {report.title}
         </h1>
         {report.excerpt ? (

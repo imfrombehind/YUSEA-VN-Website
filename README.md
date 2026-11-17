@@ -471,6 +471,23 @@ default `blue-700`.
 are confirmed, update `coral`, `blue` and `sun` (and their `-700` text shades)
 in `globals.css` — every component reads from the tokens.
 
+**Heading scale.** `--text-h1` … `--text-h5` in `globals.css` (`@theme`),
+fluid between phone and desktop. The heading tags pick them up in
+`@layer base`, so components set no heading sizes; `text-h1` … `text-h5`
+apply a step to any element.
+
+| Step | Phone → desktop | Used for |
+|---|---|---|
+| h1 | 44 → 72px | Page titles (index pages, About, project cover, posts, reports, programme, 404). The hero h1 is capped smaller on desktop to fit beside the cover |
+| h2 | 32 → 48px | Section titles (How we drive impact, Spotlight, Overview, About sections, programme days, Volunteer, Partnership) |
+| h3 | 24 → 28px | Card and block titles (project/publication/pillar cards, board members, sessions, Volunteer sub-blocks, Registration card), homepage tab intros (`LeadIntro`, The context) |
+| h4 | 20 → 22px | Smaller Spotlight cards, footer column heads |
+| h5 | 18px | Spare step; CMS H4/H5 |
+
+In CMS bodies (`<Prose>`) headings sit one step down: an editor's H2 shows
+at the h3 step, H3 at h4, H4/H5 at h5, since the page already has its h1
+and section h2s.
+
 **Homepage rhythm.**
 
 | Section | Ground | Notes |

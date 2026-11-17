@@ -12,7 +12,7 @@ export function ProgrammeSchedule({ programme }: { programme: Programme }) {
     <div className="space-y-20 lg:space-y-24">
       {programme.days.map((day) => (
         <section key={day.date} aria-labelledby={`day-${day.date}`}>
-          <h2 id={`day-${day.date}`} className="text-3xl text-ink lg:text-4xl">
+          <h2 id={`day-${day.date}`} className="text-ink">
             <time dateTime={day.date}>{formatDayLong(day.date)}</time>
           </h2>
 
@@ -35,7 +35,7 @@ export function ProgrammeSchedule({ programme }: { programme: Programme }) {
                     </p>
 
                     <div className="min-w-0">
-                      <h3 className="text-2xl leading-snug tracking-[-0.02em] text-ink">{session.title}</h3>
+                      <h3 className="text-ink">{session.title}</h3>
                       {session.speakers ? (
                         <p className="mt-2 font-display text-lg tracking-tight text-muted">
                           {session.speakers}

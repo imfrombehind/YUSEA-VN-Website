@@ -13,7 +13,7 @@ export function ContextPanel({ data }: { data: Homepage["statsBand"] }) {
   return (
     <>
       <div className="max-w-4xl">
-        <h3 className="font-display text-3xl leading-tight font-normal tracking-[-0.025em] text-ink md:text-[2.75rem]">
+        <h3 className="text-ink">
           {data.heading}
         </h3>
         {data.intro ? (

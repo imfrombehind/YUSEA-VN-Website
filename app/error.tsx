@@ -27,7 +27,7 @@ export default function Error({
     <section className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="max-w-3xl">
-          <h1 className="text-5xl text-ink lg:text-7xl">
+          <h1 className="text-ink">
             Something went wrong
           </h1>
           <p className="mt-6 text-2xl leading-snug font-light tracking-[-0.02em] text-muted">

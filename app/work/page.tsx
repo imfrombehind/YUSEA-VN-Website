@@ -130,7 +130,7 @@ function WorkSection({
   return (
     <section className="mt-16 border-t border-slate-200 pt-12 lg:mt-24 lg:pt-16">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <h2 className="text-4xl text-ink lg:text-5xl">{heading}</h2>
+        <h2 className="text-ink">{heading}</h2>
         {viewAll.label && !empty ? (
           <ArrowLink href={viewAll.href} className="shrink-0 text-ink">
             {viewAll.label}

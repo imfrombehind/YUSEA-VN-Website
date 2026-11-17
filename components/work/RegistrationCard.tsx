@@ -28,7 +28,7 @@ export function RegistrationCard({
 
   return (
     <aside className={`border border-slate-200 bg-white p-6 sm:p-8 ${className}`}>
-      {heading ? <h2 className="text-2xl text-ink sm:text-3xl">{heading}</h2> : null}
+      {heading ? <h3 className="text-ink">{heading}</h3> : null}
 
       <Rows rows={schedule} className={heading ? "mt-6" : ""} />
       <Rows

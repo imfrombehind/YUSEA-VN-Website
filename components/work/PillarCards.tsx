@@ -53,7 +53,7 @@ export function PillarCards({
           </div>
 
           <div className="flex flex-1 flex-col pt-6">
-            <h3 className="text-2xl tracking-[-0.02em] text-ink lg:text-[1.75rem]">
+            <h3 className="text-ink">
               {/* The name links to /work?pillar=<slug>; its hit area stretches
                   over the whole card, photo included. */}
               <Link

@@ -52,7 +52,7 @@ function AboutSection({
       aria-labelledby={`${id}-heading`}
       className={`${SECTION} mt-20 border-t border-slate-200 pt-16 lg:mt-24 lg:pt-20`}
     >
-      <h2 id={`${id}-heading`} className="text-4xl text-ink lg:text-5xl">
+      <h2 id={`${id}-heading`} className="text-ink">
         {heading}
       </h2>
       {intro ? (
@@ -90,7 +90,7 @@ export default async function AboutPage() {
 
         <div className="max-w-4xl">
           <section id="who-we-are" className={SECTION}>
-            <h1 className="text-5xl break-words text-ink lg:text-7xl">
+            <h1 className="break-words text-ink">
               {page.header.heading}
             </h1>
 
@@ -157,7 +157,7 @@ export default async function AboutPage() {
                       ) : null}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-xl tracking-[-0.02em] text-ink lg:text-2xl">{member.name}</h3>
+                      <h3 className="text-ink">{member.name}</h3>
                       {member.role ? (
                         <p className="mt-2 leading-snug text-muted">{member.role}</p>
                       ) : null}
