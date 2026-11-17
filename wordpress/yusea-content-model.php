@@ -398,9 +398,10 @@ function yusea_cm_additions() {
                     yusea_cm_label('our_focus_intro', 'intro', 'Intro (grey, after the lead)', 'Each one brings together projects, research and young people to turn regional plans into places that work.', 'textarea') + ['rows' => 2, 'new_lines' => ''],
                 ],
             ],
-            // Old sections the homepage no longer shows. Deleting a field keeps
-            // its saved values in the database.
-            'remove' => ['missionGrid', 'projects', 'latestPosts', 'partners'],
+            // Old sections the homepage no longer shows (missionGrid, projects,
+            // latestPosts, partners) are no longer deleted on upgrade: since
+            // v1.12.0 the plugin removes nothing by itself. Use Tools → YUSEA
+            // Setup → Remove old fields once the content has been checked.
             // The frontend renders statsBand.intro as rich text.
             'retype' => ['statsBand' => ['intro' => 'wysiwyg']],
         ],
