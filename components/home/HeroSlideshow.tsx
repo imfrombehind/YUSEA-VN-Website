@@ -25,11 +25,11 @@ function subscribeReducedMotion(onChange: () => void) {
 }
 
 /**
- * Crossfading hero photos, advancing on their own. Each photo is shown
- * whole (`object-contain`) — project covers are often posters with text to
- * the edges, which a crop would cut — over a blurred, dimmed copy of itself
- * that fills the panel. A slide with a title gets a caption in its own band
- * below the photo, linking to its project, so it never covers the poster.
+ * Crossfading hero photos, advancing on their own. Each photo fills a
+ * full-width 3:2 box at the top of the panel — the project cards' frame, so
+ * a cover designed as a 3:2 poster shows whole — and that box sets the
+ * panel's height. Below it, a blurred, dimmed copy of the photo is the
+ * ground for the caption, which links to the project.
  *
  * The first slide is preloaded (it's the LCP image); the rest load lazily
  * behind it. The blurred copies load at a tiny size.
@@ -80,8 +80,10 @@ export function HeroSlideshow({
         <div className="absolute inset-0 bg-black/55" />
       </div>
 
-      <div className="absolute inset-0 flex flex-col">
-        <div className={`relative mx-6 mt-6 min-h-0 flex-1 lg:mx-10 lg:mt-10 ${current?.title ? "" : "mb-6 lg:mb-10"}`}>
+      <div className="relative flex flex-1 flex-col">
+        {/* 3:2, framed like the project cards (`ProjectCard`), full width and
+            flush with the top: covers fill it edge to edge. */}
+        <div className="relative aspect-[3/2] w-full shrink-0">
           {slides.map((slide, i) => (
             <Image
               key={slide.image.url}
@@ -92,30 +94,34 @@ export function HeroSlideshow({
               fill
               preload={i === 0}
               sizes={sizes}
-              className={`object-contain ${fade(i)}`}
+              className={`object-cover ${fade(i)}`}
             />
           ))}
         </div>
 
         {current?.title ? (
-          <div className="flex shrink-0 items-end justify-between gap-6 p-6 lg:p-10">
-            <div key={current.image.url} className="max-w-md text-white motion-safe:animate-fade-in">
-              {current.meta ? <MetaLine items={current.meta} className="font-display text-base text-white/85" /> : null}
+          // Same bottom padding and row heights (28px rows, 16px apart) as
+          // the headline panel's two links, so the lines sit level with them.
+          <div className="mt-auto flex items-end justify-between gap-6 px-6 pt-8 pb-14 sm:pb-16 lg:px-10 lg:pb-14">
+            <div key={current.image.url} className="flex max-w-md flex-col gap-4 text-white motion-safe:animate-fade-in">
+              {current.meta ? (
+                <MetaLine items={current.meta} className="font-display text-base leading-7 text-white/85" />
+              ) : null}
               {current.href ? (
                 <Link
                   href={current.href}
-                  className="mt-1 inline-flex items-center gap-2 font-display text-xl font-light tracking-tight hover:underline hover:underline-offset-4 lg:text-2xl"
+                  className="inline-flex items-center gap-2 self-start font-display text-xl leading-7 font-light tracking-tight hover:underline hover:underline-offset-4 lg:text-2xl lg:leading-7"
                 >
                   {current.title}
                   <span aria-hidden="true">&rsaquo;</span>
                 </Link>
               ) : (
-                <p className="mt-1 font-display text-xl font-light tracking-tight lg:text-2xl">{current.title}</p>
+                <p className="font-display text-xl leading-7 font-light tracking-tight lg:text-2xl lg:leading-7">{current.title}</p>
               )}
             </div>
 
             {slides.length > 1 ? (
-              <div aria-hidden="true" className="flex shrink-0 gap-1.5 pb-2">
+              <div aria-hidden="true" className="flex shrink-0 gap-1.5 pb-3">
                 {slides.map((slide, i) => (
                   <span
                     key={slide.image.url}
