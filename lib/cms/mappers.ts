@@ -16,18 +16,21 @@ import type {
   PageDetail,
   Partnership,
   Pillar,
-  Registration,
-  RegistrationRow,
-  VolunteerCall,
   Post,
   PostDetail,
+  Programme,
+  ProgrammeDay,
+  ProgrammeSession,
   Project,
   ProjectDetail,
+  Registration,
+  RegistrationRow,
   Report,
   ReportDetail,
   SiteSettings,
   SocialLink,
   Term,
+  VolunteerCall,
 } from "./types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -257,6 +260,7 @@ function mapProject(n: any): Project {
     /** Free text, e.g. "2024 – 2027". */
     timeframe: p.timeframe ?? "",
     date: n.date ?? "",
+    hasProgramme: (p.programme?.days ?? []).some((d: any) => mapDate(d?.date)),
   };
 }
 
@@ -341,6 +345,34 @@ function mapVolunteer(g: any): VolunteerCall | undefined {
   return volunteer.heading || volunteer.roles.length > 0 ? volunteer : undefined;
 }
 
+/**
+ * The programme group, or undefined if no day has a date. Sessions without
+ * a title are dropped; a day keeps its place even with no sessions yet.
+ */
+function mapProgramme(g: any): Programme | undefined {
+  const days: ProgrammeDay[] = (g?.days ?? [])
+    .map(
+      (d: any): ProgrammeDay => ({
+        date: mapDate(d?.date),
+        sessions: (d?.sessions ?? [])
+          .filter((s: any) => s?.title)
+          .map(
+            (s: any): ProgrammeSession => ({
+              start: s.start ?? "",
+              end: s.end ?? "",
+              title: s.title,
+              speakers: s.speakers ?? "",
+              description: s.description ?? "",
+              image: mapMedia(s.image?.node),
+            }),
+          ),
+      }),
+    )
+    .filter((d: ProgrammeDay) => d.date)
+    .sort((a: ProgrammeDay, b: ProgrammeDay) => a.date.localeCompare(b.date));
+  return days.length > 0 ? { timezone: g?.timezone ?? "", days } : undefined;
+}
+
 /** "#KeCho #YUSEAVietnam", or one per line, → ["KeCho", "YUSEAVietnam"]. */
 function mapHashtags(text: unknown): string[] {
   return String(text ?? "")
@@ -358,6 +390,7 @@ export function mapProjectDetail(data: any): ProjectDetail | null {
     partnership: mapPartnership(p.partnership),
     registration: mapRegistration(p.registration),
     volunteer: mapVolunteer(p.volunteer),
+    programme: mapProgramme(p.programme),
     tagline: p.tagline ?? "",
     hashtags: mapHashtags(p.hashtags),
   };
@@ -531,6 +564,7 @@ function mapWorkCopy(w: any): SiteSettings["work"] {
     backToProjects: w?.backToProjectsLabel ?? "",
     registrationDeadline: w?.registrationDeadlineLabel ?? "",
     registrationClosed: w?.registrationClosedLabel ?? "",
+    programme: w?.programmeLabel ?? "",
     downloadReport: w?.downloadReportLabel ?? "",
   };
 }

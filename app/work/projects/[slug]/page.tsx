@@ -7,11 +7,12 @@ import { Hashtags } from "@/components/work/Hashtags";
 import { PartnershipSection } from "@/components/work/PartnershipSection";
 import { PillarTags } from "@/components/work/PillarTags";
 import { Prose } from "@/components/work/Prose";
+import { ProjectTabs } from "@/components/work/ProjectTabs";
 import { RegistrationCard } from "@/components/work/RegistrationCard";
 import { VOLUNTEER_ANCHOR, VolunteerSection } from "@/components/work/VolunteerSection";
 import { getProjectBySlug, getProjects, getSiteSettings } from "@/lib/cms";
 import { isPastDay } from "@/lib/format";
-import { PROJECTS_PATH, projectHref } from "@/lib/routes";
+import { PROJECTS_PATH, programmeHref, projectHref } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
 import { MetaLine } from "@/components/ui/MetaLine";
 
@@ -41,7 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /**
- * Single project: a full-width cover photo with the title over it, then
+ * Single project: Overview | Programme tabs when it has a programme, then
+ * a full-width cover photo with the title over it, then
  * Overview (the post body, tagline and hashtags) with the registration
  * card beside it, then the call for volunteers, then the partnership.
  */
@@ -70,6 +72,15 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <article>
+      {project.programme ? (
+        <ProjectTabs
+          label={project.title}
+          tabs={[
+            { label: work.overviewHeading, href: projectHref(project.slug), current: true },
+            { label: work.programme, href: programmeHref(project.slug), current: false },
+          ]}
+        />
+      ) : null}
       <header className="relative isolate flex min-h-[28rem] flex-col overflow-hidden bg-ink lg:min-h-[36rem]">
         {project.heroImage ? (
           <Image

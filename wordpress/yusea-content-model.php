@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.11.3
+ * Version:     1.12.0
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.11.3';
+const YUSEA_CM_VERSION = '1.12.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -238,6 +238,40 @@ add_action('acf/init', function () {
                     yusea_cm_field('project_volunteer_cta_href', 'ctaHref', 'Button link', 'url', ['instructions' => 'The volunteer form. Empty hides both buttons.']),
                 ],
             ]),
+            yusea_cm_field('project_programme', 'programme', 'Programme', 'group', [
+                'instructions' => 'The programme, day by day. Adding a day with a date shows a Programme tab on the project page. Leave the days empty to hide it.',
+                'layout'       => 'block',
+                'sub_fields'   => [
+                    yusea_cm_field('project_programme_timezone', 'timezone', 'Time zone', 'text', ['instructions' => 'Shown after each session time, e.g. GMT+7.']),
+                    yusea_cm_field('project_programme_days', 'days', 'Days', 'repeater', [
+                        'layout'       => 'block',
+                        'button_label' => 'Add day',
+                        'sub_fields'   => [
+                            yusea_cm_field('project_programme_day_date', 'date', 'Date', 'date_picker', [
+                                'display_format' => 'd/m/Y',
+                                'return_format'  => 'Ymd',
+                                'first_day'      => 1,
+                            ]),
+                            yusea_cm_field('project_programme_sessions', 'sessions', 'Sessions', 'repeater', [
+                                'layout'       => 'block',
+                                'button_label' => 'Add session',
+                                'sub_fields'   => [
+                                    yusea_cm_field('project_programme_session_start', 'start', 'Starts', 'text', ['instructions' => 'e.g. 09:30', 'wrapper' => ['width' => 20]]),
+                                    yusea_cm_field('project_programme_session_end', 'end', 'Ends', 'text', ['instructions' => 'e.g. 10:30', 'wrapper' => ['width' => 20]]),
+                                    yusea_cm_field('project_programme_session_title', 'title', 'Title', 'text', ['wrapper' => ['width' => 60]]),
+                                    yusea_cm_field('project_programme_session_speakers', 'speakers', 'Speakers', 'text', ['instructions' => 'Optional, e.g. Nguyễn Văn A, Trần Thị B']),
+                                    yusea_cm_field('project_programme_session_description', 'description', 'Description', 'textarea', ['rows' => 3, 'new_lines' => '']),
+                                    yusea_cm_field('project_programme_session_image', 'image', 'Photo', 'image', [
+                                        'instructions'  => 'Optional, landscape.',
+                                        'return_format' => 'array',
+                                        'preview_size'  => 'medium',
+                                    ]),
+                                ],
+                            ]),
+                        ],
+                    ]),
+                ],
+            ]),
             yusea_cm_field('project_partnership', 'partnership', 'Partnership', 'group', [
                 'instructions' => 'The section below the Overview. Leave the heading and partners empty to hide it.',
                 'layout'       => 'block',
@@ -412,6 +446,7 @@ function yusea_cm_additions() {
                     yusea_cm_label('work_back_to_projects', 'backToProjectsLabel', 'Project page: back button (screen readers)', 'Back to projects'),
                     yusea_cm_label('work_registration_deadline', 'registrationDeadlineLabel', 'Registration card: before the deadline date', 'Hạn đăng ký'),
                     yusea_cm_label('work_registration_closed', 'registrationClosedLabel', 'Registration card: after the deadline', 'Đã đóng đăng ký'),
+                    yusea_cm_label('work_programme', 'programmeLabel', 'Project page: Programme tab and heading', 'Chương trình'),
                 ],
                 'social' => [
                     yusea_cm_field('social_icon', 'icon', 'Icon', 'image', [

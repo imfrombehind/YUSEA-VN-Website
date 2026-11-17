@@ -13,6 +13,11 @@ export function projectHref(slug: string): string {
   return `${PROJECTS_PATH}/${slug}`;
 }
 
+/** `/work/projects/<slug>/programme`, optionally one day: `?day=2026-11-24`. */
+export function programmeHref(slug: string, day?: string): string {
+  return withQuery(`${projectHref(slug)}/programme`, { day });
+}
+
 export function publicationHref({ kind, slug }: Pick<Publication, "kind" | "slug">): string {
   return kind === "report"
     ? `/work/publications/reports/${slug}`

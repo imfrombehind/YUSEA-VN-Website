@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPosts, getProjects, getReports } from "@/lib/cms";
-import { projectHref, publicationHref } from "@/lib/routes";
+import { programmeHref, projectHref, publicationHref } from "@/lib/routes";
 import { siteUrl } from "@/lib/seo";
 
 /** Same ISR window as the pages it lists. */
@@ -34,6 +34,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
     },
     ...projects.map((project) => ({ url: `${base}${projectHref(project.slug)}` })),
+    ...projects
+      .filter((project) => project.hasProgramme)
+      .map((project) => ({ url: `${base}${programmeHref(project.slug)}` })),
     ...[...reports, ...posts].map((publication) => ({
       url: `${base}${publicationHref(publication)}`,
       lastModified: publication.date ? new Date(publication.date) : undefined,

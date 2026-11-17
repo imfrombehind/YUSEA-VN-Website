@@ -60,6 +60,8 @@ export type Project = {
   timeframe: string;
   /** Publish date, for the homepage Spotlight. */
   date: string;
+  /** Has at least one programme day, so /programme exists (the sitemap). */
+  hasProgramme: boolean;
 };
 
 /** An organisation on a project, e.g. the implementing agency. */
@@ -128,6 +130,32 @@ export type VolunteerCall = {
   cta: CTA;
 };
 
+/** One session in a project's programme. */
+export type ProgrammeSession = {
+  /** Free text, e.g. "09:30". */
+  start: string;
+  end: string;
+  title: string;
+  /** e.g. "Nguyễn Văn A, Trần Thị B". */
+  speakers: string;
+  description: string;
+  image?: Media;
+};
+
+/** A programme day: its date and sessions, in the order entered. */
+export type ProgrammeDay = {
+  /** "YYYY-MM-DD". */
+  date: string;
+  sessions: ProgrammeSession[];
+};
+
+/** A project's programme, by day. Days without a date are dropped. */
+export type Programme = {
+  /** Shown after each session's times, e.g. "GMT+7". */
+  timezone: string;
+  days: ProgrammeDay[];
+};
+
 /**
  * A single project with its body. `content` is WordPress-rendered HTML,
  * shown as the Overview section.
@@ -140,6 +168,8 @@ export type ProjectDetail = Project & {
   registration?: Registration;
   /** Undefined when the section is empty, which hides it. */
   volunteer?: VolunteerCall;
+  /** Undefined without days: no Programme tab or page. */
+  programme?: Programme;
   /** Larger closing line under the Overview body. */
   tagline: string;
   /** Without the "#", e.g. ["KeCho", "YUSEAVietnam"]. */
@@ -333,8 +363,10 @@ export type SiteSettings = {
     emptyText: string;
     kind: Record<Publication["kind"], string>;
     status: Record<Project["status"], string>;
-    /** Single project: heading over the body, e.g. "Overview". */
+    /** Single project: heading over the body, e.g. "Overview". Also the Overview tab. */
     overviewHeading: string;
+    /** Single project: the Programme tab and page heading. */
+    programme: string;
     /** Single project: accessible name of the back-to-projects button. */
     backToProjects: string;
     /** Registration card: before the deadline date, e.g. "Hạn đăng ký". */

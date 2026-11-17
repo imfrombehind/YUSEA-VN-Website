@@ -100,6 +100,11 @@ that have bitten this repo:
   `VolunteerSection` (`projectFields.volunteer`; a second cover button jumps
   to `#volunteer`), then `PartnershipSection` (the `projectFields.partnership` group). The
   Overview heading and back-button label are Site Settings `work` labels.
+- A project with `projectFields.programme` days (date, then sessions:
+  start, end, title, speakers, description, image) gets Overview |
+  Programme tabs (`ProjectTabs`) and `/work/projects/[slug]/programme`
+  (`ProgrammeSchedule`, `?day=YYYY-MM-DD` filter, `programmeHref()`); without
+  days that route 404s. The tab label is Site Settings `work.programmeLabel`.
 - `/work`, `/work/projects`, `/work/publications` and `/about` take their
   eyebrow, heading and intro from the WP page's **Page content** box
   (`indexPageFields`; `getIndexPage()`). Site Settings is for site-wide

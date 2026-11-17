@@ -503,6 +503,14 @@ grotesque of the reference design (a commercial face); swap it in
 `app/fonts.css` if YUSEA licenses one. `font-display` and `font-body` both
 resolve to it.
 
+**Programme** (test branch, plugin v1.12.0). `projectFields.programme`
+{ `timezone`, `days[]` { `date` (date picker), `sessions[]` { `start`,
+`end` (text, e.g. "09:30"), `title`, `speakers`, `description`, `image` } } }.
+A project with at least one dated day gets Overview | Programme tabs and
+the route `/work/projects/[slug]/programme` (day filter `?day=YYYY-MM-DD`,
+in the sitemap via `Project.hasProgramme`). New Site Settings label
+`work.programmeLabel`. Cached and purged with the project.
+
 **Footer** (test branch). Dark, WEF-style, two columns: About (the About
 page sections as `/about#…` links, from `aboutSections()`) and Projects and
 publications (the /work page heading, linking to /work, then its

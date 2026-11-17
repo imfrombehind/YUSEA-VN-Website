@@ -23,3 +23,28 @@ export function isPastDay(isoDate: string, now = Date.now()): boolean {
 export function formatDate(date: string): string {
   return dateFormat.format(new Date(date));
 }
+
+/** Programme days are calendar dates: format them in UTC so they never shift a day. */
+const dayShort = new Intl.DateTimeFormat("en-GB", {
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+  timeZone: "UTC",
+});
+const dayLong = new Intl.DateTimeFormat("en-GB", {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+/** "Tue 24 Nov" from "2026-11-24" — a programme day chip. */
+export function formatDayShort(isoDate: string): string {
+  return dayShort.format(new Date(`${isoDate}T00:00:00Z`));
+}
+
+/** "Tuesday 24 November 2026" from "2026-11-24" — a programme day heading. */
+export function formatDayLong(isoDate: string): string {
+  return dayLong.format(new Date(`${isoDate}T00:00:00Z`));
+}
