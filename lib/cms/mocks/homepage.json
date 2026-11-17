@@ -82,6 +82,17 @@
           "ctaLabel": "Discover all our initiatives",
           "ctaHref": "/work",
           "linkLabel": "Explore more"
+        },
+        "impactTabs": {
+          "heading": "How we drive impact",
+          "contextLabel": "The context",
+          "focusLabel": "Our focus"
+        },
+        "spotlight": {
+          "heading": "Spotlight",
+          "projectLabel": "Project",
+          "ctaLabel": "See all our work",
+          "ctaHref": "/work"
         }
       }
     }

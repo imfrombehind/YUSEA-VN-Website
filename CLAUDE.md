@@ -77,7 +77,13 @@ that have bitten this repo:
   filter with `byPillar()` over the fetched list.
 - Publications = WP posts (`kind: "blog"`) + the `report` CPT
   (`kind: "report"`), merged newest first by `getPublications()`.
-- The homepage is exactly `HeroSection`, `ImpactSection`, `OurFocusSection`.
+- The homepage is exactly `HeroSection`, `ImpactSection`, `SpotlightSection`.
+  The hero is a blue headline panel (CTA = `hero.cta`, "Find out more" →
+  /about) beside a slideshow of active projects (falls back to the ACF hero
+  photos). `ImpactSection` ("How we drive impact", `homepageFields.impactTabs`)
+  tabs between `ContextPanel` (statsBand) and `FocusPanel` (ourFocus).
+  Spotlight (`homepageFields.spotlight`, `getSpotlight()`) is the newest
+  projects and publications merged by date.
 - `/about` is a side nav plus Who we are (Page content box and body; the
   featured image is only the share image, not shown), Mission, Our focus
   (first three pillars, via `PillarCards`) and Board of directors, from

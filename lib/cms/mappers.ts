@@ -225,6 +225,16 @@ export function mapHomepage(data: any): Homepage {
       // The section is a strict three-column grid of the core pillars.
       pillars: mapPillars(data).slice(0, 3),
     },
+    impactTabs: {
+      heading: f.impactTabs?.heading ?? "",
+      contextLabel: f.impactTabs?.contextLabel || f.statsBand?.eyebrow || "",
+      focusLabel: f.impactTabs?.focusLabel || f.ourFocus?.heading || "",
+    },
+    spotlight: {
+      heading: f.spotlight?.heading ?? "",
+      projectLabel: f.spotlight?.projectLabel ?? "",
+      cta: mapCta(f.spotlight),
+    },
   };
 }
 
@@ -240,6 +250,7 @@ function mapProject(n: any): Project {
     heroImage: mapMedia(p.heroImage?.node),
     pillars: mapTerms(n.pillars),
     status: p.status ?? "active",
+    date: n.date ?? "",
   };
 }
 

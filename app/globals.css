@@ -56,6 +56,19 @@
   /* Editorial rhythm */
   --spacing-section: 6rem;
   --spacing-section-lg: 8.5rem;
+
+  /* Hero caption and tab panels fading in on change. */
+  --animate-fade-in: fade-in 600ms ease-out;
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 @layer base {

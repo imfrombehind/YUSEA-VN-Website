@@ -1,7 +1,9 @@
 import { HeroSection } from "@/components/home/HeroSection";
+import type { HeroSlide } from "@/components/home/HeroSlideshow";
 import { ImpactSection } from "@/components/home/ImpactSection";
-import { OurFocusSection } from "@/components/home/OurFocusSection";
-import { getHomepage } from "@/lib/cms";
+import { SpotlightSection } from "@/components/home/SpotlightSection";
+import { getHomepage, getProjects, getSiteSettings, getSpotlight } from "@/lib/cms";
+import { projectHref } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
 
 /** ISR per spec §3. On-demand purges arrive via /api/revalidate. */
@@ -13,17 +15,38 @@ export function generateMetadata() {
 }
 
 /**
- * Every string and image here comes from WordPress: `getHomepage()` is one
- * query for the page's ACF fields plus the Our Focus pillars.
+ * Every string and image here comes from WordPress: the homepage's ACF
+ * fields and pillars, the active projects (hero slideshow), and the newest
+ * projects and publications (Spotlight).
  */
 export default async function HomePage() {
-  const homepage = await getHomepage();
+  const [homepage, projects, spotlight, settings] = await Promise.all([
+    getHomepage(),
+    getProjects(),
+    getSpotlight(5),
+    getSiteSettings(),
+  ]);
+
+  const statusLabels = settings.work.status;
+  const projectSlides: HeroSlide[] = projects
+    .filter((p) => p.status === "active" && p.heroImage)
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .map((p) => ({
+      image: p.heroImage!,
+      title: p.title,
+      meta: [statusLabels.active, p.city || p.province].filter(Boolean).join(" · "),
+      href: projectHref(p.slug),
+    }));
 
   return (
     <>
-      <HeroSection hero={homepage.hero} />
-      <ImpactSection data={homepage.statsBand} />
-      <OurFocusSection data={homepage.ourFocus} />
+      <HeroSection hero={homepage.hero} projectSlides={projectSlides} />
+      <ImpactSection homepage={homepage} />
+      <SpotlightSection
+        data={homepage.spotlight}
+        items={spotlight}
+        kindLabels={settings.work.kind}
+      />
     </>
   );
 }

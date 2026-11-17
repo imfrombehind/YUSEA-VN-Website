@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.10.1
+ * Version:     1.11.0
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.10.1';
+const YUSEA_CM_VERSION = '1.11.0';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -324,6 +324,25 @@ function yusea_cm_additions() {
                         yusea_cm_label('our_focus_cta_label', 'ctaLabel', 'Button label', 'Discover all our initiatives'),
                         yusea_cm_label('our_focus_cta_href', 'ctaHref', 'Button link', '/work'),
                         yusea_cm_label('our_focus_link_label', 'linkLabel', 'Card link label', 'Explore more'),
+                    ],
+                ]),
+                yusea_cm_field('impact_tabs', 'impactTabs', 'How we drive impact', 'group', [
+                    'layout'       => 'block',
+                    'instructions' => 'The heading over the two tabs. Leave a tab label empty to use that section\'s eyebrow (The context) or heading (Our Focus).',
+                    'sub_fields'   => [
+                        yusea_cm_label('impact_tabs_heading', 'heading', 'Heading', 'How we drive impact'),
+                        yusea_cm_label('impact_tabs_context', 'contextLabel', 'Tab: the context', 'The context'),
+                        yusea_cm_label('impact_tabs_focus', 'focusLabel', 'Tab: our focus', 'Our focus'),
+                    ],
+                ]),
+                yusea_cm_field('spotlight', 'spotlight', 'Spotlight', 'group', [
+                    'layout'       => 'block',
+                    'instructions' => 'The newest projects and publications, filled in automatically.',
+                    'sub_fields'   => [
+                        yusea_cm_label('spotlight_heading', 'heading', 'Heading', 'Spotlight'),
+                        yusea_cm_label('spotlight_project_label', 'projectLabel', 'Card label: project', 'Project'),
+                        yusea_cm_label('spotlight_cta_label', 'ctaLabel', 'Button label', 'See all our work'),
+                        yusea_cm_label('spotlight_cta_href', 'ctaHref', 'Button link', '/work'),
                     ],
                 ]),
             ],

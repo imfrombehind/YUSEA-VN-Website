@@ -25,7 +25,7 @@ agents: commands, Next 16 gotchas and the rules below.
 ```
 app/
   layout.tsx               Fonts, header/footer, skip link, default metadata
-  page.tsx                 Homepage — HeroSection, ImpactSection, OurFocusSection
+  page.tsx                 Homepage — HeroSection, ImpactSection (tabs), SpotlightSection
   not-found.tsx            Branded 404 (copy from the options page)
   error.tsx                Runtime error fallback, inside header/footer
   global-error.tsx         Last resort when the root layout itself fails
@@ -66,7 +66,13 @@ CLAUDE.md                  Working notes for AI coding agents
 CHECKLIST.md               Pre-launch audit
 ```
 
-Homepage section IDs: `#homepage-hero`, `#homepage-impact`, `#homepage-focus`.
+Homepage section IDs: `#homepage-hero`, `#homepage-impact`, `#homepage-spotlight`.
+The hero slideshow is the active projects; `#homepage-impact` tabs between
+The context (`statsBand`) and Our focus (`ourFocus`); Spotlight is the
+newest projects and publications. New ACF (plugin v1.11.0):
+`homepageFields.impactTabs { heading, contextLabel, focusLabel }` and
+`homepageFields.spotlight { heading, projectLabel, ctaLabel, ctaHref }`;
+projects now also query core `date`.
 
 **Pillars and the /work filter.** A custom taxonomy `pillar` (the "hashtag"
 for the three focus areas) is attached to Projects, Reports and Posts. The

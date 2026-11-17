@@ -85,6 +85,7 @@ const PROJECT_CARD_FRAGMENT = /* GraphQL */ `
     slug
     title
     excerpt
+    date
     projectFields {
       city
       province
@@ -166,6 +167,17 @@ export const HOMEPAGE_QUERY = /* GraphQL */ `
           ctaLabel
           ctaHref
           linkLabel
+        }
+        impactTabs {
+          heading
+          contextLabel
+          focusLabel
+        }
+        spotlight {
+          heading
+          projectLabel
+          ctaLabel
+          ctaHref
         }
       }
     }

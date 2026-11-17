@@ -7,6 +7,7 @@
           "slug": "can-tho-delta-resilience",
           "title": "Can Tho Delta Resilience",
           "excerpt": "<p>Flood and salinity adaptation planning across the Mekong Delta&#8217;s largest urban centre.</p>\n",
+          "date": "2026-10-05T09:00:00",
           "projectFields": {
             "city": "Can Tho",
             "province": "Can Tho",
@@ -85,6 +86,7 @@
           "slug": "da-nang-coastal-corridor",
           "title": "Da Nang Coastal Corridor",
           "excerpt": "<p>Linking transport investment to coastal protection along the central corridor.</p>\n",
+          "date": "2026-09-30T09:00:00",
           "projectFields": {
             "city": "Da Nang",
             "province": "Da Nang",
@@ -167,6 +169,7 @@
           "slug": "ha-noi-green-neighbourhoods",
           "title": "Ha Noi Green Neighbourhoods",
           "excerpt": "<p>Retrofitting dense inner districts for shade, walkability and stormwater capture.</p>\n",
+          "date": "2026-06-12T09:00:00",
           "projectFields": {
             "city": "Ha Noi",
             "province": "Ha Noi",
@@ -283,6 +286,7 @@
           "slug": "ho-chi-minh-city-metro-access",
           "title": "Ho Chi Minh City Metro Access",
           "excerpt": "<p>Walking, cycling and bus links that let neighbourhoods around Metro Line 1 actually reach its stations.</p>\n",
+          "date": "2026-08-02T09:00:00",
           "content": "<p><strong>This is mock content.</strong> It stands in for the project body from WordPress so the single project template can be reviewed with realistic markup.</p>\n<h2>The challenge</h2>\n<p>Regional decisions about land, water and transport shape daily life for decades. This section tests headings, paragraphs and lists from the block editor.</p>\n<ul>\n<li>Mapping where risk and growth overlap</li>\n<li>Agreeing shared targets across departments</li>\n<li>Publishing the data so others can build on it</li>\n</ul>\n<h2>What we are doing</h2>\n<p>Working with provincial planners and communities to turn the plan into funded projects.</p>\n",
           "projectFields": {
             "city": "Ho Chi Minh City",

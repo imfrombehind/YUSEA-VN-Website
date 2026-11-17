@@ -56,6 +56,8 @@ export type Project = {
   heroImage?: Media;
   pillars: Term[];
   status: "active" | "completed" | "planned";
+  /** Publish date, for the homepage Spotlight. */
+  date: string;
 };
 
 /** An organisation on a project, e.g. the implementing agency. */
@@ -342,6 +344,9 @@ export type SiteSettings = {
   social: SocialLink[];
 };
 
+/** A Spotlight entry: a project or a publication, newest first. */
+export type SpotlightItem = (Project & { kind: "project" }) | Publication;
+
 /** Everything the homepage renders, in section order. */
 export type Homepage = {
   hero: {
@@ -353,6 +358,14 @@ export type Homepage = {
      * `background` image when the gallery is empty. Empty if neither is set.
      */
     slides: Media[];
+  };
+  /** "How we drive impact": its heading and the two tab labels. */
+  impactTabs: {
+    heading: string;
+    /** Tab for statsBand; falls back to statsBand.eyebrow. */
+    contextLabel: string;
+    /** Tab for ourFocus; falls back to ourFocus.heading. */
+    focusLabel: string;
   };
   /** §5 #homepage-section-1 */
   statsBand: {
@@ -371,5 +384,13 @@ export type Homepage = {
     /** "Explore more" on each card. */
     linkLabel: string;
     pillars: Pillar[];
+  };
+  /** The latest projects and publications, merged newest first. */
+  spotlight: {
+    heading: string;
+    /** Card label for a project, beside "Report" and "Blog". */
+    projectLabel: string;
+    /** "See all our work" → /work */
+    cta: CTA;
   };
 };

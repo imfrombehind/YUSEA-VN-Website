@@ -61,6 +61,7 @@ import type {
   Report,
   ReportDetail,
   SiteSettings,
+  SpotlightItem,
 } from "./types";
 
 /**
@@ -231,6 +232,16 @@ export function getReportBySlug(slug: string): Promise<ReportDetail | null> {
 export async function getPublications(): Promise<Publication[]> {
   const [reports, posts] = await Promise.all([getReports(), getPosts(100)]);
   return [...reports, ...posts].sort((a, b) => b.date.localeCompare(a.date));
+}
+
+/** Projects and publications together, newest first: the homepage Spotlight. */
+export async function getSpotlight(count = 5): Promise<SpotlightItem[]> {
+  const [projects, publications] = await Promise.all([getProjects(), getPublications()]);
+  const items: SpotlightItem[] = [
+    ...projects.map((p) => ({ ...p, kind: "project" as const })),
+    ...publications,
+  ];
+  return items.sort((a, b) => b.date.localeCompare(a.date)).slice(0, count);
 }
 
 /**
