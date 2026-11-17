@@ -71,7 +71,7 @@ The hero slideshow is the active projects; `#homepage-impact` tabs between
 The context (`statsBand`) and Our focus (`ourFocus`); Spotlight is the
 newest projects and publications. New ACF (plugin v1.11.0):
 `homepageFields.impactTabs { heading, contextLabel, focusLabel }` and
-`homepageFields.spotlight { heading, intro, projectLabel, ctaLabel, ctaHref }`,
+`homepageFields.spotlight { heading, lead, intro, projectLabel, ctaLabel, ctaHref }`,
 and `homepageFields.ourFocus.lead` / `.intro` (the Our focus tab opens with
 the lead in ink, the intro in grey, then the CTA link; its heading is only
 the tab label fallback). Our focus is the first tab.;

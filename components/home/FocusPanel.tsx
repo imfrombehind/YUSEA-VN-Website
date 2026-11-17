@@ -1,4 +1,5 @@
 import { ArrowLink } from "@/components/ui/ArrowLink";
+import { LeadIntro } from "./LeadIntro";
 import { PillarCards } from "@/components/work/PillarCards";
 import type { Homepage } from "@/lib/cms/types";
 
@@ -14,20 +15,7 @@ import type { Homepage } from "@/lib/cms/types";
 export function FocusPanel({ data }: { data: Homepage["ourFocus"] }) {
   return (
     <>
-      {data.lead || data.intro ? (
-        <div className="max-w-5xl font-display">
-          {data.lead ? (
-            <h3 className="text-3xl leading-tight font-normal tracking-[-0.025em] text-ink md:text-[2.5rem]">
-              {data.lead}
-            </h3>
-          ) : null}
-          {data.intro ? (
-            <p className="mt-2 text-3xl leading-tight font-light tracking-[-0.025em] text-muted md:text-[2.5rem]">
-              {data.intro}
-            </p>
-          ) : null}
-        </div>
-      ) : null}
+      <LeadIntro lead={data.lead} intro={data.intro} />
 
       <ArrowLink href={data.cta.href} className="mt-8 text-ink">
         {data.cta.label}

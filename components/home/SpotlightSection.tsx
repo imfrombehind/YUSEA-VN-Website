@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { formatDate } from "@/lib/format";
 import { projectHref, publicationHref } from "@/lib/routes";
+import { LeadIntro } from "./LeadIntro";
 import type { Homepage, Media, SiteSettings, SpotlightItem } from "@/lib/cms/types";
 
 type Entry = {
@@ -72,7 +73,8 @@ function Card({ entry, large }: { entry: Entry; large: boolean }) {
 }
 
 /**
- * #homepage-spotlight — the newest projects and publications together: the
+ * #homepage-spotlight — the newest projects and publications together,
+ * under the same heading, lead/intro and link as How we drive impact: the
  * two latest side by side and large, the next three in a row beneath.
  */
 export function SpotlightSection({
@@ -92,23 +94,17 @@ export function SpotlightSection({
   return (
     <section id="homepage-spotlight" className="bg-white pb-section lg:pb-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            {data.heading ? (
-              <h2 className="font-display text-5xl font-normal tracking-[-0.035em] text-ink lg:text-7xl">
-                {data.heading}
-              </h2>
-            ) : null}
-            {data.intro ? (
-              <p className="mt-4 max-w-3xl font-display text-2xl leading-snug font-light tracking-tight text-muted lg:text-[2rem]">
-                {data.intro}
-              </p>
-            ) : null}
-          </div>
-          <ArrowLink href={data.cta.href} className="shrink-0 text-ink sm:mt-4">
-            {data.cta.label}
-          </ArrowLink>
-        </div>
+        {data.heading ? (
+          <h2 className="mb-8 font-display text-5xl font-normal tracking-[-0.035em] text-ink lg:text-7xl">
+            {data.heading}
+          </h2>
+        ) : null}
+
+        <LeadIntro lead={data.lead} intro={data.intro} />
+
+        <ArrowLink href={data.cta.href} className="mt-8 text-ink">
+          {data.cta.label}
+        </ArrowLink>
 
         <div className="mt-12 grid gap-x-4 gap-y-12 md:grid-cols-2 lg:mt-16">
           {top.map((entry) => (

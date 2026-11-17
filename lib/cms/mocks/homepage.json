@@ -92,7 +92,8 @@
         },
         "spotlight": {
           "heading": "Spotlight",
-          "intro": "The latest projects, reports and stories from across YUSEA",
+          "lead": "What we are working on now",
+          "intro": "The latest projects, reports and stories from across YUSEA.",
           "projectLabel": "Project",
           "ctaLabel": "More stories",
           "ctaHref": "/work"

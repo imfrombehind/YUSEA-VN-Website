@@ -234,6 +234,7 @@ export function mapHomepage(data: any): Homepage {
     },
     spotlight: {
       heading: f.spotlight?.heading ?? "",
+      lead: f.spotlight?.lead ?? "",
       intro: f.spotlight?.intro ?? "",
       projectLabel: f.spotlight?.projectLabel ?? "",
       cta: mapCta(f.spotlight),

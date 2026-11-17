@@ -393,7 +393,9 @@ export type Homepage = {
   /** The latest projects and publications, merged newest first. */
   spotlight: {
     heading: string;
-    /** Grey line under the heading. */
+    /** Ink sentence under the heading. */
+    lead: string;
+    /** Grey sentence after the lead. */
     intro: string;
     /** Card label for a project, beside "Report" and "Blog". */
     projectLabel: string;

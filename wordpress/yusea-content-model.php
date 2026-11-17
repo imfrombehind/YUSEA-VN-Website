@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.11.1
+ * Version:     1.11.2
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.11.1';
+const YUSEA_CM_VERSION = '1.11.2';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -340,7 +340,8 @@ function yusea_cm_additions() {
                     'instructions' => 'The newest projects and publications, filled in automatically.',
                     'sub_fields'   => [
                         yusea_cm_label('spotlight_heading', 'heading', 'Heading', 'Spotlight'),
-                        yusea_cm_label('spotlight_intro', 'intro', 'Intro', 'The latest projects, reports and stories from across YUSEA'),
+                        yusea_cm_label('spotlight_lead', 'lead', 'Lead sentence', 'What we are working on now'),
+                        yusea_cm_label('spotlight_intro', 'intro', 'Intro (grey, after the lead)', 'The latest projects, reports and stories from across YUSEA.'),
                         yusea_cm_label('spotlight_project_label', 'projectLabel', 'Card label: project', 'Project'),
                         yusea_cm_label('spotlight_cta_label', 'ctaLabel', 'Link label', 'More stories'),
                         yusea_cm_label('spotlight_cta_href', 'ctaHref', 'Link', '/work'),
