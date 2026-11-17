@@ -162,8 +162,9 @@ that have bitten this repo:
   and the /work page (its heading links to /work, then its "All projects"
   and "All publications" labels, then the Site Settings `annualReport`
   PDF, which also sits under the hero's "Find out more"; no file hides
-  both). Logo, copyright, address and social
-  icons are centred below. Site Settings `footerLinks` is no longer shown.
+  both), on the left; the logo with the social icons under it on the right;
+  then a hairline and the copyright and address in small type. Compact
+  padding (`py-10 lg:py-12`); on phones it stacks. Site Settings `footerLinks` is no longer shown.
 - The footer shows the uploaded logo in its own colours (no white filter).
 - The footer logo must always be bigger than the header logo. Both sizes are
   in the `SIZES` map in `components/layout/Logo.tsx`; change them together.

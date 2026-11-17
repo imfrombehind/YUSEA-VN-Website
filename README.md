@@ -538,8 +538,9 @@ in the sitemap via `Project.hasProgramme`). New Site Settings label
 **Footer** (test branch). Dark, WEF-style, two columns: About (the About
 page sections as `/about#…` links, from `aboutSections()`) and Projects and
 publications (the /work page heading, linking to /work, then its
-`viewAllProjects` and `viewAllPublications` labels). The logo (in its own colours; the text wordmark fallback is white),
-copyright, address and social icons are centred beneath. The root layout
+`viewAllProjects` and `viewAllPublications` labels). The columns sit on the left; the logo (in its own colours; the text
+wordmark fallback is white) with the social icons under it on the right;
+then a hairline and the copyright and address in small type. The root layout
 fetches `getAboutPage()` and `getIndexPage("/work")` for them. Site
 Settings `footerLinks` is still queried but no longer shown.
 
