@@ -7,6 +7,7 @@ import { getReportBySlug, getReports, getSiteSettings } from "@/lib/cms";
 import { formatDate } from "@/lib/format";
 import { publicationHref } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
+import { BUTTON_BASE } from "@/components/ui/Button";
 import { MetaLine } from "@/components/ui/MetaLine";
 
 /** /api/revalidate can purge "reports" or just "report:<slug>". */
@@ -44,17 +45,17 @@ export default async function ReportPage({ params }: Props) {
     <article className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto max-w-3xl px-6 lg:px-10">
         <MetaLine
-          className="text-sm text-muted"
+          className="font-display text-base tracking-tight text-muted"
           items={[
-            work.kind.report ? <span className="font-semibold text-ink">{work.kind.report}</span> : null,
+            work.kind.report ? <span className="text-ink">{work.kind.report}</span> : null,
             <time key="date" dateTime={report.date}>{formatDate(report.date)}</time>,
           ]}
         />
-        <h1 className="mt-4 text-4xl font-extrabold tracking-tight break-words text-ink sm:text-5xl">
+        <h1 className="mt-4 text-4xl break-words text-ink sm:text-6xl">
           {report.title}
         </h1>
         {report.excerpt ? (
-          <p className="mt-6 text-xl leading-relaxed text-muted">{report.excerpt}</p>
+          <p className="mt-6 text-2xl leading-snug font-light tracking-[-0.02em] text-muted">{report.excerpt}</p>
         ) : null}
 
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -62,7 +63,7 @@ export default async function ReportPage({ params }: Props) {
             <a
               href={report.fileUrl}
               download
-              className="inline-flex items-center gap-2 rounded-full border-2 border-blue-600 px-6 py-2.5 font-display text-sm font-semibold text-blue-600 transition-colors hover:bg-blue-50"
+              className={`${BUTTON_BASE} bg-ink text-white hover:bg-black`}
             >
               {work.downloadReport}
               <span aria-hidden="true">&darr;</span>
@@ -72,7 +73,7 @@ export default async function ReportPage({ params }: Props) {
         </div>
 
         {report.image ? (
-          <div className="relative mt-12 aspect-[3/2] overflow-hidden rounded-2xl bg-slate-100">
+          <div className="relative mt-12 aspect-[3/2] overflow-hidden bg-slate-100">
             <Image
               src={report.image.url}
               alt={report.image.alt}

@@ -1,44 +1,46 @@
 import Link from "next/link";
 import type { ComponentProps } from "react";
 
-type Variant = "coral" | "ink" | "outline" | "sun" | "light";
+type Variant = "ink" | "outline" | "sun" | "light";
 
 const VARIANTS: Record<Variant, string> = {
-  coral: "bg-coral text-white hover:bg-coral-600",
-  ink: "bg-ink text-white hover:bg-muted",
+  ink: "bg-ink text-white hover:bg-black",
   sun: "bg-sun text-ink hover:bg-sun-600",
-  outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-50",
+  outline: "border border-ink text-ink hover:bg-ink hover:text-white",
   /** Secondary button on a dark photo, e.g. the project cover. */
-  light: "border-2 border-white/80 text-white hover:bg-white/10",
+  light: "border border-white/80 text-white hover:bg-white hover:text-ink",
 };
+
+/** The pill shape, shared with the few buttons that aren't links. */
+export const BUTTON_BASE =
+  "inline-flex items-center gap-2 rounded-full px-6 py-3 font-display text-base font-normal tracking-tight transition-colors";
 
 type ButtonLinkProps = {
   href: string;
   variant?: Variant;
   /** "down" for a link further down the same page. */
-  arrow?: "right" | "down";
+  arrow?: "none" | "down";
 } & Omit<ComponentProps<typeof Link>, "href">;
 
-/** Pill-shaped, sentence-case CTA. `outline` is the Our Focus button. */
+/**
+ * Pill-shaped, sentence-case button for a page's main action (register,
+ * volunteer). Everything else is an ArrowLink.
+ */
 export function ButtonLink({
   href,
-  variant = "coral",
-  arrow = "right",
+  variant = "ink",
+  arrow = "none",
   className = "",
   children,
   ...rest
 }: ButtonLinkProps) {
-  // An empty ACF label means "no button", not a bare arrow.
+  // An empty ACF label means "no button", not an empty pill.
   if (!children) return null;
 
   return (
-    <Link
-      href={href}
-      className={`inline-flex items-center gap-2 rounded-full px-6 py-2.5 font-display text-sm font-semibold transition-colors ${VARIANTS[variant]} ${className}`}
-      {...rest}
-    >
+    <Link href={href} className={`${BUTTON_BASE} ${VARIANTS[variant]} ${className}`} {...rest}>
       {children}
-      <span aria-hidden="true">{arrow === "down" ? "\u2193" : "\u2192"}</span>
+      {arrow === "down" ? <span aria-hidden="true">{"↓"}</span> : null}
     </Link>
   );
 }

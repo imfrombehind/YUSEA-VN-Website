@@ -116,10 +116,19 @@ that have bitten this repo:
 
 ## Design
 
-- Clean and expansive: white space, sentence-case headings, hairline
-  `slate-200`/`slate-300` borders, `rounded-2xl` images, pill buttons
-  (`ButtonLink`). **No neo-brutalism**: no hard offset shadows, heavy borders
-  or stark colour blocking.
+- The whole site follows the homepage's WEF-like language: white space,
+  sentence-case headings at **regular weight** (h1–h3 and prose headings
+  are 400, large, tracking about -0.03em; no `font-bold` on headings),
+  grey light lead text under titles, square photos (no rounding except
+  portrait and logo circles), hairline `slate-200`/`slate-300` borders.
+- Secondary actions are `ArrowLink` (text + chevron). `ButtonLink` pills
+  (ink, sun for register, outline, light) are only for a page's main
+  action. Filters (`FilterChips`) and homepage tabs share the grey pill
+  switch with an ink active state. No blue accents in content (tags,
+  hashtags, links, bullets are ink/grey). **No neo-brutalism**: no hard
+  offset shadows or heavy borders.
+- `.prose-yusea` rules live in `@layer utilities` as `.prose.prose-yusea`:
+  in the components layer they lost to the Typography plugin.
 - Uppercase only for small labels: header top-level nav (desktop and mobile),
   dropdown column headings.
 - No eyebrow labels (the blue bar + uppercase label is gone; the `eyebrow`
@@ -132,10 +141,8 @@ that have bitten this repo:
 - The footer logo must always be bigger than the header logo. Both sizes are
   in the `SIZES` map in `components/layout/Logo.tsx`; change them together.
 - Colour tokens live in the `@theme` block in `app/globals.css` (it is the
-  Tailwind config). Small accent text uses the `-700` shades for WCAG AA.
-  Tailwind's default `slate` and `blue-50`/`blue-600` are also used, but the
-  theme **overrides `blue-700`** (`#1a63c4`). Don't use `text-faint` for text
-  (fails AA).
+  Tailwind config). Text is `ink` or `muted`; don't use `text-faint` for
+  text (fails AA). White text never goes on `sun` (use `ink`).
 
 ## Docs and git
 

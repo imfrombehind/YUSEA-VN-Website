@@ -27,7 +27,7 @@ export function RegistrationCard({
   const hasButton = Boolean(cta.label && cta.href);
 
   return (
-    <aside className={`rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 ${className}`}>
+    <aside className={`border border-slate-200 bg-white p-6 sm:p-8 ${className}`}>
       {heading ? <h2 className="text-2xl text-ink sm:text-3xl">{heading}</h2> : null}
 
       <Rows rows={schedule} className={heading ? "mt-6" : ""} />
@@ -43,13 +43,14 @@ export function RegistrationCard({
               href={cta.href}
               target="_blank"
               rel="noopener noreferrer"
+              variant="sun"
               className="w-full justify-center"
             >
               {cta.label}
             </ButtonLink>
           ) : null}
           {hasButton && closed && closedLabel ? (
-            <p className="rounded-full bg-slate-100 px-6 py-2.5 text-center font-display text-sm font-semibold text-muted">
+            <p className="rounded-full bg-slate-100 px-6 py-3 text-center font-display text-base tracking-tight text-muted">
               {closedLabel}
             </p>
           ) : null}
@@ -57,7 +58,7 @@ export function RegistrationCard({
           {deadline && !closed ? (
             <p className="mt-4 text-center text-sm text-muted">
               {deadlineLabel ? `${deadlineLabel}: ` : ""}
-              <time dateTime={deadline} className="font-semibold text-ink">
+              <time dateTime={deadline} className="text-ink">
                 {formatDayMonthYear(deadline)}
               </time>
             </p>
@@ -97,7 +98,7 @@ function Rows({ rows, className = "" }: { rows: RegistrationRow[]; className?: s
         <div key={i}>
           {row.label ? <dt className="text-sm text-muted">{row.label}</dt> : null}
           {/* A value can run to several lines, e.g. two prices. */}
-          <dd className="mt-0.5 font-display leading-snug font-semibold whitespace-pre-line text-ink">
+          <dd className="mt-0.5 font-display text-lg leading-snug tracking-tight whitespace-pre-line text-ink">
             {row.value}
           </dd>
           {row.note ? (

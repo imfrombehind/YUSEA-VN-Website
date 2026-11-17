@@ -501,6 +501,16 @@ grotesque of the reference design (a commercial face); swap it in
 `app/fonts.css` if YUSEA licenses one. `font-display` and `font-body` both
 resolve to it.
 
+**Site-wide homepage language** (test branch). Every page uses the
+homepage style: regular-weight headings (h1–h3 and prose headings at 400),
+light grey lead text under titles (`SectionHeading` body), square photos,
+Spotlight-style cards (`ProjectCard`, `PublicationCard`), `ArrowLink` for
+secondary links, `ButtonLink` pills only for main actions (ink; sun for
+register), `FilterChips` as the grey pill switch, and no blue accents in
+content. The `.prose-yusea` house style moved to `@layer utilities` (as
+`.prose.prose-yusea`); in the components layer the Typography plugin
+overrode it, so its headings, link and bullet colours never applied.
+
 **No eyebrows, no dots** (test branch). The eyebrow labels (accent bar +
 uppercase label) are removed site-wide; the `eyebrow` fields (index
 pages, statsBand, ourFocus, 404) are still queried but not shown, and can

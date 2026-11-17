@@ -47,19 +47,19 @@ export default async function PostPage({ params }: Props) {
     <article className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto max-w-3xl px-6 lg:px-10">
         <MetaLine
-          className="text-sm text-muted"
+          className="font-display text-base tracking-tight text-muted"
           items={[
-            label ? <span className="font-semibold text-ink">{label}</span> : null,
+            label ? <span className="text-ink">{label}</span> : null,
             <time key="date" dateTime={post.date}>{formatDate(post.date)}</time>,
           ]}
         />
-        <h1 className="mt-4 text-4xl font-extrabold tracking-tight break-words text-ink sm:text-5xl">
+        <h1 className="mt-4 text-4xl break-words text-ink sm:text-6xl">
           {post.title}
         </h1>
         <PillarTags pillars={post.pillars} className="mt-8" />
 
         {post.image ? (
-          <div className="relative mt-10 aspect-[3/2] overflow-hidden rounded-2xl bg-slate-100">
+          <div className="relative mt-10 aspect-[3/2] overflow-hidden bg-slate-100">
             <Image
               src={post.image.url}
               alt={post.image.alt}

@@ -85,13 +85,13 @@
     line-height: 1.65;
   }
 
-  /* Sentence-case display type: heavy, never shouting. Inter Tight is
-     already tightly spaced, so only a touch of negative tracking. */
+  /* Sentence-case display type in the homepage style: regular weight,
+     large and tightly set, never shouting. */
   h1, h2, h3 {
     font-family: var(--font-display);
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
   }
 
   ::selection {
@@ -118,45 +118,39 @@
   }
 }
 
-@layer components {
-  /* Section eyebrow: small uppercase label above a heading. */
-  .eyebrow {
-    font-family: var(--font-display);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-
-  /* House style for `prose`: site fonts and tokens, blue list markers.
-     Applied wherever CMS HTML is rendered. */
-  .prose-yusea {
+/* In the utilities layer, where the Typography plugin's own styles are:
+   from the components layer these overrides always lost to the plugin. */
+@layer utilities {
+  /* House style for `prose`: site font, ink links, grey list markers, and
+     regular-weight headings as on the homepage. Applied wherever CMS HTML
+     is rendered. */
+  .prose.prose-yusea {
     --tw-prose-body: var(--color-muted);
     --tw-prose-headings: var(--color-ink);
     --tw-prose-bold: var(--color-ink);
-    --tw-prose-links: var(--color-blue-700);
-    --tw-prose-bullets: var(--color-blue);
-    --tw-prose-counters: var(--color-blue-700);
+    --tw-prose-links: var(--color-ink);
+    --tw-prose-bullets: var(--color-faint);
+    --tw-prose-counters: var(--color-muted);
     --tw-prose-quotes: var(--color-ink);
     --tw-prose-quote-borders: var(--color-line);
     --tw-prose-hr: var(--color-line);
     font-family: var(--font-body);
   }
-  .prose-yusea :where(h2, h3, h4) {
+  .prose.prose-yusea :where(h2, h3, h4) {
     font-family: var(--font-display);
-    font-weight: 800;
-    letter-spacing: -0.01em;
+    font-weight: 400;
+    letter-spacing: -0.025em;
   }
-  .prose-yusea :where(a) {
+  .prose.prose-yusea :where(a) {
     text-underline-offset: 3px;
   }
   /* Block-editor embeds, tables and code never force horizontal scroll. */
-  .prose-yusea :where(iframe) {
+  .prose.prose-yusea :where(iframe) {
     aspect-ratio: 16 / 9;
     width: 100%;
     height: auto;
   }
-  .prose-yusea :where(table) {
+  .prose.prose-yusea :where(table) {
     display: block;
     max-width: 100%;
     overflow-x: auto;

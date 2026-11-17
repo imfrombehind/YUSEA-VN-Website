@@ -56,7 +56,7 @@ export default async function ProjectsPage({ searchParams }: Props) {
         {shown.length === 0 ? (
           <p className="mt-14 text-muted">{work.emptyText}</p>
         ) : (
-          <ul className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-14 grid gap-x-4 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {shown.map((project) => (
               <li key={project.id}>
                 <ProjectCard project={project} statusLabels={work.status} />

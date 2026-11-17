@@ -1,4 +1,4 @@
-import { ButtonLink } from "@/components/ui/Button";
+import { ArrowLink } from "@/components/ui/ArrowLink";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getSiteSettings } from "@/lib/cms";
 
@@ -18,17 +18,9 @@ export default async function NotFound() {
           title={notFound.heading}
           body={notFound.body}
         />
-        <div className="mt-10">
-          <ButtonLink href={notFound.cta.href} variant="coral">
-            {notFound.cta.label}
-          </ButtonLink>
-        </div>
-      </div>
-      <div aria-hidden="true" className="mx-auto mt-section grid h-1 max-w-[1400px] grid-cols-4 px-6 lg:px-10">
-        <span className="bg-ink" />
-        <span className="bg-coral" />
-        <span className="bg-blue" />
-        <span className="bg-sun" />
+        <ArrowLink href={notFound.cta.href} className="mt-10 text-ink">
+          {notFound.cta.label}
+        </ArrowLink>
       </div>
     </section>
   );

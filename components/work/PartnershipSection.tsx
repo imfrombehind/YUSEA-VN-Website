@@ -14,7 +14,7 @@ export function PartnershipSection({ partnership }: { partnership: Partnership }
     <section className="bg-paper py-16 lg:py-24">
 
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-        {heading ? <h2 className="text-3xl text-ink sm:text-4xl">{heading}</h2> : null}
+        {heading ? <h2 className="text-4xl text-ink lg:text-5xl">{heading}</h2> : null}
         {intro ? (
           <Prose html={intro} className={`max-w-4xl ${heading ? "mt-4" : ""}`} />
         ) : null}
@@ -48,7 +48,7 @@ function PartnerItem({ partner }: { partner: Partner }) {
           />
         </span>
       ) : null}
-      <span className="font-display text-lg font-bold text-ink">{partner.name}</span>
+      <span className="font-display text-xl tracking-tight text-ink">{partner.name}</span>
     </>
   );
 

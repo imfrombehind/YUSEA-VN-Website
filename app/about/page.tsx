@@ -51,10 +51,14 @@ function AboutSection({
       aria-labelledby={`${id}-heading`}
       className={`${SECTION} mt-20 border-t border-slate-200 pt-16 lg:mt-24 lg:pt-20`}
     >
-      <h2 id={`${id}-heading`} className="text-3xl text-ink md:text-4xl">
+      <h2 id={`${id}-heading`} className="text-4xl text-ink lg:text-5xl">
         {heading}
       </h2>
-      {intro ? <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">{intro}</p> : null}
+      {intro ? (
+        <p className="mt-4 max-w-3xl text-2xl leading-snug font-light tracking-[-0.02em] text-muted">
+          {intro}
+        </p>
+      ) : null}
       <div className="mt-10">{children}</div>
     </section>
   );
@@ -90,7 +94,7 @@ export default async function AboutPage() {
 
         <div className="max-w-4xl">
           <section id="who-we-are" className={SECTION}>
-            <h1 className="text-4xl break-words text-ink md:text-5xl lg:text-6xl">
+            <h1 className="text-5xl break-words text-ink lg:text-7xl">
               {page.header.heading}
             </h1>
 
@@ -98,7 +102,7 @@ export default async function AboutPage() {
             {intro.length ? (
               <div className="mt-8 space-y-6">
                 {intro.map((paragraph, i) => (
-                  <p key={i} className="text-xl leading-relaxed text-ink lg:text-2xl lg:leading-relaxed">
+                  <p key={i} className="font-display text-2xl leading-snug tracking-[-0.02em] text-ink lg:text-[1.75rem]">
                     {paragraph}
                   </p>
                 ))}
@@ -120,10 +124,10 @@ export default async function AboutPage() {
                     key={i}
                     className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-4 border-t border-slate-200 py-6 sm:grid-cols-[3.5rem_minmax(0,1fr)] lg:py-8"
                   >
-                    <span aria-hidden="true" className="eyebrow pt-1.5 text-muted">
+                    <span aria-hidden="true" className="font-display text-2xl leading-none font-light tracking-tight text-muted">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <p className="text-lg leading-relaxed text-ink lg:text-xl">{point}</p>
+                    <p className="font-display text-xl leading-snug tracking-tight text-ink lg:text-2xl">{point}</p>
                   </li>
                 ))}
               </ol>
@@ -157,7 +161,7 @@ export default async function AboutPage() {
                       ) : null}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-lg text-ink lg:text-xl">{member.name}</h3>
+                      <h3 className="text-xl tracking-[-0.02em] text-ink lg:text-2xl">{member.name}</h3>
                       {member.role ? (
                         <p className="mt-2 leading-snug text-muted">{member.role}</p>
                       ) : null}

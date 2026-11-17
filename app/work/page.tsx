@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { ArrowLink } from "@/components/ui/ArrowLink";
 import { FilterChips } from "@/components/work/FilterChips";
 import { ProjectCard } from "@/components/work/ProjectCard";
 import { PublicationCard } from "@/components/work/PublicationCard";
@@ -128,23 +128,20 @@ function WorkSection({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-16 border-t border-slate-200 pt-12 lg:mt-20">
-      <div className="flex items-baseline justify-between gap-6">
-        <h2 className="text-2xl font-extrabold text-ink md:text-3xl">{heading}</h2>
+    <section className="mt-16 border-t border-slate-200 pt-12 lg:mt-24 lg:pt-16">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <h2 className="text-4xl text-ink lg:text-5xl">{heading}</h2>
         {viewAll.label && !empty ? (
-          <Link
-            href={viewAll.href}
-            className="shrink-0 font-semibold text-blue-600 hover:text-blue-700"
-          >
-            {viewAll.label} <span aria-hidden="true">&rarr;</span>
-          </Link>
+          <ArrowLink href={viewAll.href} className="shrink-0 text-ink">
+            {viewAll.label}
+          </ArrowLink>
         ) : null}
       </div>
 
       {empty ? (
         <p className="mt-8 text-muted">{empty}</p>
       ) : (
-        <ul className="mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-10 grid gap-x-4 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {children}
         </ul>
       )}

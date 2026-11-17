@@ -37,7 +37,7 @@ export function Footer({
                 <li key={i}>
                   <Link
                     href={item.href}
-                    className="text-[0.9375rem] font-medium text-slate-700 transition-colors hover:text-blue-600"
+                    className="text-[0.9375rem] text-ink underline-offset-4 hover:underline"
                   >
                     {item.label}
                   </Link>

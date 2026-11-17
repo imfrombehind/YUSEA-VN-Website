@@ -7,8 +7,9 @@ export type FilterChip = {
 };
 
 /**
- * A row of pill links that set a query param (?pillar=, ?type=). Plain links,
- * not buttons: each filter is a shareable URL rendered on the server.
+ * A pill switch of links that set a query param (?pillar=, ?type=), styled
+ * like the homepage tabs. Plain links, not buttons: each filter is a
+ * shareable URL rendered on the server.
  */
 export function FilterChips({
   label,
@@ -21,18 +22,16 @@ export function FilterChips({
   className?: string;
 }) {
   return (
-    <nav aria-label={label} className={className}>
-      <ul className="flex flex-wrap gap-2">
+    <nav aria-label={label} className={`max-w-full ${className}`}>
+      <ul className="inline-flex max-w-full gap-1 overflow-x-auto rounded-full bg-slate-100 p-1.5">
         {chips.map((chip) => (
-          <li key={chip.href}>
+          <li key={chip.href} className="shrink-0">
             <Link
               href={chip.href}
               scroll={false}
               aria-current={chip.active ? "page" : undefined}
-              className={`inline-block rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-                chip.active
-                  ? "border-blue-600 bg-blue-600 text-white"
-                  : "border-slate-200 bg-paper text-slate-700 hover:border-blue-600 hover:text-blue-600"
+              className={`inline-block rounded-full px-4 py-2 font-display text-base tracking-tight whitespace-nowrap transition-colors sm:px-5 sm:text-lg ${
+                chip.active ? "bg-ink text-white" : "text-ink hover:bg-slate-200"
               }`}
             >
               {chip.label}

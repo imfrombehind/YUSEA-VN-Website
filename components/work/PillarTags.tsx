@@ -12,7 +12,7 @@ export function PillarTags({ pillars, className = "" }: { pillars: Term[]; class
         <li key={pillar.slug}>
           <Link
             href={pillarHref(pillar.slug)}
-            className="inline-block rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-100"
+            className="inline-block rounded-full border border-slate-300 px-4 py-1.5 font-display text-base tracking-tight text-ink transition-colors hover:border-ink"
           >
             {pillar.name}
           </Link>

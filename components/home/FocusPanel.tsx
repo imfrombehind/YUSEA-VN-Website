@@ -23,7 +23,6 @@ export function FocusPanel({ data }: { data: Homepage["ourFocus"] }) {
 
       <PillarCards
         pillars={data.pillars}
-        tone="light"
         className="mt-12 lg:mt-16 lg:gap-10"
       />
     </>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { ButtonLink } from "@/components/ui/Button";
+import { ArrowLink } from "@/components/ui/ArrowLink";
+import { BUTTON_BASE } from "@/components/ui/Button";
 
 /**
  * Runtime error inside a page; the header and footer still render around it.
@@ -26,23 +27,23 @@ export default function Error({
     <section className="bg-paper py-section lg:py-section-lg">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="max-w-3xl">
-          <h1 className="text-4xl text-ink sm:text-5xl lg:text-6xl">
+          <h1 className="text-5xl text-ink lg:text-7xl">
             Something went wrong
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-muted">
+          <p className="mt-6 text-2xl leading-snug font-light tracking-[-0.02em] text-muted">
             This page could not be loaded. Please try again in a moment.
           </p>
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-wrap items-center gap-8">
             <button
               type="button"
               onClick={() => retry()}
-              className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-2.5 font-display text-sm font-semibold text-white transition-colors hover:bg-muted"
+              className={`${BUTTON_BASE} bg-ink text-white hover:bg-black`}
             >
               Try again
             </button>
-            <ButtonLink href="/" variant="outline" className="text-ink">
+            <ArrowLink href="/" className="text-ink">
               Homepage
-            </ButtonLink>
+            </ArrowLink>
           </div>
           {error.digest ? (
             <p className="mt-8 text-xs uppercase tracking-[0.12em] text-muted">

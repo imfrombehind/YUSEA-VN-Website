@@ -99,14 +99,14 @@ export default async function ProjectPage({ params }: Props) {
           </Link>
 
           <div className="mt-auto max-w-4xl pt-24">
-            <h1 className="text-4xl font-extrabold tracking-tight break-words text-white md:text-5xl lg:text-6xl">
+            <h1 className="text-5xl break-words text-white lg:text-7xl">
               {project.title}
             </h1>
-            <MetaLine items={meta} className="mt-6 text-lg font-medium text-white/90" />
+            <MetaLine items={meta} className="mt-6 font-display text-xl tracking-tight text-white/90" />
             {registerCta || volunteerLabel ? (
               <div className="mt-8 flex flex-wrap gap-3">
                 {registerCta ? (
-                  <ButtonLink href={registerCta.href} target="_blank" rel="noopener noreferrer">
+                  <ButtonLink href={registerCta.href} variant="sun" target="_blank" rel="noopener noreferrer">
                     {registerCta.label}
                   </ButtonLink>
                 ) : null}
@@ -126,13 +126,13 @@ export default async function ProjectPage({ params }: Props) {
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className={registration ? "lg:col-span-8" : "max-w-4xl lg:col-span-12"}>
               {work.overviewHeading ? (
-                <h2 id="overview" className="text-4xl text-ink sm:text-5xl">
+                <h2 id="overview" className="text-4xl text-ink lg:text-5xl">
                   {work.overviewHeading}
                 </h2>
               ) : null}
               <Prose html={project.content} className={work.overviewHeading ? "mt-8" : ""} />
               {project.tagline ? (
-                <p className="mt-12 font-display text-2xl leading-snug font-bold whitespace-pre-line text-ink sm:text-3xl">
+                <p className="mt-12 font-display text-3xl leading-tight tracking-[-0.025em] whitespace-pre-line text-ink md:text-[2.5rem]">
                   {project.tagline}
                 </p>
               ) : null}

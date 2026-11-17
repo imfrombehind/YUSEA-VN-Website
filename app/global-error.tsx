@@ -30,14 +30,14 @@ export default function GlobalError({
           <span className="bg-sun" />
         </div>
         <main className="mx-auto max-w-3xl px-6 py-section lg:px-10 lg:py-section-lg">
-          <h1 className="text-4xl text-ink sm:text-5xl">Something went wrong</h1>
-          <p className="mt-6 text-lg leading-relaxed text-muted">
+          <h1 className="text-5xl text-ink lg:text-7xl">Something went wrong</h1>
+          <p className="mt-6 text-2xl leading-snug font-light tracking-[-0.02em] text-muted">
             The site could not be loaded. Please try again in a moment.
           </p>
           <button
             type="button"
             onClick={() => retry()}
-            className="mt-10 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-muted"
+            className="mt-10 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-base tracking-tight text-white transition-colors hover:bg-black"
           >
             Try again
           </button>

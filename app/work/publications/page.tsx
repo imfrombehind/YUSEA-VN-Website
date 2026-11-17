@@ -55,7 +55,7 @@ export default async function PublicationsPage({ searchParams }: Props) {
           body={copy.intro || undefined}
         />
 
-        <div className="mt-10 space-y-3">
+        <div className="mt-10 flex flex-col items-start gap-3">
           <FilterChips
             label={copy.heading}
             chips={[
@@ -83,7 +83,7 @@ export default async function PublicationsPage({ searchParams }: Props) {
         {shown.length === 0 ? (
           <p className="mt-14 text-muted">{work.emptyText}</p>
         ) : (
-          <ul className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-14 grid gap-x-4 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {shown.map((publication) => (
               <li key={`${publication.kind}-${publication.id}`}>
                 <PublicationCard publication={publication} kindLabels={work.kind} />

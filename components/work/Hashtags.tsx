@@ -1,4 +1,4 @@
-/** A project's hashtags, in accent blue, each opening its Facebook hashtag feed. */
+/** A project's hashtags, in ink, each opening its Facebook hashtag feed. */
 export function Hashtags({ tags, className = "" }: { tags: string[]; className?: string }) {
   if (tags.length === 0) return null;
 
@@ -10,7 +10,7 @@ export function Hashtags({ tags, className = "" }: { tags: string[]; className?:
             href={`https://www.facebook.com/hashtag/${encodeURIComponent(tag.toLowerCase())}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-display font-semibold text-blue-700 underline-offset-4 hover:underline"
+            className="font-display text-lg tracking-tight text-ink underline-offset-4 hover:underline"
           >
             #{tag}
           </a>
