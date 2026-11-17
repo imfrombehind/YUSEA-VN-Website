@@ -164,6 +164,8 @@ export const HOMEPAGE_QUERY = /* GraphQL */ `
         ourFocus {
           eyebrow
           heading
+          lead
+          intro
           ctaLabel
           ctaHref
           linkLabel

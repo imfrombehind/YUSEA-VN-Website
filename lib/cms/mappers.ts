@@ -220,6 +220,8 @@ export function mapHomepage(data: any): Homepage {
     ourFocus: {
       eyebrow: f.ourFocus?.eyebrow ?? "",
       heading: f.ourFocus?.heading ?? "",
+      lead: f.ourFocus?.lead ?? "",
+      intro: f.ourFocus?.intro ?? "",
       cta: mapCta(f.ourFocus),
       linkLabel: f.ourFocus?.linkLabel ?? "",
       // The section is a strict three-column grid of the core pillars.

@@ -82,7 +82,7 @@ that have bitten this repo:
   The hero is a blue headline panel (CTA = `hero.cta`, "Find out more" →
   /about) beside a slideshow of active projects (falls back to the ACF hero
   photos). `ImpactSection` ("How we drive impact", `homepageFields.impactTabs`)
-  tabs between `ContextPanel` (statsBand) and `FocusPanel` (ourFocus).
+  tabs between `FocusPanel` (ourFocus, first) and `ContextPanel` (statsBand).
   Spotlight (`homepageFields.spotlight`, `getSpotlight()`) is the newest
   projects and publications merged by date.
 - The homepage (test branch) follows a WEF-like look: a sun-yellow hero

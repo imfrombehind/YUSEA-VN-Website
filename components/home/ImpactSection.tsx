@@ -4,18 +4,18 @@ import { ImpactTabs, type ImpactTab } from "./ImpactTabs";
 import type { Homepage } from "@/lib/cms/types";
 
 /**
- * #homepage-impact — "How we drive impact": a heading over two tabs, The
- * context (statsBand) and Our focus (ourFocus, the three pillars). A tab
+ * #homepage-impact — "How we drive impact": a heading over two tabs, Our
+ * focus (ourFocus, the three pillars) and The context (statsBand). A tab
  * with nothing to show is left out; with one left, there is no tab list.
  */
 export function ImpactSection({ homepage }: { homepage: Homepage }) {
   const { impactTabs, statsBand, ourFocus } = homepage;
   const tabs: ImpactTab[] = [];
-  if (statsBand.heading || statsBand.stats.length > 0) {
-    tabs.push({ label: impactTabs.contextLabel, panel: <ContextPanel data={statsBand} /> });
-  }
   if (ourFocus.pillars.length > 0) {
     tabs.push({ label: impactTabs.focusLabel, panel: <FocusPanel data={ourFocus} /> });
+  }
+  if (statsBand.heading || statsBand.stats.length > 0) {
+    tabs.push({ label: impactTabs.contextLabel, panel: <ContextPanel data={statsBand} /> });
   }
   if (tabs.length === 0) return null;
 

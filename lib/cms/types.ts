@@ -378,7 +378,12 @@ export type Homepage = {
   /** Our Focus — copy from ACF, the cards from the `pillar` taxonomy. */
   ourFocus: {
     eyebrow: string;
+    /** Not shown; the tab label's fallback. */
     heading: string;
+    /** Ink sentence opening the tab, e.g. "We work across three focus areas". */
+    lead: string;
+    /** Grey sentence after the lead. */
+    intro: string;
     /** "Discover all our initiatives" → /work */
     cta: CTA;
     /** "Explore more" on each card. */

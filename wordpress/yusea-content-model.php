@@ -2,7 +2,7 @@
 /**
  * Plugin Name: YUSEA Content Model
  * Description: The WordPress side of the YUSEA headless site: Project and Report post types, the Pillar taxonomy and all their fields; the Work, Projects and Publications pages; the About page sections; an Our Focus screen for the focus cards; editor layouts for new projects, reports and posts; "View" links that open the Next.js site; and Tools → YUSEA Setup for status and starter content.
- * Version:     1.11.0
+ * Version:     1.11.1
  * Requires PHP: 7.4
  *
  * Needs WPGraphQL, Secure Custom Fields (or ACF) and WPGraphQL for ACF (v2)
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-const YUSEA_CM_VERSION = '1.11.0';
+const YUSEA_CM_VERSION = '1.11.1';
 
 /* ------------------------------------------------------------------ *
  * 1. Post types, taxonomy, page excerpts
@@ -359,6 +359,8 @@ function yusea_cm_additions() {
                 ],
                 'ourFocus' => [
                     yusea_cm_label('our_focus_eyebrow', 'eyebrow', 'Eyebrow', 'What we work on', 'text') + ['menu_order' => -1],
+                    yusea_cm_label('our_focus_lead', 'lead', 'Lead sentence', 'We shape regional growth through three focus areas'),
+                    yusea_cm_label('our_focus_intro', 'intro', 'Intro (grey, after the lead)', 'Each one brings together projects, research and young people to turn regional plans into places that work.', 'textarea') + ['rows' => 2, 'new_lines' => ''],
                 ],
             ],
             // Old sections the homepage no longer shows. Deleting a field keeps
