@@ -164,6 +164,7 @@ that have bitten this repo:
   PDF, which also sits under the hero's "Find out more"; no file hides
   both). Logo, copyright, address and social
   icons are centred below. Site Settings `footerLinks` is no longer shown.
+- The footer shows the uploaded logo in its own colours (no white filter).
 - The footer logo must always be bigger than the header logo. Both sizes are
   in the `SIZES` map in `components/layout/Logo.tsx`; change them together.
 - Colour tokens live in the `@theme` block in `app/globals.css` (it is the
