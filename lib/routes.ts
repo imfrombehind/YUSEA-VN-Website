@@ -5,7 +5,9 @@ import type { AboutPage, Project, Publication, Term } from "@/lib/cms/types";
  * in one place and match the app/work route tree.
  */
 
+export const WORK_PATH = "/work";
 export const PROJECTS_PATH = "/work/projects";
+export const PUBLICATIONS_PATH = "/work/publications";
 
 export function projectHref(slug: string): string {
   return `${PROJECTS_PATH}/${slug}`;

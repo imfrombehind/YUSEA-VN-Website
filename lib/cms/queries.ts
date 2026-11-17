@@ -439,7 +439,6 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
         menuCloseLabel
         footerCopyright
         footerAddress
-        footerLinksHeading
         work {
           filterLabel
           filterAllLabel

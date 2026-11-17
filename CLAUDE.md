@@ -138,11 +138,11 @@ that have bitten this repo:
 - Header dropdowns are CSS only (`group-hover` / `group-focus-within`), with
   no React state. The header is a Server Component; only `MobileNav` is a
   client component.
-- The footer is dark (`bg-ink`): a column per header nav item (About lists
-  the About page sections via `aboutSections()` in `lib/routes.ts`; the
-  others their dropdown quick links + categories), then `footerLinks`
-  under `footerLinksHeading`; logo, copyright, address and social icons
-  centred below. Nothing in it is hand-written.
+- The footer is dark (`bg-ink`) with two columns built in `app/layout.tsx`:
+  About (the About page sections, via `aboutSections()` in `lib/routes.ts`)
+  and the /work page (its heading links to /work, then its "All projects"
+  and "All publications" labels). Logo, copyright, address and social
+  icons are centred below. Site Settings `footerLinks` is no longer shown.
 - The footer logo must always be bigger than the header logo. Both sizes are
   in the `SIZES` map in `components/layout/Logo.tsx`; change them together.
 - Colour tokens live in the `@theme` block in `app/globals.css` (it is the

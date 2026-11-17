@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { preload } from "react-dom";
 import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { getAboutPage, getSiteSettings } from "@/lib/cms";
-import { aboutSections } from "@/lib/routes";
+import { Footer, type FooterColumn } from "@/components/layout/Footer";
+import { getAboutPage, getIndexPage, getSiteSettings } from "@/lib/cms";
+import { aboutSections, PROJECTS_PATH, PUBLICATIONS_PATH, WORK_PATH } from "@/lib/routes";
 import { defaultShareImage, shareImages, siteUrl } from "@/lib/seo";
 import "./fonts.css";
 import "./globals.css";
@@ -51,7 +51,29 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [settings, about] = await Promise.all([getSiteSettings(), getAboutPage()]);
+  const [settings, about, work] = await Promise.all([
+    getSiteSettings(),
+    getAboutPage(),
+    getIndexPage("/work"),
+  ]);
+  // Footer columns: the About sections, then the /work page with its two
+  // lists. Every label comes from WordPress.
+  const footerColumns: FooterColumn[] = [
+    {
+      heading: {
+        label: settings.navigation.find((item) => item.href === "/about")?.label || about?.page.title || "",
+        href: "/about",
+      },
+      links: aboutSections(about).map((s) => ({ label: s.label, href: `/about#${s.id}` })),
+    },
+    {
+      heading: { label: work.heading, href: WORK_PATH },
+      links: [
+        { label: work.sections.viewAllProjects, href: PROJECTS_PATH },
+        { label: work.sections.viewAllPublications, href: PUBLICATIONS_PATH },
+      ],
+    },
+  ];
   PRELOAD_FONTS.forEach((href) =>
     preload(href, { as: "font", type: "font/woff2", crossOrigin: "anonymous" }),
   );
@@ -78,9 +100,7 @@ export default async function RootLayout({
           siteName={settings.siteName}
           logo={settings.logo}
           footer={settings.footer}
-          navigation={settings.navigation}
-          footerLinks={settings.footerLinks}
-          aboutLinks={aboutSections(about).map((s) => ({ label: s.label, href: `/about#${s.id}` }))}
+          columns={footerColumns}
           social={settings.social}
         />
       </body>

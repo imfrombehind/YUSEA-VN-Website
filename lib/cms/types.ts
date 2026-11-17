@@ -314,8 +314,6 @@ export type SiteSettings = {
     /** `{year}` is replaced with the current year. */
     copyright: string;
     address: string;
-    /** Heading over the footerLinks column, e.g. "Quick links". */
-    linksHeading: string;
   };
   /** Labels for the projects/publications lists and single templates. */
   /**

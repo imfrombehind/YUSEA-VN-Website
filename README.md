@@ -268,8 +268,7 @@ Set each field group's **GraphQL Field Name** exactly as below. Sub-groups
 `notFoundEyebrow`, `notFoundHeading`, `notFoundBody`, `notFoundCtaLabel`,
 `notFoundCtaHref` (the 404 page), `skipToContentLabel`,
 `menuOpenLabel`, `menuCloseLabel`, `footerCopyright` (`{year}` is replaced),
-`footerAddress`, `footerLinksHeading` (heading over the footer's
-`footerLinks` column, e.g. "Quick links"),
+`footerAddress`,
 `navigation[]` { `label`, `href`, `categoriesHeading`, `quickLinksHeading`, `categories[]` { `label`, `href` }, `quickLinks[]` { `label`, `href` } },
 `footerLinks[]` { `label`, `href` }, `social[]` { `platform`, `href`, `icon` (image, optional) }, and a
 group `work` with:
@@ -502,13 +501,13 @@ grotesque of the reference design (a commercial face); swap it in
 `app/fonts.css` if YUSEA licenses one. `font-display` and `font-body` both
 resolve to it.
 
-**Footer** (test branch). Dark, WEF-style: a column per header nav item
-(About → the About page sections as `/about#…` links, from
-`aboutSections()`; Projects and Publications → their dropdown quick links
-and categories), plus `footerLinks` under the new Site Settings field
-`footerLinksHeading` (plugin v1.11.3); the logo (white), copyright,
-address and social icons centred beneath. The layout now also fetches
-`getAboutPage()` for the About column.
+**Footer** (test branch). Dark, WEF-style, two columns: About (the About
+page sections as `/about#…` links, from `aboutSections()`) and Projects and
+publications (the /work page heading, linking to /work, then its
+`viewAllProjects` and `viewAllPublications` labels). The logo (white),
+copyright, address and social icons are centred beneath. The root layout
+fetches `getAboutPage()` and `getIndexPage("/work")` for them. Site
+Settings `footerLinks` is still queried but no longer shown.
 
 **Site-wide homepage language** (test branch). Every page uses the
 homepage style: regular-weight headings (h1–h3 and prose headings at 400),

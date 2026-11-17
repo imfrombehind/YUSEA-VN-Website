@@ -3,67 +3,46 @@ import { Logo } from "./Logo";
 import { SocialIcons } from "./SocialIcons";
 import type { CTA, SiteSettings } from "@/lib/cms/types";
 
-type FooterProps = Pick<
-  SiteSettings,
-  "siteName" | "logo" | "footer" | "navigation" | "footerLinks" | "social"
-> & {
-  /** The /about sections with content, as /about#id links. */
-  aboutLinks: CTA[];
+/** A footer column: a heading (a link when it has an href) over its links. */
+export type FooterColumn = {
+  heading: CTA;
+  links: CTA[];
 };
 
-/** A column's links, without repeats (a dropdown may list a link twice). */
-function unique(links: CTA[]): CTA[] {
-  return links.filter((link, i) => links.findIndex((l) => l.href === link.href) === i);
-}
+type FooterProps = Pick<SiteSettings, "siteName" | "logo" | "footer" | "social"> & {
+  columns: FooterColumn[];
+};
 
 /**
- * Dark footer: a column per header nav item, then the footer links as a
- * "Quick links" column; below them the logo, copyright, address and social
- * icons, centred.
- *
- * The About column lists the About page's sections; the others list their
- * dropdown's quick links and categories (all projects, each focus, by
- * type). A nav item with neither links to itself.
+ * Dark footer, WEF-style: columns of links (About's sections; Projects and
+ * publications with All projects and All publications), then the logo,
+ * copyright, address and social icons, centred. The columns are built in
+ * the root layout from the About and /work pages.
  */
-export function Footer({
-  siteName,
-  logo,
-  footer,
-  navigation,
-  footerLinks,
-  social,
-  aboutLinks,
-}: FooterProps) {
-  const columns: { heading: string; links: CTA[]; fallback: CTA }[] = navigation.map((item) => ({
-    heading: item.label,
-    links:
-      item.href === "/about" && aboutLinks.length > 0
-        ? aboutLinks
-        : unique([...item.quickLinks, ...item.categories]),
-    fallback: { label: item.label, href: item.href },
-  }));
-  if (footerLinks.length > 0) {
-    columns.push({
-      heading: footer.linksHeading,
-      links: footerLinks,
-      fallback: { label: "", href: "" },
-    });
-  }
+export function Footer({ siteName, logo, footer, social, columns }: FooterProps) {
+  const shown = columns.filter((column) => column.heading.label || column.links.length > 0);
 
   return (
     <footer className="bg-ink text-white">
       <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-20">
-        <nav aria-label={siteName}>
-          <ul className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-            {columns.map((column, i) => {
-              const links = column.links.length > 0 ? column.links : [column.fallback];
-              return (
+        {shown.length > 0 ? (
+          <nav aria-label={siteName}>
+            <ul className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              {shown.map((column, i) => (
                 <li key={i}>
-                  {column.heading ? (
-                    <h2 className="text-xl tracking-[-0.02em] text-white">{column.heading}</h2>
+                  {column.heading.label ? (
+                    <h2 className="text-xl tracking-[-0.02em] text-white">
+                      {column.heading.href ? (
+                        <Link href={column.heading.href} className="underline-offset-4 hover:underline">
+                          {column.heading.label}
+                        </Link>
+                      ) : (
+                        column.heading.label
+                      )}
+                    </h2>
                   ) : null}
-                  <ul className={`space-y-3 ${column.heading ? "mt-5" : ""}`}>
-                    {links
+                  <ul className={`space-y-3 ${column.heading.label ? "mt-5" : ""}`}>
+                    {column.links
                       .filter((link) => link.label)
                       .map((link, j) => (
                         <li key={j}>
@@ -77,10 +56,10 @@ export function Footer({
                       ))}
                   </ul>
                 </li>
-              );
-            })}
-          </ul>
-        </nav>
+              ))}
+            </ul>
+          </nav>
+        ) : null}
 
         <div className="mt-16 flex flex-col items-center gap-6 text-center lg:mt-24">
           <Logo siteName={siteName} logo={logo} size="lg" tone="light" />

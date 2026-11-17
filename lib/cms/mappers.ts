@@ -500,7 +500,6 @@ export function mapSiteSettings(data: any): SiteSettings {
     footer: {
       copyright: s.footerCopyright ?? "",
       address: s.footerAddress ?? "",
-      linksHeading: s.footerLinksHeading ?? "",
     },
     work: mapWorkCopy(s.work),
     navigation: mapNavigation(s.navigation),
