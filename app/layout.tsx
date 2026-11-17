@@ -8,15 +8,13 @@ import "./fonts.css";
 import "./globals.css";
 
 /**
- * The reference site uses Ambit (a commercial TypeMates face) for display
- * type. Archivo is the closest open substitute: same grotesque skeleton,
- * holds up at large uppercase sizes. Swap it in app/fonts.css if YUSEA
- * licenses Ambit. Both fonts are self-hosted from public/fonts; these two
- * files are used on every page, so they are preloaded.
+ * The whole site is set in Inter Tight, self-hosted from public/fonts (see
+ * app/fonts.css). Body text (400) and headings (800) are on every page, so
+ * those two files are preloaded.
  */
 const PRELOAD_FONTS = [
-  "/fonts/archivo-latin-800-normal.woff2",
-  "/fonts/barlow-latin-400-normal.woff2",
+  "/fonts/inter-tight-latin-400-normal.woff2",
+  "/fonts/inter-tight-latin-800-normal.woff2",
 ];
 
 /**

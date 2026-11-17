@@ -61,7 +61,7 @@ export function PillarCards({
             <h3
               className={
                 tone === "light"
-                  ? "font-grotesk text-2xl font-normal tracking-tight text-ink lg:text-[1.75rem]"
+                  ? "font-display text-2xl font-normal tracking-tight text-ink lg:text-[1.75rem]"
                   : "text-xl font-bold text-ink lg:text-2xl"
               }
             >

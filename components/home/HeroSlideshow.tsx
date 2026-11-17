@@ -81,17 +81,17 @@ export function HeroSlideshow({
           />
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 lg:p-10">
             <div key={current.image.url} className="max-w-md text-white motion-safe:animate-fade-in">
-              {current.meta ? <p className="font-grotesk text-base text-white/85">{current.meta}</p> : null}
+              {current.meta ? <p className="font-display text-base text-white/85">{current.meta}</p> : null}
               {current.href ? (
                 <Link
                   href={current.href}
-                  className="mt-1 inline-flex items-center gap-2 font-grotesk text-xl font-light tracking-tight hover:underline hover:underline-offset-4 lg:text-2xl"
+                  className="mt-1 inline-flex items-center gap-2 font-display text-xl font-light tracking-tight hover:underline hover:underline-offset-4 lg:text-2xl"
                 >
                   {current.title}
                   <span aria-hidden="true">&rsaquo;</span>
                 </Link>
               ) : (
-                <p className="mt-1 font-grotesk text-xl font-light tracking-tight lg:text-2xl">{current.title}</p>
+                <p className="mt-1 font-display text-xl font-light tracking-tight lg:text-2xl">{current.title}</p>
               )}
             </div>
 

@@ -61,7 +61,7 @@ export function ImpactTabs({
             aria-controls={`${id}-panel-${i}`}
             tabIndex={i === active ? 0 : -1}
             onClick={() => setActive(i)}
-            className={`shrink-0 rounded-full px-5 py-2.5 font-grotesk text-lg tracking-tight whitespace-nowrap transition-colors sm:px-6 sm:text-2xl ${
+            className={`shrink-0 rounded-full px-5 py-2.5 font-display text-lg tracking-tight whitespace-nowrap transition-colors sm:px-6 sm:text-2xl ${
               i === active ? "bg-ink text-white" : "text-ink hover:bg-slate-200"
             }`}
           >

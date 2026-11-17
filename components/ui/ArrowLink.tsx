@@ -16,7 +16,7 @@ export function ArrowLink({ href, className = "", children, ...rest }: ArrowLink
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-3 font-grotesk text-lg font-normal tracking-tight hover:underline hover:underline-offset-4 sm:text-xl ${className}`}
+      className={`group inline-flex items-center gap-3 font-display text-lg font-normal tracking-tight hover:underline hover:underline-offset-4 sm:text-xl ${className}`}
       {...rest}
     >
       {children}

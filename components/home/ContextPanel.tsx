@@ -13,7 +13,7 @@ export function ContextPanel({ data }: { data: Homepage["statsBand"] }) {
   return (
     <>
       <div className="max-w-4xl">
-        <h3 className="font-grotesk text-3xl leading-tight font-normal tracking-[-0.025em] text-ink md:text-[2.75rem]">
+        <h3 className="font-display text-3xl leading-tight font-normal tracking-[-0.025em] text-ink md:text-[2.75rem]">
           {data.heading}
         </h3>
         {data.intro ? (
@@ -30,10 +30,10 @@ export function ContextPanel({ data }: { data: Homepage["statsBand"] }) {
             <div key={stat.description} className="border-t border-slate-300 pt-6">
               {/* A <dl> group may hold only <dt>/<dd>, so the figure is the
                   <dt> and the label and source are <dd>s. */}
-              <dt className="font-grotesk text-6xl leading-none font-light tracking-[-0.04em] text-ink lg:text-7xl">
+              <dt className="font-display text-6xl leading-none font-light tracking-[-0.04em] text-ink lg:text-7xl">
                 {stat.value}
               </dt>
-              <dd className="mt-5 font-grotesk text-xl leading-snug font-light tracking-tight text-muted">
+              <dd className="mt-5 font-display text-xl leading-snug font-light tracking-tight text-muted">
                 {stat.description}
               </dd>
               {stat.source ? (

@@ -31,7 +31,8 @@ that have bitten this repo:
   callback (`.find(p => p.slug === (await searchParams).x)` won't compile).
 - Reading `searchParams` makes a route dynamic. The cms fetches underneath
   stay cached (`force-cache` + tags in `lib/cms/client.ts`).
-- Fonts are self-hosted (`app/fonts.css`, `public/fonts/`). Don't go back
+- Fonts are self-hosted (`app/fonts.css`, `public/fonts/`): Inter Tight
+  for everything. Don't go back
   to `next/font/google`: Turbopack failed the Vercel build ("next/font/google
   queries have exactly one entry") on an uncached deploy.
 - `next/image` uses `preload`, not `priority`. `revalidateTag` needs a second
@@ -85,8 +86,7 @@ that have bitten this repo:
   Spotlight (`homepageFields.spotlight`, `getSpotlight()`) is the newest
   projects and publications merged by date.
 - The homepage (test branch) follows a WEF-like look: a sun-yellow hero
-  panel with ink text, light **Inter Tight** headings (`font-grotesk`,
-  self-hosted in `app/fonts.css`), and quiet chevron text links
+  panel with ink text, light headings, and quiet chevron text links
   (`components/ui/ArrowLink.tsx`) instead of pill buttons.
 - `/about` is a side nav plus Who we are (Page content box and body; the
   featured image is only the share image, not shown), Mission, Our focus

@@ -50,10 +50,9 @@
   --color-paper-soft: #f8fafc; /* off-white ground */
 
   /* Typography */
-  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
-  /* Homepage: light, tight grotesque headings (font-grotesk). */
-  --font-grotesk: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  /* One typeface site-wide: Inter Tight for headings and body. */
+  --font-display: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
 
   /* Editorial rhythm */
   --spacing-section: 6rem;
@@ -86,11 +85,12 @@
     line-height: 1.65;
   }
 
-  /* Sentence-case display type: heavy but tight, never shouting. */
+  /* Sentence-case display type: heavy, never shouting. Inter Tight is
+     already tightly spaced, so only a touch of negative tracking. */
   h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 800;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.01em;
     line-height: 1.1;
   }
 
@@ -145,7 +145,7 @@
   .prose-yusea :where(h2, h3, h4) {
     font-family: var(--font-display);
     font-weight: 800;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
   .prose-yusea :where(a) {
     text-underline-offset: 3px;

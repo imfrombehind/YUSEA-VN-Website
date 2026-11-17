@@ -489,12 +489,14 @@ section ground comes back, keep it no darker than the 100–200 strength, or
 its `-700` eyebrow text drops below AA. `text-faint` fails AA as text; it is
 no longer used for text.
 
-**Type:** Archivo (display) + Barlow (body), self-hosted: the woff2 files
-(Latin, Latin Extended, Vietnamese) are in `public/fonts/` and declared in
-`app/fonts.css`, from Fontsource. Not `next/font/google`: on Vercel it
-sometimes fails the build when Google serves font URLs with a query string.
-The reference site uses Ambit, a commercial TypeMates face; Archivo is the
-closest open substitute. Swap it in `app/fonts.css` if YUSEA licenses Ambit.
+**Type:** Inter Tight for everything (headings and body), self-hosted:
+the woff2 files (weights 300–800; Latin, Latin Extended, Vietnamese) are
+in `public/fonts/` and declared in `app/fonts.css`, from Fontsource. Not
+`next/font/google`: on Vercel it sometimes fails the build when Google
+serves font URLs with a query string. It stands in for the Neue Haas style
+grotesque of the reference design (a commercial face); swap it in
+`app/fonts.css` if YUSEA licenses one. `font-display` and `font-body` both
+resolve to it.
 
 ## Rebuild v2 (October 2026)
 

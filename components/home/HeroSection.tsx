@@ -26,11 +26,11 @@ export function HeroSection({
     <section id="homepage-hero" className="grid bg-sun lg:grid-cols-2">
       <div className="flex flex-col justify-between gap-14 px-6 py-14 text-ink sm:py-16 lg:min-h-[clamp(560px,80vh,780px)] lg:px-10 lg:pt-16 lg:pb-14">
         <div>
-          <h1 className="max-w-[15ch] font-grotesk text-[clamp(2.75rem,5vw,5.25rem)] leading-[1.04] font-normal tracking-[-0.035em]">
+          <h1 className="max-w-[15ch] font-display text-[clamp(2.75rem,5vw,5.25rem)] leading-[1.04] font-normal tracking-[-0.035em]">
             {hero.headline}
           </h1>
           {hero.subheadline ? (
-            <p className="mt-8 max-w-xl font-grotesk text-xl leading-snug font-light tracking-tight sm:text-2xl">
+            <p className="mt-8 max-w-xl font-display text-xl leading-snug font-light tracking-tight sm:text-2xl">
               {hero.subheadline}
             </p>
           ) : null}

@@ -50,13 +50,13 @@ function Card({ entry, large }: { entry: Entry; large: boolean }) {
           />
         ) : null}
       </div>
-      <p className="mt-4 font-grotesk text-base tracking-tight text-muted">
+      <p className="mt-4 font-display text-base tracking-tight text-muted">
         {entry.label}
         {entry.label && entry.date ? " · " : null}
         {entry.date ? <time dateTime={entry.date}>{formatDate(entry.date)}</time> : null}
       </p>
       <h3
-        className={`mt-1 font-grotesk leading-snug font-normal tracking-[-0.02em] text-ink ${
+        className={`mt-1 font-display leading-snug font-normal tracking-[-0.02em] text-ink ${
           large ? "text-2xl lg:text-[1.75rem]" : "text-xl lg:text-2xl"
         }`}
       >
@@ -95,12 +95,12 @@ export function SpotlightSection({
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div>
             {data.heading ? (
-              <h2 className="font-grotesk text-5xl font-normal tracking-[-0.035em] text-ink lg:text-7xl">
+              <h2 className="font-display text-5xl font-normal tracking-[-0.035em] text-ink lg:text-7xl">
                 {data.heading}
               </h2>
             ) : null}
             {data.intro ? (
-              <p className="mt-4 max-w-3xl font-grotesk text-2xl leading-snug font-light tracking-tight text-muted lg:text-[2rem]">
+              <p className="mt-4 max-w-3xl font-display text-2xl leading-snug font-light tracking-tight text-muted lg:text-[2rem]">
                 {data.intro}
               </p>
             ) : null}

@@ -55,7 +55,7 @@ relative to the repo root.
 
 ## P1 — Performance
 
-- [ ] Fonts (self-hosted, `app/fonts.css`): check whether Barlow 600/700 are used; drop unused weights and their files in `public/fonts/`.
+- [ ] Fonts (self-hosted, `app/fonts.css`): check which Inter Tight weights (300–800) are used; drop unused weights and their files in `public/fonts/`.
 - [ ] Images: add `images.formats: ['image/avif', 'image/webp']`; watch the Vercel image-optimisation quota.
 - [ ] Turn on Vercel Speed Insights; run Lighthouse on the preview deployment.
 

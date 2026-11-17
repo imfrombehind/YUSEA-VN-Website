@@ -14,7 +14,7 @@ export function FocusPanel({ data }: { data: Homepage["ourFocus"] }) {
   return (
     <>
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <h3 className="font-grotesk text-3xl leading-tight font-normal tracking-[-0.025em] text-ink md:text-[2.75rem]">
+        <h3 className="font-display text-3xl leading-tight font-normal tracking-[-0.025em] text-ink md:text-[2.75rem]">
           {data.heading}
         </h3>
         <ArrowLink href={data.cta.href} className="shrink-0 text-ink">
