@@ -475,7 +475,7 @@ in `globals.css` — every component reads from the tokens.
 
 | Section | Ground | Notes |
 |---|---|---|
-| Hero | Full-bleed photos crossfading every 6s (`HeroSlideshow`, no controls by choice; still under reduced motion), dark gradient overlay | `sun` CTA |
+| Hero | Photos crossfading every 6s (`HeroSlideshow`, no controls by choice; still under reduced motion), each shown whole (`object-contain`, so poster covers aren't cropped) over a blurred, dimmed copy of itself; the caption sits in its own band below the photo | `sun` CTA |
 | Impact (`#homepage-impact`) | white | 5/7 headline/body split; stats divided by `border-l-2 border-slate-300` |
 | Our Focus (`#homepage-focus`) | `slate-50` | Outlined `blue-600` pill CTA; three borderless pillar cards |
 | Footer | `tint-gray`, four-colour stripe on top | — |

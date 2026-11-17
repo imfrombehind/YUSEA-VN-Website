@@ -50,7 +50,7 @@ export function HeroSection({
         </div>
       </div>
 
-      <div className="relative isolate aspect-[4/3] overflow-hidden bg-ink lg:aspect-auto">
+      <div className="relative isolate aspect-square overflow-hidden bg-ink sm:aspect-[4/3] lg:aspect-auto">
         {slides.length > 0 ? (
           <HeroSlideshow slides={slides} sizes="(max-width: 1024px) 100vw, 50vw" />
         ) : (
